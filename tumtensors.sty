@@ -1,0 +1,102 @@
+% distance between depth layers for 3d Tensors
+\newlength{\tensorstretch}
+\setlength{\tensorstretch}{2pt}
+
+\newlength{\pixelsize}
+\setlength{\pixelsize}{.2pt}
+
+\RequirePackage{tikz}
+\RequirePackage{calc}
+
+\tikzstyle{filled}=[tumblack, fill=tumblue!\pdfuniformdeviate 100,fill opacity=1,rounded corners=.4, draw=tumivory, very thin]
+
+\tikzstyle{layer}=[draw=black, fill=none, rounded corners=2]
+
+\tikzstyle{recurrence}=[->, draw=black, rounded corners=2]
+
+
+\newcommand{\convlayer}[1]{
+	\def\type{#1}
+	
+	\ifthenelse{\equal{\type}{conv}}{
+		\begin{tikzpicture}[scale=\pixelsize]
+		\node[layer]{conv + pooling};
+		\end{tikzpicture}
+	}{}
+	
+	\ifthenelse{\equal{\type}{convrnn}}{
+		\begin{tikzpicture}[scale=\pixelsize]
+		\node[layer]{convrnn};
+		\end{tikzpicture}
+	}{}	
+	
+}
+
+
+\newcommand{\recurrence}[4]{
+	% 3-1 2-2 1-4 4-3
+	
+	\coordinate (middle) at ($(#4)!0.5!(#2)$);
+	\draw [recurrence] (#4.north) -- (middle) -| ($(#1.south)+(4pt,0)$); 
+	\draw [recurrence] (#3.north) -- (#1.south);
+	
+	}
+	
+\newcommand{\fw}[2]{
+	\draw [recurrence] (#1) -- (#2); 
+}
+
+\newcommand{\tensor}[3]
+{
+	
+	\begin{tikzpicture}[scale=\pixelsize] % pixel size equals one within this tikzpicture
+	
+	\def\w{#1}
+	\def\h{#2}
+	\def\dscale{2}
+	\def\d{#3*\dscale}
+	
+	%\newlength{\stretch}
+	%\setlength{\stretch}{1}
+	
+	\coordinate (bl) at (0,0);
+	\coordinate (tl) at (0,\h);
+	\coordinate (br) at (\w,0);
+	\coordinate (tr) at (\w,\h);
+	
+	\coordinate (btl) at (\d,\h+\d);
+	\coordinate (btr) at (\w+\d,\h+\d);
+	\coordinate (bbr) at (\w+\d,\d);
+	
+	%\draw[step=1.0,gray,very thin] (0,0) grid (\w,\h);
+	
+	\foreach \dp in {#3,...,1}{
+		
+		\begin{scope}[xshift=\dp*\tensorstretch, yshift=\dp*\tensorstretch]
+		
+		\foreach \col in {1,...,\w}{
+			
+			%\draw[filled] (\col,\h) -- (\col+\d,\h+\d) -- (\col-1+\d,\h+\d) -- (\col-1,\h);
+			
+			\foreach \row in {1,...,\h}{
+				%\draw[filled] (\w,\row) -- (\w+\d,\row+\d) -- (\w+\d,\row-1+\d) -- (\w,\row-1);
+				
+				\draw[filled] (\row-1,\col-1) rectangle (\row, \col);
+			}
+		}
+		
+		\end{scope}	
+	}
+	
+	%\draw (bl) -- (br) -- (tr) -- (tl) -- (bl);
+	%\draw (tl) -- (btl) -- (btr) -- (bbr) -- (br);
+	%\draw (tr) -- (btr);
+	
+	%% %% random colored pixels
+	%\foreach \row in {1,...,\w}{
+	%	\foreach \col in {1,...,\h}{
+	%		\draw[tumblack, fill=tumblue!\pdfuniformdeviate 40,fill opacity=1,rounded corners=.2] (\col-1,\row-1) rectangle (\col, \row);
+	%	}
+	%}	
+	\end{tikzpicture}
+}

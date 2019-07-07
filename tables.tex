@@ -1,0 +1,237 @@
+% tables
+
+\usepackage{booktabs}
+\usepackage{array}
+\newcolumntype{x}{l}
+\newcolumntype{X}{>{\scriptsize}l}
+\newcolumntype{v}[1]{>{\raggedright\hspace{0pt}}p{#1}}
+\newcolumntype{V}[1]{>{\scriptsize\raggedright\hspace{0pt}}p{#1}}
+
+\newcommand{\tabmetrics}[1]{
+  % #1 -> filename in folder ./tables
+  
+  \begin{tabularx}{\textwidth}{l|c|c|c|c}%
+    \bfseries class & \bfseries precision & \bfseries recall & \bfseries fscore & \bfseries num pixel
+    \csvreader[head to column names]
+    {tables/#1}{}%
+    {\\ \name & \precision & \recall & \fscore & \support}%
+  \end{tabularx}
+}
+
+\newcommand{\tabmetricsboth}[1]{
+  % #1 -> filename in folder ./tables
+  \begin{tabularx}{\textwidth}{l|XXXX|XXXX}%
+    \bfseries class & \multicolumn{4}{c|}{\bfseries 2016} & \multicolumn{4}{c}{\bfseries 2017} \\
+     & precision & recall & f-score & pixel & precision & recall & f-score & pixel
+    
+    \csvreader[head to column names]
+    {tables/#1}{}%
+    {\\ \name & \aprecision & \arecall & \afscore & \asupport & \bprecision & \brecall & \bfscore & \bsupport}%
+  \end{tabularx}
+}
+
+\newcommand{\best}[1]{\textbf{\color{tumblack}#1}}
+\newcommand{\worst}[1]{\textbf{\color{tumblack}#1}}
+\newcommand{\tabmetricsbothtex}[1]{
+  
+%  \setlength{\tabcolsep}{12pt}
+  
+  % #1 -> filename in folder ./tables
+  \begin{tabular}{@{}Xxxxxxxxxxx@{}}%
+    \toprule
+    \multicolumn{1}{@{}X}{Class} & \multicolumn{8}{X@{}}{Year} \\
+    \cmidrule(l){2-11} 
+    & \multicolumn{5}{X}{2016} & \multicolumn{5}{X@{}}{2017} \\
+    \cmidrule(lr){2-6}
+    \cmidrule(l){7-11} 
+    &
+    \multicolumn{1}{X}{Precision} &
+    \multicolumn{1}{X}{Recall} &
+    \multicolumn{1}{X}{$f$-Meas.} &
+    \multicolumn{1}{X}{Kappa} &
+    \multicolumn{1}{X}{\#Pixels} &
+    \multicolumn{1}{X}{Precision} &
+    \multicolumn{1}{X}{Recall} &
+    \multicolumn{1}{X}{$f$-Meas.} &
+    \multicolumn{1}{X}{Kappa} &
+    \multicolumn{1}{X}{\#Pixels} \\
+    
+    &
+    \multicolumn{1}{X}{(Users Acc.)} &
+    \multicolumn{1}{X}{(Prod. Acc.)} &
+    \multicolumn{1}{X}{} &
+    \multicolumn{1}{X}{} &
+    \multicolumn{1}{X}{} &
+    \multicolumn{1}{X}{(Users Acc.)} &
+    \multicolumn{1}{X}{(Prod. Acc.)} &
+    \multicolumn{1}{X}{} &
+    \multicolumn{1}{X}{} & \\
+    \cmidrule(r){1-1}
+    \cmidrule(lr){2-2}
+    \cmidrule(lr){3-3}
+    \cmidrule(lr){4-4}
+    \cmidrule(lr){5-5}
+    \cmidrule(lr){6-6}
+    \cmidrule(lr){7-7}
+    \cmidrule(lr){8-8}
+    \cmidrule(lr){9-9}
+    \cmidrule(lr){10-10}
+    \cmidrule(l){11-11}
+    \addlinespace
+%     & precision & recall & f-score & pixel & precision & recall & f-score & pixel \\
+%     \hline \\
+%    \input{#1}
+    
+    \cn{sugar beet}	     &	94.6    &	77.6		&	85.3		& .772 			&	59k		&	89.2		&	78.5		&	83.5		& .779 &	94k	\\
+    \cn{oat}	     &	86.1    &	67.8		&	75.8		& .675 			&	36k		&	63.8		&	62.8		&	63.3		& .623 &	38k	\\
+    \cn{meadow}		     &	90.8    &	85.7		&	88.2		& .845 			&	233k	&	88.1		&	85.0		&	86.5		& .837 &	242k	\\
+    \cn{rapeseed}		     &	95.4    &	90.0		&	92.6		& .896 			&	125k	&\best{96.2}	&	95.9		&\best{96.1}	& \best{.957} &	114k	\\
+    \cn{hop}		     &\best{96.4}&	87.5		&	91.7		& .873 			&	51k		&	92.5		&	74.7		&	82.7		& .743 &	53k	\\
+    \cn{spelt}	 &\worst{55.1}&	81.1		&	65.6		& .807 			&	38k		&	75.3		&	46.7		&	57.6		& .463 &	31k	\\
+    \cn{triticale}&	69.4	&	55.7		&	61.8		& .549 			&	65k		&	62.4		&	57.2		&	59.7		& .563 &	64k	\\
+    \cn{beans}		     &	92.4	&	87.1		&	89.6		& .869 			&	27k		&	92.8		&	63.2		&	75.2		& .630 &	28k	\\
+    \cn{peas}		     &	93.2	&	70.7		&	80.4		& .706 			&	9k		&\worst{60.9}	&\worst{41.5}	&\worst{49.3}	& \worst{.414} & 	6k	\\
+    \cn{potato}		     &	90.9	&	88.2		&	89.5		& .876 			&	126k	&	95.2		&	73.8		&	83.1		& .728 &	140k	\\
+    \cn{soybeans}	     &	97.7	&	79.6		&	87.7		& .795 			&	21k		&	75.9		&	79.9		&	77.8		& .798 &	26k	\\
+    \cn{asparagus}	     &	89.2	&	78.8		&	83.7		& .787 			&	20k		&	81.6		&	77.5		&	79.5		& .773 &	19k	\\
+    \cn{wheat}	 &	87.7	&	93.1		&	90.3		& .902 			&	806k	&	90.1		&	95.0		&	92.5		& .930 &	783k	\\
+    \cn{winter barley}	 &	95.2	&	87.3		&	91.0		& .861 			&	258k	&	92.5		&	92.2		&	92.4		& .915 &	255k	\\
+    \cn{rye}	     &	85.6	&\worst{47.0}	&\worst{60.7}	& \worst{.466} 	&	43k		&	76.7		&	61.9		&	68.5		& .616 &	30k	\\
+    \cn{summer barley}	 &	87.5	&	83.4		&	85.4		& .830 			&	73k		&	77.9		&	88.5		&	82.9		& .880 &	91k	\\
+    \cn{maize}		     &	91.6	&\best{96.3}	&\best{93.9}	& \best{.944} 	&	919k	&	92.3		&\best{96.8}	&	94.5		& .953 &	876k	\\
+    \addlinespace
+    \textbf{weight. avg}	&\textbf{89.9}	&\textbf{89.7}	&\textbf{89.5}	& \textbf{} &	&\textbf{89.5}	&\textbf{89.5}	&\textbf{89.3}	& \textbf{} &		\\
+    \cmidrule(lr){2-6}
+    \cmidrule(l){7-11} 
+    
+    \addlinespace
+    & \multicolumn{2}{X}{Overall Accuracy} & \multicolumn{2}{X}{Overall Kappa} & & \multicolumn{2}{X}{Overall Accuracy} & \multicolumn{2}{X}{Overall Kappa} \\
+    \cmidrule(lr){2-3}
+    \cmidrule(lr){4-5}
+    \cmidrule(lr){7-8}
+    \cmidrule(lr){9-10}
+    & \textbf{89.7} & & \textbf{.870} & & & \textbf{89.5} & & \textbf{.870} & \\
+    
+    
+    \addlinespace
+    \bottomrule
+% %    \csvreader[head to column names]
+% %    {tables/#1}{}%
+% %    {\\ \name & \aprecision & \arecall & \afscore & \asupport & \bprecision & \brecall & \bfscore & \bsupport}%
+  \end{tabular}
+}
+
+\newcommand{\tabformulas}{
+
+\begin{table}
+  \centering
+  \glsreset{rnn}
+  \glsreset{lstm}
+  \glsreset{gru}
+  \caption{Update formulas of the convolutional variants of standard \glspl{rnn}, \gls{lstm} cells and \glspl{gru}.
+    %At each iterative update from $t-1$ to $t$ an output $\VHidden_t \in \Rin{h}{w}{r}$  input $\VInput_t \in \Rin{h}{w}{d}$
+    %The \emph{height}, \emph{width}, and \emph{depth} of the input tensor $\VInput_t \in \Rin{h}{w}{d}$ at observation time $t$ are denoted by $h$, $w$, $d$ respectively.
+    %The number of cells $r$ determines the depth of output tensor $ \VHidden_t \in \Rin{h}{w}{r} $, internal gates $ \VInputGate, \VOutputGate, \VModulationGate, \VForgetGate, \VResetGate, \VUpdateGate \in \Rin{h}{w}{r}$, and cell state $\VCellState \in \Rin{h}{w}{r}$.
+    %Weights $ \MWeight \in \Rinfour{\krnn}{\krnn}{(d+r)}{r} $ contain parameters, which are trained by gradient descent with the convolutional kernel size $\krnn$ controlling extent of the effective perceptive field.
+    A convolution between matrices $\V{a}$ and $\V{b}$ is denoted by $\conv{\V{a}}{\V{b}}$, element-wise multiplication by the \emph{Hadamard operator} $\V{a} \odot \V{b}$, and concatenation on the last dimension is marked by $\concat{\V{a}}{\V{b}}$.
+    The activation functions sigmoid $\sigma(x)$ and tangens hyperbolicus $\operatorname{tanh}(x)$ are used for non-linear scaling. 
+    %The bias plus 1 at the forget gate counteracts vanishing gradients and improved performance \cite{Jozefowicz15}\cite{Gers2000}
+  }
+  \label{tab:rnn}
+  
+%     \begin{tabularx}{\textwidth}{@{}xxxx@{}}
+    \begin{tabular}{@{}xxxx@{}}
+      %% Header
+      \toprule
+      \multicolumn{1}{@{}X}{Gate} & \multicolumn{3}{X@{}}{Variant} \\
+      \cmidrule(l){2-4}   
+       & \multicolumn{1}{X}{\gls{rnn}} 
+       & \multicolumn{1}{X}{\acrshort{lstm} \cite{Hochreiter97:LST}} 
+       & \multicolumn{1}{X@{}}{\acrshort{gru} \cite{Cho2014}} \\
+      \cmidrule(r){1-1} 
+      \cmidrule(lr){2-2}
+      \cmidrule(lr){3-3}
+      \cmidrule(l){4-4}  
+      \addlinespace
+%       
+%       
+%       %% row %%
+      \multicolumn{1}{@{}X}{} & 
+      $\VHidden_t \leftarrow \VInput_t, \VHidden_{t-1}$ & 
+      $\VHidden_t,\VCellState_t  \leftarrow \VInput_t, \VHidden_{t-1}, \VCellState_{t-1}$& 
+      $\VHidden_t \leftarrow\VInput_t, \VHidden_{t-1}$ \\
+      \addlinespace
+%       
+%       %% row %%
+%       & & & \\
+%       
+% %      \hline
+%       
+%       %%% row %%%
+      \multicolumn{1}{@{}X}{Forget/Reset} & 
+      & 
+      $\VForgetGate_t \leftarrow \sigma( \conv{\concat{ \VInput_t }{ \VHidden_{t-1} } }{ \MWeight_f } + 1 ) $ & 
+      $\VResetGate_t \leftarrow \sigma( \conv{ \concat{ \VInput_t }{ \VHidden_{t-1} } }{ \MWeight_r } )$ \\
+      \addlinespace
+%       
+%       %%% row %%%
+      \multicolumn{1}{@{}X}{Insert/Update} & 
+      & 
+      $\VInputGate_t \leftarrow \sigma( \conv{ \concat{ \VInput_t }{ \VHidden_{t-1} } }{ \MWeight_i } ) $ &
+      $\VUpdateGate_t \leftarrow \sigma( \conv{ \concat{ \VInput_t }{ \VHidden_{t-1} } }{ \MWeight_u } )$ \\
+      
+      %% row %%
+      & & $\VModulationGate_t \leftarrow \sigma( \conv{ \concat{ \VInput_t }{ \VHidden_{t-1} } }{ \MWeight_j } ) $ & \\
+      \addlinespace
+%       
+%       %%% row %%%
+      \multicolumn{1}{@{}X}{Output} &  
+      & 
+      $\VOutputGate_t \leftarrow \sigma( \conv{ \concat{ \VInput_t }{ \VHidden_{t-1} } }{ \MWeight_o} ) $ & $\tilde{\VHidden}_t \leftarrow  \conv{ \concat{ \VInput_t }{ \VResetGate_t \odot \VHidden_{t-1} } }{ \MWeight_{\tilde{h}} }$ \\
+%      \hline
+%       
+%       %% row %%
+      \addlinespace
+%       & & & \\
+%       
+%       %%% row %%%
+      \multicolumn{1}{@{}X}{} & &
+      $\VCellState_t \leftarrow \VCellState_{t-1} \odot \VForgetGate_t + \VInputGate_t \odot \VModulationGate_t$ & \\
+      \addlinespace
+      
+      %% row %%
+      \multicolumn{1}{@{}X}{} & 
+      $\VHidden_t \leftarrow \sigma( \conv{ \concat{ \VInput_t }{ \VHidden_{t-1} } }{ \MWeight })$ & 
+      $\VHidden_t \leftarrow \VOutputGate_t \odot \tanh(\VCellState_t) $ &
+      $ \VHidden_t \leftarrow \VUpdateGate_t \odot \VHidden_{t-1} + (1 - \VUpdateGate_t) \odot \tanh( \tilde{\VHidden}_t ) $ \\
+      \addlinespace
+      \bottomrule
+    \end{tabular}
+\end{table}
+  }
+  
+\newcommand{\tabAccuracies}{
+\begin{table}
+  \centering
+  \caption{Pixel-wise accuracies of the trained convolutional \gls{gru} sequential encoder network after training over 60 epochs on data of both growth seasons. The conditional kappa metrics \citep{Fung1988} for each class and the overall kappa \citep{cohen1960} measure are given for both growth seasons.
+  }
+  \label{tab:accuracies}
+  
+%   \renewcommand{\arraystretch}{0.8}
+%  \scriptsize
+  \tabmetricsbothtex{tables/gru256.tex}
+\end{table}
+}
+
+\newcommand{\tabComparison}{
+\begin{table}[]
+  \centering
+  \caption{%
+    Overview over recent approaches for crop classification.
+  }
+  \label{tab:approaches}
+%   \small
+  \arrayrulecolor{tumgray}
+  \input{tables/approaches_transposed.tex}
+\end{table}
+}

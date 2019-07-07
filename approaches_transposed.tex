@@ -1,0 +1,183 @@
+% \begin{tabular}{@{}
+%                 V{26mm}
+%                 v{10mm}
+%                 v{28mm}
+%                 v{20mm}
+%                 v{15mm}
+%                 v{10mm}
+%                 p{10mm}
+%                 @{}}
+%   1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+%   1 & 2 & 3 & 4 & 5 & 6 & 7
+% \end{tabular}
+% \def\cellwidth{2cm}
+% short alias for multocol
+%{\Large %  
+% \renewcommand{\arraystretch}{1.3}
+% atmospheric correction
+\newcommand{\atcor}{atmospheric correction}
+
+%\begin{tabularx}{\textwidth}{p{3cm}|p{.8cm}p{.5cm}p{.3cm}XXXXX}
+% \begin{tabularx}{\textwidth}{
+% 		p{2.6cm} 	% approach
+% 		p{.75cm}| 	% year
+% 		p{1cm}    	% sensor
+% 		p{2.8cm}		% preprocessing
+% 		p{2cm}		% features
+% 		p{1.3cm}	% classifier
+% 		p{1cm}		% accuracy
+% 		p{1cm}		% classes
+% 		}
+\begin{tabular}{@{}
+                X
+                x
+                x
+                x
+                @{}}
+\toprule
+% \multicolumn{1}{X}{Year} & 
+%\multicolumn{3}{p{2.4cm}}{Data}&
+\multicolumn{1}{X}{Approach} &
+\multicolumn{1}{X}{Preprocessing} &
+\multicolumn{1}{X}{Accuracy} &
+\multicolumn{1}{X@{}}{\# Classes} \\ 
+
+\cmidrule(r){1-1}
+\cmidrule(lr){2-2}
+\cmidrule(lr){3-3}
+\cmidrule(lr){4-4}
+\addlinespace
+% %                        
+% %& Sensor& 
+% %Objects& 
+% %\scriptsize Cl. &  
+% %&        
+% %&          
+% %\\ 
+% %  
+% % \hline
+% %% this approach 18
+\textbf{Rußwurm \& Körner (2018)} & 
+% 2018 &
+%7.7m \scriptsize $px^{10m}$ & 
+\textbf{none} &  
+\textbf{90} &
+17 \\
+\addlinespace
+% 1 & 2 & 3 & 4 & 5 & 6  \\
+% 1 & 2 & 3 & 4 & 5 & 6  \\
+% % % 
+%% \citet{Russwurm17:TVM}
+Rußwurm \& Körner (2017) & 
+
+%500k \scriptsize $px^{30m}$ & 
+\atcor&
+74 & % \footnote{excluding covered classes}
+\textbf{18} \\ 
+\addlinespace
+% % 
+% % %% Siachalou15
+{Siachalou et a. (2015)} & 
+% 2015 &
+%3k {\scriptsize parcels} & 
+geometric correction,
+image registration & 
+\textbf{90} & % 89.7 from their abstract
+6 \\ 
+\addlinespace
+% % 
+% % %% Hao15
+Hao et al. (2015) &
+% 2015 &
+%6k \scriptsize $px^{500m}$ &  
+image reprojection, \atcor &
+89 &
+6 \\ 
+\addlinespace
+% % 
+% % %% Conrad14
+Conrad et al. (2014) &
+% 2014 &
+%423 {\scriptsize parcels} &  
+segmentation, \atcor &
+86 &
+9 \\ 
+\addlinespace
+% % 
+% % %% Foerster
+Förster et al. (2012) &
+% 2012 
+%18k \scriptsize $px^{30m}$ &  
+phen. normalization, \atcor &
+73 &
+11 \\ 
+\addlinespace
+% % 
+% % %% Barragan11
+Barragan et al. (2011) &
+% 2011 &
+%650 {\scriptsize parcels} &  
+segmentation, \atcor &
+79 &
+13 \\ 
+\addlinespace
+% % 
+% % 
+% % 
+% % %% Conrad10
+% 2010 &
+Conrad et al. (2010) & 
+%$196$ {\scriptsize parcels} &  
+segmentation, \atcor &
+80 &
+6 \\ 
+% % 
+\addlinespace
+\bottomrule
+% %	
+% %Approach               & Features   & Classifier & Sensor                                    & Region    & Class obj \\ 
+% %this approach          & TOA refl   & ConvRNN    & {s2} & 7.7 mio $px^{10m}$\\ 
+% %\citet{Russwurm17:TVM} & BOA refl   & RNN        & {s2} & 500k $patch^{30m}$\\ 
+% %\citet{Foerster2012}   & NDVI stat  & DT         & {ls} & 18k $px^{30m}$\\ 
+% %\citet{Hao15}          & NDVI stats + TOA refl.  & RF & {modis} & 6k $px^{500m}$ \\ 
+% %\citet{conrad2010}     & Veg Ind.   & OBIA+DT    & {spot}\newline{aster} & 196 parcels \\ 
+% %\citet{conrad2014}     & Veg Ind.   & OBIA+RF    & {spot}, {rapideye}, {quickbird} & 423 parcels  \\ % table2 -> 47+81+47+47+72+34+25+39+31
+% %%\citet{Jakubauskas2002}& NDVI harm. & discr. anal& \satellite{Avhrr}                         & Kansas, USA&&\\ 
+% %\citet{Barragan2011}   & Veg Ind.   & OBIA+DT    & {aster} & 650 parcels\\ 
+% %\citet{Siachalou2015}  & TOA refl.  & OBIA+HMM   & {ls}, {rapideye} & 3k parcels\\ 
+% %
+% %\\
+% %\hline
+% %\\
+% %
+% %
+% %approach               & n classes & overall accuracy & prod. selection\\ 
+% %this approach          & 18        &                  & autom. filter <80\% cl \\ 
+% %\citet{Russwurm17:TVM} & 18        & 74.3             & autom. filter <80\% cl \\ 
+% %\citet{Foerster2012}   & 11        & 72.8             & man. cloudfree sel. \\ 
+% %\citet{Hao15}          & 6         & 88.8             & \satellite{eModis}/\satellite{Modis} align. \newline + man. cloudfree sel.\\ 
+% %\citet{conrad2010}     & 6         & 80.1             & man. cloudfree sel. \\ 
+% %\citet{conrad2014}     & 9         & 85.7             & man. cloudfree sel. \\ 
+% %%\citet{Jakubauskas2002}& 6         & 51.7             &       & \\ % from 2002
+% %\citet{Barragan2011}   & 13        & 79               & based on crop cal. + \newline man. cloudfree sel. \\
+% %\citet{Siachalou2015}  & 6         & 92.5             & man. cloudfree sel. \\ 
+% %
+% %\\
+% %\hline
+% %\\
+% %
+% %% image cost: none if all satellites free; medium is combination of free and commercial and high if all satellites commercial
+% %
+% %approach                & atm. corr.           & preproc.                & expert knowledge \\ 
+% %this approach           & no                   & img. cropping                    &                  \\ 
+% %\citet{Russwurm17:TVM}  & yes (\brand{sen2cor})& img. cropping/interp.            &                  \\ 
+% %\citet{Foerster2012}    & yes \cite{Richter1996})  & VI calc.                & agro-meteor info \\ 
+% %\citet{Hao15}           &                      & CRS reproj/ VI calc     &                  \\ 
+% %\citet{conrad2010}      & yes \cite{Richter1996})  & obj. segm./ VI calc     & class. rules     \\ 
+% %\citet{conrad2014}      & yes \cite{Richter1996})  & obj. segm./ VI calc     &                  \\ 
+% %\citet{Barragan2011}    & yes \cite{Matthew2000}) & obj. segm./ VI calc& expert consultation \\ 
+% %\citet{Siachalou2015}   & no                   & image reg./ pansharp./ resampl. &          \\ 
+% %	
+% %% flaash tool  Matthew et al., 2000 ) with local atmosphere and aerosol content                   
+% %	
+\end{tabular}       
