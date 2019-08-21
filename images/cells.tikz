@@ -1,0 +1,552 @@
+%\tikzsetnextfilename{lstm}
+
+\tikzstyle{operator} = [draw, circle, fill=tumbluemedium, draw=tumbluemedium, inner sep=0, text=white]
+%\tikzstyle{function} = [draw, rectangle, fill=tumbluemedium, draw=tumbluemedium, text=white]
+\tikzstyle{gate} = [fill=tumivory,draw,rounded corners=1pt, inner sep=2pt, minimum width=11mm, minimum height=11mm]
+\tikzstyle{io} = [fill=tumwhite,draw,rounded corners=1pt, inner sep=2pt, minimum width=11mm, minimum height=11mm]
+
+\tikzstyle{dummy} = [inner sep=0]
+\tikzstyle{flow} = [rounded corners]
+\tikzstyle{endflow} = [-stealth,flow]
+
+\colorlet{boxcolor}{tumgraylight}
+\tikzstyle{bigbox} = [rectangle, draw=tumivory, thick, fill=boxcolor, rounded corners, 
+inner xsep=0ex, inner ysep=2ex]
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	lstmexplain/.pic = {
+		\begin{scope}[shift={\shiftcoord},xscale=6,yscale=2.5]
+			
+			\node[dummy] (bl) at (0,0){}; % bottom left
+			\node[dummy] (tr) at (1,1){}; % top right
+			
+			\node[dummy] (br) at ($ (bl -| tr) $){}; % bottom right
+			\node[dummy] (tl) at ($ (bl |- tr) $){}; % top left
+			
+			\node[fit=(bl) (tr),bigbox] (-C) {};
+			
+			% input coordinate for rounded draw lines -> slightly right of tl
+			\coordinate (-input) at (0.1,1); % top left
+			
+			% output coordinate for rounded draw lines -> slightly left of br
+			\coordinate (-coutput) at (0.98,0); % bottom right
+			\coordinate (-houtput) at (0.98,1); % bottom right
+			
+%			% gate distance
+			\def\d{1/5}
+			
+			% gate heights
+			\def\h{1/3}
+			
+			\coordinate (f)  at bl+(0.7*\d,0);
+			\coordinate (i)  at bl+(1.8*\d,0);
+			\coordinate (j)  at bl+(2.9*\d,0);
+			\coordinate (o)  at bl+(4*\d,0);
+			\coordinate (out) at bl+(4.7*\d,0);
+			
+			\coordinate (gates) at (0,2*\h);
+			
+			%\node[above=of tl](xt){$x_{t}$};
+			%\node[left=of tl](htminus1){$h_{t-1}$};
+			
+			%\node[below=of br](ct){$c_{t}$};
+%			\setlength{\thinmuskip}{0pt}
+			
+			\visible<2->{
+			\node[gate](fgate) at ($ (gates -| f) $){
+				$\VForgetGate_t$
+				};
+				\draw[endflow] (-input) -| (fgate);
+			}
+			
+			\visible<3->{
+			\node[gate](igate) at ($ (gates -| i) $){
+				$\VInputGate_t$
+				};
+			}
+				
+			\visible<3->{
+			\node[gate](jgate) at ($ (gates -| j) $){$\VModulationGate_t$};
+			\node[operator](jmult) at ([shift={(0,-1.3*\h)}]jgate) {$ \odot $};
+			\draw[endflow] (-input) -| (jgate);
+			\draw[endflow] (jgate) -- (jmult);
+			\draw[endflow] (-input) -| (igate); 
+			\draw[endflow] (igate) |- (jmult);
+			}
+				
+			\visible<4->{
+			\node[gate](ogate) at ($ (gates -| o) $){
+				$\VOutputGate_t$
+				};
+			\draw[endflow] (tl) -| (ogate);
+			}
+			
+%			\coordinate (htminus1) at bl+(-.5,0);
+%			\coordinate (ht) at bl+(-.5,0);
+%			
+			% forget gate 
+			\visible<5->{
+			\node[operator](fmult) at ($ (bl -| fgate) $) {$ \odot $};
+			\draw[endflow] (fgate) -- (fmult); 
+			\node[operator](cadd) at ($ (bl -| jgate) $) {$ + $};
+			\draw[endflow] (jmult) -- (cadd); 
+			\draw[flow] (fmult) -- (cadd) -- (-coutput);		
+			}
+
+			\visible<6->{
+			\node[operator](outtanh) at ($ (jmult -| out) $) {$\odot$};
+			\draw[endflow] (ogate) |- (outtanh);
+			\draw[flow] (outtanh) |- (-houtput);
+			\draw[endflow] (cadd) -| (outtanh);
+			}
+		\end{scope}
+	}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	lstmanim/.pic = {
+		\begin{scope}[shift={\shiftcoord},xscale=6,yscale=2.5]
+			
+			\node[dummy] (bl) at (0,0){}; % bottom left
+			\node[dummy] (tr) at (1,1){}; % top right
+			
+			\node[dummy] (br) at ($ (bl -| tr) $){}; % bottom right
+			\node[dummy] (tl) at ($ (bl |- tr) $){}; % top left
+			
+			\node[fit=(bl) (tr),bigbox] (-C) {};
+			
+			% input coordinate for rounded draw lines -> slightly right of tl
+			\coordinate (-input) at (0.1,1); % top left
+			
+			% output coordinate for rounded draw lines -> slightly left of br
+			\coordinate (-coutput) at (0.98,0); % bottom right
+			\coordinate (-houtput) at (0.98,1); % bottom right
+			
+			%			% gate distance
+			\def\d{1/5}
+			
+			% gate heights
+			\def\h{1/3}
+			
+			\coordinate (f)  at bl+(0.7*\d,0);
+			\coordinate (i)  at bl+(1.8*\d,0);
+			\coordinate (j)  at bl+(2.9*\d,0);
+			\coordinate (o)  at bl+(4*\d,0);
+			\coordinate (out) at bl+(4.7*\d,0);
+			
+			\coordinate (gates) at (0,2*\h);
+			
+			%\node[above=of tl](xt){$x_{t}$};
+			%\node[left=of tl](htminus1){$h_{t-1}$};
+			
+			%\node[below=of br](ct){$c_{t}$};
+			
+			\node[gate, label={[label distance=0ex]265:$\VForgetGate_{t}$}](fgate) at ($ (gates -| f) $){
+				\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/f/3-}{1}{36}
+				};
+			\node[gate, label={[label distance=0ex]265:$\VInputGate_{t}$}](igate) at ($ (gates -| i) $){
+				\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/i/3-}{1}{36}
+				};
+			\node[gate, label={[label distance=0ex]265:$\VModulationGate_{t}$}](jgate) at ($ (gates -| j) $){
+				\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/j/3-}{1}{36}
+				};
+			\node[gate, label={[label distance=0ex]265:$\VOutputGate_{t}$}](ogate) at ($ (gates -| o) $){
+				\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/o/3-}{1}{36}
+				};
+			
+			%			\coordinate (htminus1) at bl+(-.5,0);
+			%			\coordinate (ht) at bl+(-.5,0);
+			%			
+			% forget gate
+			\node[operator](fmult) at ($ (bl -| fgate) $) {$ \odot $};
+			\draw[endflow] (-input) -| (fgate);
+			\draw[endflow] (fgate) -- (fmult); 
+			
+			%			%j
+			\node[operator](jmult) at ([shift={(0,-1.3*\h)}]jgate) {$ \odot $};
+			\node[operator](cadd) at ($ (bl -| jgate) $) {$ + $};
+			\draw[endflow] (-input) -| (jgate);
+			\draw[endflow] (jgate) -- (jmult);
+			\draw[endflow] (jmult) -- (cadd); 			
+			
+			%			%i	
+			\draw[endflow] (-input) -| (igate);
+			\draw[endflow] (igate) |- (jmult); 
+			%
+			%%			% outpu
+			\node[operator](outtanh) at ($ (jmult -| out) $) {$\odot$};
+			%			
+			%			%o 
+			\draw[endflow] (tl) -| (ogate);
+			\draw[endflow] (ogate) |- (outtanh);
+			\draw[flow] (outtanh) |- (-houtput);
+			%			
+			%			% output flow
+			\draw[endflow] (cadd) -| (outtanh);
+			\draw[flow] (fmult) -- (cadd) -- (-coutput);
+			%			
+			
+		\end{scope}
+	}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	simplernn/.pic = {
+		\begin{scope}[shift={\shiftcoord},xscale=2,yscale=.1]
+			
+			\node[dummy] (bl) at (0,0){}; % bottom left
+			\node[dummy] (tr) at (1,1){}; % top right
+			
+			\node[dummy] (br) at ($ (bl -| tr) $){}; % bottom right
+			\node[dummy] (tl) at ($ (bl |- tr) $){}; % top left
+			
+			\node[fit=(bl) (tr),bigbox] (-C) {};
+			
+			% input coordinate for rounded draw lines -> slightly right of tl
+			\coordinate (-input) at (0.1,1); % top left
+			
+			% output coordinate for rounded draw lines -> slightly left of br
+			\coordinate (-coutput) at (0.98,0); % bottom right
+			\coordinate (-houtput) at (0.98,1); % bottom right
+			
+			%			% gate distance
+			\def\d{1/5}
+			
+			% gate heights
+			
+			\node[] at ($ (-input)!0.5!(-houtput) $)(label){
+				RNN
+%				$\sigma(\concat{\VInput_t}{\VHidden_{t-1}}\MWeight$
+			};
+			\draw[endflow] (-input) -- (label);
+			\draw[flow] (label) -- (-houtput);
+			%\node[above=of tl](xt){$x_{t}$};
+			%\node[left=of tl](htminus1){$h_{t-1}$};
+			
+			%\node[below=of br](ct){$c_{t}$};
+			
+%			\node[gate, label={[label distance=0ex]265:$\VForgetGate_{t}$}](fgate) at ($ (gates -| f) $){
+%				\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/f/3-}{1}{36}
+%			};
+%			\node[gate, label={[label distance=0ex]265:$\VInputGate_{t}$}](igate) at ($ (gates -| i) $){
+%				\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/i/3-}{1}{36}
+%			};
+%			\node[gate, label={[label distance=0ex]265:$\VModulationGate_{t}$}](jgate) at ($ (gates -| j) $){
+%				\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/j/3-}{1}{36}
+%			};
+%			\node[gate, label={[label distance=0ex]265:$\VOutputGate_{t}$}](ogate) at ($ (gates -| o) $){
+%				\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/o/3-}{1}{36}
+%			};
+			
+			%			\coordinate (htminus1) at bl+(-.5,0);
+			%			\coordinate (ht) at bl+(-.5,0);
+			%			
+			% forget gate
+%			\node[operator](fmult) at ($ (bl -| fgate) $) {$ \odot $};
+%			\draw[endflow] (-input) -| (fgate);
+%			\draw[endflow] (fgate) -- (fmult); 
+			
+			%			%j
+%			\node[operator](jmult) at ([shift={(0,-1.3*\h)}]jgate) {$ \odot $};
+%			\node[operator](cadd) at ($ (bl -| jgate) $) {$ + $};
+%			\draw[endflow] (-input) -| (jgate);
+%			\draw[endflow] (jgate) -- (jmult);
+%			\draw[endflow] (jmult) -- (cadd); 			
+			
+			%			%i	
+%			\draw[endflow] (-input) -| (igate);
+%			\draw[endflow] (igate) |- (jmult); 
+			%
+			%%			% outpu
+%			\node[operator](outtanh) at ($ (jmult -| out) $) {$\odot$};
+			%			
+			%			%o 
+%			\draw[endflow] (tl) -| (ogate);
+%			\draw[endflow] (ogate) |- (outtanh);
+%			\draw[flow] (outtanh) |- (-houtput);
+			%			
+			%			% output flow
+%			\draw[endflow] (cadd) -| (outtanh);
+%			\draw[flow] (fmult) -- (cadd) -- (-coutput);
+			%			
+			
+		\end{scope}
+	}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	gru/.pic = {
+		\begin{scope}[shift={\shiftcoord},xscale=6,yscale=2.5]
+			
+			\node[dummy] (bl) at (0,0){}; % bottom left
+			\node[dummy] (tr) at (1,1){}; % top right
+			
+			\node[dummy] (br) at ($ (bl -| tr) $){}; % bottom right
+			\node[dummy] (tl) at ($ (bl |- tr) $){}; % top left
+			
+			\node[fit=(bl) (tr),bigbox] (-C) {};
+			
+			%			% gate distance
+			\def\d{1/5}
+			
+			% gate heights
+			\def\h{1/4}
+			
+			
+			% input coordinate for rounded draw lines -> slightly right of tl
+			\coordinate (-xinput) at (0.3*\d,1); % top left
+			\coordinate (-xinputflow) at (0.5*\d,1); % top left
+			
+			\coordinate (-hinput) at (0.2*\d,1); % top left
+			\coordinate (-hinputflow) at (0.2*\d,.9); % top left
+			
+			% output coordinate for rounded draw lines -> slightly left of br
+			\coordinate (-houtput) at (.98,1); % bottom right
+			
+			\coordinate (r)  at bl+(1*\d,0);
+			\coordinate (rgap)at bl+(2*\d,0);
+			\coordinate (u)  at bl+(3*\d,0);
+			\coordinate (c)  at bl+(4*\d,0);
+			
+			\coordinate (out) at bl+(4.75*\d,0);
+			
+			\coordinate (abovegates) at (0,3.5*\h);
+			\coordinate (gates) at (0,2.3*\h);
+			\coordinate (belowgates) at ($(gates)!0.65!(bl)$);
+			
+			
+%			\node[above=of tl](xt){$x_{t}$};
+%			\node[left=of tl](htminus1){$h_{t-1}$};
+			
+			%\node[below=of br](ct){$c_{t}$};
+			
+			
+			\node[gate](rgate) at ($ (gates -| r) $){r};
+			\node[gate](ugate) at ($ (gates -| u) $){u};
+			\node[gate](cgate) at ($ (gates -| c) $){$\tilde{\VHidden}$};
+			
+			\node[operator](cadd) at ($ (cgate |- bl) $) {$+$};
+			\node[operator](cmult) at ($ (cgate |- belowgates) $) {$\odot$};
+			
+			\node[operator](rmult) at ($ (rgap |- belowgates) $) {$\odot$};
+			
+			\node[operator](umult) at ($ (u |- bl) $) {$\odot$};
+			\draw[endflow] (ugate) -- (umult); 
+			
+			\draw[endflow] (-hinput)++(0,-.1) |- ($ (bl -| rgate) $) -| (rmult); 
+			\draw[endflow] (rgate) |- (rmult);
+			
+			\draw[endflow] (cgate) -- (cmult);
+			\draw[endflow] (ugate) |- (cmult);
+			\draw[endflow] (cmult) -- (cadd);
+			
+			
+			%%			
+			\draw[endflow] (-xinputflow) -| (rgate); 
+			\draw[endflow] (-xinputflow) -| ($ (rgate |- abovegates) $) -| (ugate); 
+%%			\draw[endflow] (rgate) |- ++(.5\d,-\h) -| (rgate); 
+			
+			\draw[flow, draw=boxcolor,double=black,double distance=\pgflinewidth,ultra thick] (rmult) |- ($ (ugate |- tl) $);
+			
+			
+			%\draw[flow] (tl) |- ($ (abovegates -| u) $) -| (ugate); 
+			\draw[endflow] (-xinputflow) -| (cgate); 
+			\draw[flow] (-hinput)++(-0.1, 0) -- (-xinputflow); 
+			
+			\draw[flow] (-hinputflow) |- (umult) -- (cadd) -| ($ (out) + (0,.5) $) |- (-houtput); %($(br)!0.5!(tr)$) 
+			
+			
+			
+			%% debug
+%			\node at (gates) {\tiny{gates}};
+%			\node at (abovegates) {\tiny{abovegates}};
+%			\node at (belowgates) {\tiny{belowgates}};
+%			\node at (-input) {\tiny{-input}};
+%			\node at (-coutput) {\tiny{-coutput}};
+%			\node at (-houtput) {\tiny{-houtput}};
+%			\node at (f) {\tiny{f}};
+%			\node at (i) {\tiny{i}};
+%			\node at (j) {\tiny{j}};
+%			\node at (o) {\tiny{o}};
+%			\node at (tl) {\tiny{tl}};
+%			\node at (br) {\tiny{br}};
+%			\node at (bl) {\tiny{bl}};
+%			\node at (tr) {\tiny{tr}};
+%			\node at (out) {\tiny{out}};
+			
+		\end{scope}
+	}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	concat/.pic = {
+		\node[](a) at (0, .5){$\V{a}$};
+		\node[](b) at (0, -.5){$\V{b}$};
+		\node[](out) at (1, 0){$\concat{ \V{a} }{ \V{b} }$};
+		
+		\draw[endflow] (a) |- (out);
+		\draw[endflow] (b) |- (out);
+	}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	copy/.pic = {
+		\node[](ain) at (0, 0){$\V{a}$};
+		\node[](aout1) at (.5, .5){$\V{a}$};
+		\node[](aout2) at (.5, -.5){$\V{a}$};
+		\draw[endflow] (ain) -| (aout1);
+		\draw[endflow] (ain) -| (aout2);
+	}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	fgate/.pic = {
+		\begin{scope}[shift={\shiftcoord},xscale=1,yscale=1]
+			
+			\node[dummy] (tl_a) at (0,0){}; % bottom left
+			\node[dummy] (br_a) at (1,1){}; % top right
+			
+			\node[fit=(br_a) (tr_a),gate,inner sep=0] (-C) {};
+			
+			\node[draw] (conv) at (0.5,0){$conv$}; % bottom left
+			\node[draw] (bn) at (0.5,.5){$bn$}; % bottom left
+			\node[draw] (sigmoid) at (0.5,1){$\sigma$}; % bottom left
+				
+		\end{scope}
+	}
+}
+
+\newcommand{\gru}{
+\begin{tikzpicture}[scale=1, node distance=2em]%,show background rectangle,background rectangle/.style={draw=red}]
+\draw pic (GRU) at (0,0) {gru};
+\node[io,left=of GRU-hinput](gru_htminus1){$\VHidden_{t-1}$};
+\draw[rounded corners] (gru_htminus1) -| (GRU-hinputflow);
+\node[io,above=of GRU-xinput](gru_xt){$\VInput_{t}$};
+
+\draw[rounded corners] (gru_xt) |- (GRU-xinputflow);
+
+\node[io,right=of GRU-houtput](gru_ht){$\VHidden_{t}$};
+\draw[rounded corners] (GRU-houtput)--(gru_ht);
+\end{tikzpicture}
+}
+
+\newcommand{\lstmexplain}{
+	\begin{tikzpicture}[scale=1, node distance=2em]%,show background rectangle,background rectangle/.style={draw=red}]
+	
+	
+	%\clip(0,0) rectangle (7,7);
+	
+	%\draw pic (B) at (5,0) {lstm};
+	
+	%\draw pic (C) at (10,0) {lstm};
+	
+	%\draw pic (C) at (2,2) {fgate};
+	
+	\draw pic (LSTM) at (0,0) {lstmexplain};
+	\node[io,xshift=1ex,above=3em of LSTMtl, label=above:\phantom{$\VInput_{t}$}](xt){$\VInput_{t}$};%$x_{t}$
+		
+	\node[io,left=of LSTMtl](htminus1){$\VHidden_{t-1}$};
+	
+	\node[io,right=of LSTMbr](ct){$\VCellState_{t}$}; % $c_{t}$
+
+	\node[io,left=of LSTMbl](ctminus1){$\VCellState_{t-1}$}; % 
+		
+	\node[io,right=of LSTMtr](ht){$\VHidden_{t}$};
+	
+	%% iterative connections
+	\visible<7->{
+	\draw[endflow] (ct) -- ($ (ct)+(0,-0.8) $) -| (ctminus1);
+	\draw[endflow] (ht) -- ($ (ht)+(0,.8) $) -| (htminus1);
+	}
+		
+	\visible<2->{
+	\draw[rounded corners] (xt) |- (LSTM-input);
+	}
+	
+
+	\visible<2->{
+	\draw[endflow] (htminus1) -- (LSTM-input);
+	}
+	
+	\visible<5->{
+	\draw[endflow] (LSTM-coutput)--(ct);
+	}
+	
+	
+	\visible<5->{
+	\draw[endflow] (ctminus1)--(LSTMfmult);
+	}
+	
+	\visible<6->{
+	\draw[endflow] (LSTM-houtput)--(ht);
+	}
+	\end{tikzpicture}
+}
+
+\newcommand{\lstmanim}{
+	\begin{tikzpicture}[scale=1, node distance=2em]%,show background rectangle,background rectangle/.style={draw=red}]
+	
+	
+	\draw pic (LSTM) at (0,0) {lstmanim};
+	\node[io,xshift=1ex,above=3em of LSTMtl, ,label=above:$\VInput_{t}$](xt){\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/x/x-}{1}{36}};%$x_{t}$
+	\draw[rounded corners] (xt) |- (LSTM-input);
+	\node[io,left=of LSTMtl,label=below:$\VHidden_{t-1}$](htminus1){
+		\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{0}{35}
+	};
+	\draw[endflow] (htminus1) -- (LSTM-input);
+	\node[io,right=of LSTMbr,label=above:$\VCellState_{t}$](ct){\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{1}{36}}; % $c_{t}$
+	\draw[endflow] (LSTM-coutput)--(ct);
+	\node[io,left=of LSTMbl,label=above:$\VCellState_{t-1}$](ctminus1){\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{0}{35}}; % 
+	\draw[endflow] (ctminus1)--(LSTMfmult);
+	\node[io,right=of LSTMtr,label=below:$\VHidden_{t}$](ht){
+		\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{1}{36}
+	};
+	\draw[endflow] (LSTM-houtput)--(ht);
+	
+	\draw[endflow] (ct) -- ($ (ct)+(0,-0.8) $) -| (ctminus1);
+	\draw[endflow] (ht) -- ($ (ht)+(0,.8) $) -| (htminus1);
+	
+	\end{tikzpicture}
+}
+
+\newcommand{\rnn}{
+	\begin{tikzpicture}[scale=1, node distance=2em]%,show background rectangle,background rectangle/.style={draw=red}]
+	
+	
+	\draw pic (RNN) at (0,0) {simplernn};
+	\node[io,xshift=1ex,above=3em of RNNtl](xt){
+		$\VInput_{t}$
+%		\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/x/x-}{1}{36}
+	};%$x_{t}$
+	\draw[rounded corners] (xt) |- (RNN-input);
+	\node[io,left=of RNNtl](htminus1){
+		$\VHidden_{t-1}$
+%		\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{0}{35}
+	};
+	\draw[flow] (htminus1) -- (RNN-input);
+%	\node[io,right=of LSTMbr,label=above:$\VCellState_{t}$](ct){
+%		\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{1}{36}
+%	}; % $c_{t}$
+%	\draw[endflow] (LSTM-coutput)--(ct);
+%	\node[io,left=of LSTMbl,label=above:$\VCellState_{t-1}$](ctminus1){
+%		\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{0}{35}
+%	}; % 
+%	\draw[endflow] (ctminus1)--(LSTMfmult);
+	\node[io,right=of RNNtr](ht){
+		$\VHidden_{t}$
+%		\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{1}{36}
+	};
+	\draw[endflow] (RNN-houtput)--(ht);
+	
+%	\draw[endflow] (ct) -- ($ (ct)+(0,-0.8) $) -| (ctminus1);
+	\draw[endflow] (ht) -- ($ (ht)+(0,-.8) $) -| (htminus1);
+	
+	\end{tikzpicture}
+}

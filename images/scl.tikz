@@ -1,0 +1,109 @@
+
+\usepgfplotslibrary{groupplots}
+
+\tikzsetnextfilename{scl}
+\begin{tikzpicture}
+
+%\def\data{images/classhist/classHistograms.dat}
+\def\data{images/clouds/scl2.csv}
+
+\pgfplotsset{ every non boxed x axis/.append style={x axis line style=-},
+	every non boxed y axis/.append style={y axis line style=-}}
+
+\pgfplotsset{every axis/.append style={ybar=1pt, bar width=6pt, ymajorgrids}}
+\pgfplotsset{every axis label/.append style={font=\footnotesize},tick pos=left,ylabel near ticks}
+\pgfplotsset{every tick label/.append style={font=\scriptsize}}
+\pgfplotsset{every x tick label/.append style={rotate=90,anchor=east,font=\tiny}}
+%   \pgfplotsset{every y tick label/.append style={/pgf/number format/.cd, fixed, precision=2, fixed zerofill,}}
+%\tikzstyle{caption}=[font=\footnotesize, fill=tumwhite, fill opacity=.5, text opacity=1]
+
+
+\begin{axis}[
+%group style={
+%	%       group size=1 by 4,
+%	group size=1 by 1,
+%	xlabels at=edge bottom,
+%	xticklabels at=edge bottom,
+%	ylabels at=edge left,
+%	yticklabels at=edge left,
+%	vertical sep=2pt,
+%	horizontal sep=2pt
+%},
+width=\textwidth,
+height=5cm,
+%ymode=log,
+%log origin=infty,
+%     y dir=reverse,
+%     scaled ticks=true,
+%log ticks with fixed point,
+%scaled x ticks=true,
+axis lines=left,
+xlabel={image acquisition dates},
+ylabel={cloud coverage},
+xlabel style={yshift=-2mm},
+xmin=-.5,
+xmax=46,
+%xlabel=clouds,
+ytick={1,10,25,50,100},
+yticklabels={\SI{1}{\percent},\SI{10}{\percent},\SI{25}{\percent},\SI{50}{\percent},\SI{100}{\percent}},
+xtick=data,
+xticklabels={
+	03. Jan,
+	13. Jan,
+	20. Jan,
+	21. Jan,
+	28. Jan,
+	12. Feb,
+	11. Mär,
+	20. Mär,
+	23. Mär,
+	03. Apr,
+	13 Apr.,
+	19. Apr,
+	22. Apr,
+	29. Apr,
+	02. Mai,
+	10. Mai,
+	22. Mai,
+	29. Mai,
+	08. Jun,
+	18. Jun,
+	28. Jan,
+	02. Jul,
+	14. Jul,
+	18. Jul,
+	21. Jul,
+	28. Jul,
+	30. Jul,
+	07. Aug,
+	17. Aug,
+	20. Aug,
+	28. Aug,
+	21. Aug,
+	09. Sep.,
+	12. Sep..,
+	18. Sep.,
+	26. Sep.,
+	29. Sep.,
+	09. Okt.,
+	18. Okt.,
+	28. Okt.,
+	09. Nov.,
+	15. Nov.,
+	18. Nov.,
+	28. Nov.,
+	06. Dez.,
+	08. Dez.
+},
+axis on top
+];
+
+\addplot[
+%       draw=tumblue,
+draw=none,
+fill=tumblue,rounded corners=.5pt
+] table [col sep=comma, x=id, y=cloudpercent] {\data};
+
+
+\end{axis}
+\end{tikzpicture}

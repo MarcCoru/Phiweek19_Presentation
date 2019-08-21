@@ -1,0 +1,392 @@
+%\tikzsetnextfilename{network}
+
+%\tikzstyle{operator} = [draw, circle, fill=tumbluemedium, draw=tumbluemedium, inner sep=0, text=white]
+%\tikzstyle{function} = [draw, rectangle, fill=tumbluemedium, draw=tumbluemedium, text=white]
+%\tikzstyle{gate} = [fill=tumivory,draw,rounded corners]
+
+%\tikzstyle{dummy} = [inner sep=0]
+\tikzstyle{flow} = [rounded corners, semithick]
+\tikzstyle{endflow} = [-stealth,flow]
+\tikzstyle{beginflow} = [stealth-,flow]
+%\tikzstyle{perspective3drnn}=[z={(0.5cm,-0.5cm)}, x={(1cm,0cm)}, y={(0cm,1cm)}]
+\tikzstyle{perspective3drnn}=[
+x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
+
+
+\tikzstyle{bigpassbox} = [opacity=.2, rounded corners, draw=none]
+
+\colorlet{focusone}{tumbluelight}
+\colorlet{focustwo}{tumorange}
+
+\colorlet{forwardcolor}{focusone}%tumbluemedium
+\colorlet{backwardcolor}{focustwo}
+\colorlet{classcolor}{tumivory}
+
+% defaultvalue -> might be replaced later
+\colorlet{tensorcolor}{forwardcolor}
+
+\tikzstyle{bigbox} = [rectangle, draw=tumivory, thick, fill=tumblack!20, rounded corners, 
+inner sep=.5ex]
+
+\tikzstyle{wireframe} = [draw=tumgray]
+
+\tikzstyle{image} = [inner sep=0, fill=none, minimum size=\imagewidth]
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	pics/seqlstmfw/.style={
+		code={
+		\begin{scope}[shift={\shiftcoord},xscale=3,yscale=2]
+			
+			\node[dummy] (bl) at (0,0){}; % bottom left
+			\node[dummy] (tr) at (1,1){}; % top right
+			
+			\node[dummy] (br) at ($ (bl -| tr) $){}; % bottom right
+			\node[dummy] (tl) at ($ (bl |- tr) $){}; % top left
+			
+			\node[fit=(bl) (tr),bigbox] (-C) {};
+			
+			% input coordinate for rounded draw lines -> slightly right of tl
+			\coordinate (-input) at (0.1,1); % top left
+			
+			% output coordinate for rounded draw lines -> slightly left of br
+			\coordinate (-coutput) at (0.9,0); % bottom right
+			\coordinate (-cinput) at (0.1,0); % bottom left
+			\coordinate (-houtput) at (0.9,1); % bottom right
+			
+%			% gate distance
+			\def\d{1/6}
+			
+			% gate heights
+			\def\h{1/3}
+			
+			\coordinate (f)  at bl+(1*\d,0);
+			\coordinate (i)  at bl+(2*\d,0);
+			\coordinate (j)  at bl+(3*\d,0);
+			\coordinate (o)  at bl+(4*\d,0);
+			\coordinate (out) at bl+(5*\d,0);
+			
+			\coordinate (gates) at (0,2*\h);
+			
+			%\node[above=of tl](xt){$x_{t}$};
+			%\node[left=of tl](htminus1){$h_{t-1}$};
+			
+			%\node[below=of br](ct){$c_{t}$};
+			
+			\node[inner sep=0](fgate) at ($ (gates -| f) $){};
+			\node[inner sep=0](igate) at ($ (gates -| i) $){};
+			\node[inner sep=0](jgate) at ($ (gates -| j) $){};
+			\node[inner sep=0](ogate) at ($ (gates -| o) $){};
+			
+%			\coordinate (htminus1) at bl+(-.5,0);
+%			\coordinate (ht) at bl+(-.5,0);
+%			
+			% forget gate
+			\node[operator](fmult) at ($ (bl -| fgate) $) {};
+			\draw[endflow] (-input) -| (fgate) -- (fmult); 
+			
+%			%j
+			\node[operator](jmult) at ([shift={(0,-1*\h)}]jgate) {};
+			\node[operator](cadd) at ($ (bl -| jgate) $) {};
+			\draw[endflow] (-input) -| (jgate) -- (jmult);
+			\draw[endflow] (jmult) -- (cadd); 			
+
+%			%i	
+			\draw[endflow] (-input) -| (igate) |- (jmult); 
+%
+%%			% outpu
+			\node[operator](outtanh) at ([shift={(0,1*\h)}]out) {};
+%			
+%			%o 
+			\draw[endflow] (tl) -| (ogate) |- (outtanh);
+			\draw[flow] (outtanh) |- (-houtput);
+%			
+%			% output flow
+			\draw[endflow] (cadd) -| (outtanh);
+			\draw[flow] (-cinput) -- (fmult) -- (cadd) -- (-coutput);
+%			
+		\end{scope}
+		}
+	}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	pics/seqlstmbw/.style={
+		code={
+			\begin{scope}[shift={\shiftcoord},xscale=3,yscale=-2]
+				
+				\node[dummy] (bl) at (0,0){}; % bottom left
+				\node[dummy] (tr) at (1,1){}; % top right
+				
+				\node[dummy] (br) at ($ (bl -| tr) $){}; % bottom right
+				\node[dummy] (tl) at ($ (bl |- tr) $){}; % top left
+				
+				\node[fit=(bl) (tr),bigbox] (-C) {};
+				
+				% input coordinate for rounded draw lines -> slightly right of tl
+				\coordinate (-input) at (0.1,1); % top left
+				
+				% output coordinate for rounded draw lines -> slightly left of br
+				\coordinate (-coutput) at (0.9,0); % bottom right
+				\coordinate (-cinput) at (0.1,0); % bottom left
+				\coordinate (-houtput) at (0.9,1); % top right
+				
+				%			% gate distance
+				\def\d{1/6}
+				
+				% gate heights
+				\def\h{1/3}
+				
+				\coordinate (f)  at bl+(1*\d,0);
+				\coordinate (i)  at bl+(2*\d,0);
+				\coordinate (j)  at bl+(3*\d,0);
+				\coordinate (o)  at bl+(4*\d,0);
+				\coordinate (out) at bl+(5*\d,0);
+				
+				\coordinate (gates) at (0,2*\h);
+				
+				%\node[above=of tl](xt){$x_{t}$};
+				%\node[left=of tl](htminus1){$h_{t-1}$};
+				
+				%\node[below=of br](ct){$c_{t}$};
+				
+				\node[inner sep=0](fgate) at ($ (gates -| f) $){};
+				\node[inner sep=0](igate) at ($ (gates -| i) $){};
+				\node[inner sep=0](jgate) at ($ (gates -| j) $){};
+				\node[inner sep=0](ogate) at ($ (gates -| o) $){};
+				
+				%			\coordinate (htminus1) at bl+(-.5,0);
+				%			\coordinate (ht) at bl+(-.5,0);
+				%			
+				% forget gate
+				\node[operator](fmult) at ($ (bl -| fgate) $) {};
+				\draw[endflow] (-input) -| (fgate) -- (fmult); 
+				
+				%			%j
+				\node[operator](jmult) at ([shift={(0,-1*\h)}]jgate) {};
+				\node[operator](cadd) at ($ (bl -| jgate) $) {};
+				\draw[endflow] (-input) -| (jgate) -- (jmult);
+				\draw[endflow] (jmult) -- (cadd); 			
+				
+				%			%i	
+				\draw[endflow] (-input) -| (igate) |- (jmult); 
+				%
+				%%			% outpu
+				\node[operator](outtanh) at ([shift={(0,1*\h)}]out) {};
+				%			
+				%			%o 
+				\draw[endflow] (tl) -| (ogate) |- (outtanh);
+				\draw[flow] (outtanh) |- (-houtput);
+				%			
+				%			% output flow
+				\draw[endflow] (cadd) -| (outtanh);
+				\draw[flow] (-cinput) -- (fmult) -- (cadd) -- (-coutput);
+				
+			\end{scope}
+		}
+	}
+}
+
+\newcommand{\tensorcube}[4]{
+	\def\w{#1}
+	\def\h{#2}
+	\def\d{#3}
+	\def\img{#4}
+	
+	\begin{scope}[perspective3drnn]
+		
+		% bw back frame
+		\begin{scope}[canvas is yz plane at x=\d]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none, wireframe](back){};
+		\end{scope}
+		
+		% front image
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[transform shape,image, anchor=south west, opacity=1](front){\includegraphics[width=\w]{\img}};
+		\end{scope}
+		
+		% front frame
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none, wireframe](front){};
+		\end{scope}
+		
+		% fill right side
+		\fill[tensorcolor,opacity=.5, wireframe] (front.south east) -- (back.south east) -- (back.north east) -- (front.north east);
+		% fill top side
+		\fill[tensorcolor,opacity=.5,opacity=0.6, wireframe] (front.north east) -- (back.north east) -- (back.north west) -- (front.north west);
+		% fill right side
+		
+		
+		%\draw[] (front.south west) -- (back.south west);
+		
+	\end{scope}
+}
+
+\newcommand{\concatstates}[4]{
+	\def\w{#1}
+	\def\h{#2}
+	\def\d{#3}
+	\def\img{#4}
+	
+	\begin{scope}[perspective3drnn]
+		
+		% bw back frame
+		\begin{scope}[canvas is yz plane at x=2*\d]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none, wireframe](back){};
+		\end{scope}
+		
+		% middle frame
+		\begin{scope}[canvas is yz plane at x=\d]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none, wireframe](middle){};
+		\end{scope}
+		
+		% front image
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[transform shape,image, anchor=south west](front){\includegraphics[width=\w]{\img}};
+		\end{scope}
+		
+		% front frame
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none,wireframe](front){};
+		\end{scope}
+		
+		% fill right side
+		\fill[backwardcolor,opacity=.5, wireframe] (front.south east) -- (middle.south east) -- (middle.north east) -- (front.north east);
+		% fill top side
+		\fill[backwardcolor,opacity=.5,opacity=0.6, wireframe] (front.north east) -- (middle.north east) -- (middle.north west) -- (front.north west);
+		% fill right side
+		
+		\fill[forwardcolor,opacity=.5, wireframe] (middle.south east) -- (back.south east) -- (back.north east) -- (middle.north east);
+		% fill top side
+		\fill[forwardcolor,opacity=.5,opacity=0.6, wireframe] (middle.north east) -- (back.north east) -- (back.north west) -- (middle.north west);
+		
+		%\draw[] (front.south west) -- (back.south west);
+		
+		
+	\end{scope}
+}
+
+\newcommand{\figseqencnetwork}{
+\begin{tikzpicture}[scale=1, node distance=1em]
+%
+\def\d{4.2}%
+\def\encoderheight{1}%
+\def\decoderheight{-1}%
+\def\imagewidth{30mm}%
+\def\stateimagewidth{30mm}%
+\def\classimagewidth{40mm}%
+%
+\def\rgbone{images/seqencnetwork/rgb1}%
+\def\rgbtwo{images/seqencnetwork/rgb2}%
+\def\rgbthree{images/seqencnetwork/rgb3}%
+\def\rgbfour{images/seqencnetwork/rgb4}%
+\def\prediction{images/seqencnetwork/prediction}%
+\def\groundtruth{images/seqencnetwork/ground_truth}%
+\def\activation{images/seqencnetwork/maize}%
+\def\state{images/seqencnetwork/state}%
+%
+\draw pic (fw1) at (\d,\encoderheight) {seqlstmfw};% \&
+\node[above=of fw1tl, inner sep=0](xfw1){\includegraphics[width=\imagewidth]{\rgbone}};%images/network/time1_x
+\node[above=0em of xfw1, inner sep=0](labxfw1){$\V{x}_{0}$};
+
+\draw pic (fw2) at (2*\d,\encoderheight) {seqlstmfw};
+\node[above=of fw2-input, inner sep=0](xfw2){\includegraphics[width=\imagewidth]{\rgbtwo}}; % images/network/time11_x
+\node[above=0em of xfw2, inner sep=0](labxfw2){$\V{x}_{1}$};
+
+\draw pic (fw3) at (3*\d,\encoderheight) {seqlstmfw};
+\node[above=1em of fw3-input](xfw3){$\dots$};
+
+\draw pic (fw4) at (4*\d,\encoderheight) {seqlstmfw};
+\node[above=of fw4-input, inner sep=0](xfw4){\includegraphics[width=\imagewidth]{\rgbfour}}; % images/network/time30_x
+\node[above=0em of xfw4, inner sep=0](labxfw4){$\V{x}_T$};
+
+\node[left=of fw1-input](enczerostateh){$\V{0}$};
+\node[left=of fw1-cinput](enczerostatec){$\V{0}$};
+
+\draw[endflow] (enczerostateh) -- (fw1-input);
+\draw[endflow] (enczerostatec) -- (fw1-cinput);
+
+% draw connections from input to cells
+\draw[flow] (xfw1) |- (fw1-input);
+\draw[flow] (xfw2) |- (fw2-input);
+\draw[flow] (xfw3) |- (fw3-input);
+\draw[flow] (xfw4) |- (fw4-input);
+
+% draw hidden connections between cells
+\draw[endflow] (fw1-houtput) -- (fw2-input);
+\draw[endflow] (fw2-houtput) -- (fw3-input);
+\draw[endflow] (fw3-houtput) -- (fw4-input);
+
+% draw hidden connections between cells
+\draw[endflow] (fw1-coutput) -- (fw2-cinput);
+\draw[endflow] (fw2-coutput) -- (fw3-cinput);
+\draw[endflow] (fw3-coutput) -- (fw4-cinput);
+
+\coordinate[right=of fw4-coutput](rightend);
+
+%\node(concatstates) at (6.2*\d,0){
+\node[above right= 0em and 2em of fw4-coutput](concatstates){
+\begin{tikzpicture}
+\concatstates{\stateimagewidth}{\stateimagewidth}{2}{\state}
+\end{tikzpicture}
+};
+\node[above=0em of concatstates, inner sep=0](labct){$\V{c}_T$};
+
+\draw[endflow] (fw4-coutput) -- ++(.2em,0) |- (concatstates);
+%\draw[endflow] (cbw) -- (concatstates);
+
+%\path[draw] (0,0) -- (0,1) -- (1,1) -- (1,0) -- (0,0);
+
+\node[right=of concatstates](conv){
+	\begin{tikzpicture}
+	    \colorlet{tensorcolor}{classcolor}
+		\tensorcube{\stateimagewidth}{\stateimagewidth}{.75}{\activation} %images/network/48px/72_state
+	\end{tikzpicture}
+};
+
+\node[rectangle, minimum width=4mm, minimum height=4mm, fill=tumblue, draw=tumblue, opacity=1, rounded corners=0, semithick](inconvrect) at ($ (concatstates) + (-3mm,-3mm) $){};
+%\node[below=0mm of inconvrect](){\tiny \color{white} $\kclass$};
+
+\node[rectangle, minimum width=2mm, minimum height=2mm, fill=tumblue, draw=tumblue, opacity=1, inner sep=0, semithick, rounded corners=0](outconvrect) at (conv){};
+
+\draw[tumblue, semithick, rounded corners=0, fill=tumbluedark, opacity=.5] (inconvrect.north east) -- (outconvrect.north west) -- (outconvrect.south west) -- (inconvrect.south east);
+
+\coordinate(convcenter) at ($ (inconvrect)!0.5!(outconvrect) $);
+
+\begin{scope}[node distance=1em]
+	\node[inner sep=0, label={below:\tiny maize}, above right= 0em and 3em of conv, xshift=-2em](a){\includegraphics[width=3cm]{images/examples/16494/maize}};
+	\node[inner sep=0, label={below:\tiny meadow}, below=of a](b){\includegraphics[width=3cm]{images/examples/16494/meadow}};
+	%\node[inner sep=0, label={below:\tiny wheat}, below=of b](c){\includegraphics[width=3cm]{images/examples/16494/winter_wheat}};
+	%\node[inner sep=0, label={below:\tiny peas}, below=of c](d){\includegraphics[width=3cm]{images/examples/16494/peas}};
+	\node[inner sep=0, label={below:\tiny rapeseed}, below=of b](c){\includegraphics[width=3cm]{images/examples/16494/rape}};
+\end{scope}
+
+\draw (conv) -- (a);
+\draw (conv) -- (b);
+\draw (conv) -- (c);
+
+%\node[right=2em of b](pred){\includegraphics[width=\classimagewidth]{\prediction}}; %$\hat{\V{y}}$
+%
+%\draw (a) -- (pred);
+%\draw (b) -- (pred);
+%\draw (c) -- (pred);
+
+%\draw[endflow] (conv) -- (pred); % node[midway, right] {\small argmax}; 
+%\draw[<->] (ground) -- (conv) node[midway, right] {\small $H(\V{y},\hat{\V{y}})$};
+
+\coordinate(cltop) at (concatstates |- labxfw4);
+
+%\node[right=-2em of annotlstm, yshift=0em](lstmcell){\figlstmexplain};
+
+\begin{scope}[on background layer]
+	\node[fill=focusone!10, rounded corners, fit=(enczerostatec)(labxfw1)(labxfw4)(rightend), inner sep=.2em]{};
+	\node[fill=focustwo!10, rounded corners, fit=(concatstates)(conv)(labct)(cltop), inner sep=.2em]{};
+	%\node[fit=(lstmcell)(annotlstm), rounded corners, inner sep=0, noteannot](boxlstm){};
+	
+\end{scope}
+
+
+%\node[left=3em of a]{LSTM cell activations:};
+\end{tikzpicture}
+}

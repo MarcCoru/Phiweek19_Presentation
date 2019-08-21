@@ -1,0 +1,475 @@
+%\tikzsetnextfilename{network}
+
+\tikzstyle{operator} = [draw, circle, fill=tumbluemedium, draw=tumbluemedium, inner sep=0, text=white]
+%\tikzstyle{function} = [draw, rectangle, fill=tumbluemedium, draw=tumbluemedium, text=white]
+\tikzstyle{gate} = [fill=tumivory,draw,rounded corners]
+
+\tikzstyle{dummy} = [inner sep=0]
+\tikzstyle{flow} = [rounded corners]
+\tikzstyle{endflow} = [-stealth,flow]
+\tikzstyle{beginflow} = [stealth-,flow]
+
+\tikzstyle{bigpassbox} = [opacity=.2, rounded corners, draw=none]
+
+% defaultvalue -> might be replaced later
+\colorlet{tensorcolor}{forwardcolor}
+
+\tikzstyle{bigbox} = [rectangle, draw=tumivory, thick, fill=tumgraylight, rounded corners, 
+inner sep=.5ex]
+
+\tikzstyle{wireframe} = [draw=tumgray]
+\tikzstyle{image} = [inner sep=0, fill=none, minimum size=\imagewidth]
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	pics/seqlstmfw/.style={
+		code={
+		\begin{scope}[shift={\shiftcoord},xscale=1.3,yscale=.8]
+			
+			\node[dummy] (bl) at (0,0){}; % bottom left
+			\node[dummy] (tr) at (1,1){}; % top right
+			
+			\node[dummy] (br) at ($ (bl -| tr) $){}; % bottom right
+			\node[dummy] (tl) at ($ (bl |- tr) $){}; % top left
+			
+			\node[fit=(bl) (tr),bigbox] (-C) {};
+			
+			% input coordinate for rounded draw lines -> slightly right of tl
+			\coordinate (-input) at (0.1,1); % top left
+			
+			% output coordinate for rounded draw lines -> slightly left of br
+			\coordinate (-coutput) at (0.9,0); % bottom right
+			\coordinate (-cinput) at (0.1,0); % bottom left
+			\coordinate (-houtput) at (0.9,1); % bottom right
+			
+%			% gate distance
+			\def\d{1/6}
+			
+			% gate heights
+			\def\h{1/3}
+			
+			\coordinate (f)  at bl+(1*\d,0);
+			\coordinate (i)  at bl+(2*\d,0);
+			\coordinate (j)  at bl+(3*\d,0);
+			\coordinate (o)  at bl+(4*\d,0);
+			\coordinate (out) at bl+(5*\d,0);
+			
+			\coordinate (gates) at (0,2*\h);
+			
+			%\node[above=of tl](xt){$x_{t}$};
+			%\node[left=of tl](htminus1){$h_{t-1}$};
+			
+			%\node[below=of br](ct){$c_{t}$};
+			
+			\node[gate](fgate) at ($ (gates -| f) $){};
+			\node[gate](igate) at ($ (gates -| i) $){};
+			\node[gate](jgate) at ($ (gates -| j) $){};
+			\node[gate](ogate) at ($ (gates -| o) $){};
+			
+%			\coordinate (htminus1) at bl+(-.5,0);
+%			\coordinate (ht) at bl+(-.5,0);
+%			
+			% forget gate
+			\node[operator](fmult) at ($ (bl -| fgate) $) {};
+			\draw[endflow] (-input) -| (fgate) -- (fmult); 
+			
+%			%j
+			\node[operator](jmult) at ([shift={(0,-1*\h)}]jgate) {};
+			\node[operator](cadd) at ($ (bl -| jgate) $) {};
+			\draw[endflow] (-input) -| (jgate) -- (jmult);
+			\draw[endflow] (jmult) -- (cadd); 			
+
+%			%i	
+			\draw[endflow] (-input) -| (igate) |- (jmult); 
+%
+%%			% outpu
+			\node[operator](outtanh) at ([shift={(0,1*\h)}]out) {};
+%			
+%			%o 
+			\draw[endflow] (tl) -| (ogate) |- (outtanh);
+			\draw[flow] (outtanh) |- (-houtput);
+%			
+%			% output flow
+			\draw[endflow] (cadd) -| (outtanh);
+			\draw[flow] (-cinput) -- (fmult) -- (cadd) -- (-coutput);
+%			
+			
+			% debug
+%			\node at (gates) {\tiny{gates}};
+%			\node at (-input) {\tiny{-input}};
+%			\node at (-coutput) {\tiny{-coutput}};
+%			\node at (-houtput) {\tiny{-houtput}};
+%			\node at (f) {\tiny{f}};
+%			\node at (i) {\tiny{i}};
+%			\node at (j) {\tiny{j}};
+%			\node at (o) {\tiny{o}};
+%			\node at (tl) {\tiny{tl}};
+%			\node at (br) {\tiny{br}};
+%			\node at (bl) {\tiny{bl}};
+%			\node at (tr) {\tiny{tr}};
+%			\node at (out) {\tiny{out}};
+			
+		\end{scope}
+		}
+	}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	pics/seqlstmbw/.style={
+		code={
+			\begin{scope}[shift={\shiftcoord},xscale=1.3,yscale=-.8]
+				
+				\node[dummy] (bl) at (0,0){}; % bottom left
+				\node[dummy] (tr) at (1,1){}; % top right
+				
+				\node[dummy] (br) at ($ (bl -| tr) $){}; % bottom right
+				\node[dummy] (tl) at ($ (bl |- tr) $){}; % top left
+				
+				\node[fit=(bl) (tr),bigbox] (-C) {};
+				
+				% input coordinate for rounded draw lines -> slightly right of tl
+				\coordinate (-input) at (0.1,1); % top left
+				
+				% output coordinate for rounded draw lines -> slightly left of br
+				\coordinate (-coutput) at (0.9,0); % bottom right
+				\coordinate (-cinput) at (0.1,0); % bottom left
+				\coordinate (-houtput) at (0.9,1); % top right
+				
+				%			% gate distance
+				\def\d{1/6}
+				
+				% gate heights
+				\def\h{1/3}
+				
+				\coordinate (f)  at bl+(1*\d,0);
+				\coordinate (i)  at bl+(2*\d,0);
+				\coordinate (j)  at bl+(3*\d,0);
+				\coordinate (o)  at bl+(4*\d,0);
+				\coordinate (out) at bl+(5*\d,0);
+				
+				\coordinate (gates) at (0,2*\h);
+				
+				%\node[above=of tl](xt){$x_{t}$};
+				%\node[left=of tl](htminus1){$h_{t-1}$};
+				
+				%\node[below=of br](ct){$c_{t}$};
+				
+				\node[gate](fgate) at ($ (gates -| f) $){};
+				\node[gate](igate) at ($ (gates -| i) $){};
+				\node[gate](jgate) at ($ (gates -| j) $){};
+				\node[gate](ogate) at ($ (gates -| o) $){};
+				
+				%			\coordinate (htminus1) at bl+(-.5,0);
+				%			\coordinate (ht) at bl+(-.5,0);
+				%			
+				% forget gate
+				\node[operator](fmult) at ($ (bl -| fgate) $) {};
+				\draw[endflow] (-input) -| (fgate) -- (fmult); 
+				
+				%			%j
+				\node[operator](jmult) at ([shift={(0,-1*\h)}]jgate) {};
+				\node[operator](cadd) at ($ (bl -| jgate) $) {};
+				\draw[endflow] (-input) -| (jgate) -- (jmult);
+				\draw[endflow] (jmult) -- (cadd); 			
+				
+				%			%i	
+				\draw[endflow] (-input) -| (igate) |- (jmult); 
+				%
+				%%			% outpu
+				\node[operator](outtanh) at ([shift={(0,1*\h)}]out) {};
+				%			
+				%			%o 
+				\draw[endflow] (tl) -| (ogate) |- (outtanh);
+				\draw[flow] (outtanh) |- (-houtput);
+				%			
+				%			% output flow
+				\draw[endflow] (cadd) -| (outtanh);
+				\draw[flow] (-cinput) -- (fmult) -- (cadd) -- (-coutput);
+				%			
+				
+				% debug
+				%			\node at (gates) {\tiny{gates}};
+				%			\node at (-input) {\tiny{-input}};
+				%			\node at (-coutput) {\tiny{-coutput}};
+				%			\node at (-houtput) {\tiny{-houtput}};
+				%			\node at (f) {\tiny{f}};
+				%			\node at (i) {\tiny{i}};
+				%			\node at (j) {\tiny{j}};
+				%			\node at (o) {\tiny{o}};
+				%			\node at (tl) {\tiny{tl}};
+				%			\node at (br) {\tiny{br}};
+				%			\node at (bl) {\tiny{bl}};
+				%			\node at (tr) {\tiny{tr}};
+				%			\node at (out) {\tiny{out}};
+				
+			\end{scope}
+		}
+	}
+}
+
+\newcommand{\tensorcube}[4]{
+	\def\w{#1}
+	\def\h{#2}
+	\def\d{#3}
+%	\def\img{#4}
+	
+	\begin{scope}[perspective3d]
+		
+		% bw back frame
+		\begin{scope}[canvas is yz plane at x=\d]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none, wireframe](back){};
+		\end{scope}
+		
+		% front image
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[transform shape,image, anchor=south west, opacity=1](front){
+				%\includegraphics[width=\w]{\img}
+				#4
+				};
+		\end{scope}
+		
+		% front frame
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none, wireframe](front){};
+		\end{scope}
+		
+		% fill right side
+		\fill[tensorcolor,opacity=.5, wireframe] (front.south east) -- (back.south east) -- (back.north east) -- (front.north east);
+		% fill top side
+		\fill[tensorcolor,opacity=.5,opacity=0.6, wireframe] (front.north east) -- (back.north east) -- (back.north west) -- (front.north west);
+		% fill right side
+		
+		
+		%\draw[] (front.south west) -- (back.south west);
+		
+	\end{scope}
+}
+
+\newcommand{\concatstates}[4]{
+	\def\w{#1}
+	\def\h{#2}
+	\def\d{#3}
+	\def\img{#4}
+	
+	\begin{scope}[perspective3d]
+		
+		% bw back frame
+		\begin{scope}[canvas is yz plane at x=2*\d]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none, wireframe](back){};
+		\end{scope}
+		
+		% middle frame
+		\begin{scope}[canvas is yz plane at x=\d]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none, wireframe](middle){};
+		\end{scope}
+		
+		% front image
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[transform shape,image, anchor=south west](front){\includegraphics[width=\w]{\img}};
+		\end{scope}
+		
+		% front frame
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[transform shape,image, minimum size=\w, anchor=south west, fill=none,wireframe](front){};
+		\end{scope}
+		
+		% fill right side
+		\fill[backwardcolor,opacity=.5, wireframe] (front.south east) -- (middle.south east) -- (middle.north east) -- (front.north east);
+		% fill top side
+		\fill[backwardcolor,opacity=.5,opacity=0.6, wireframe] (front.north east) -- (middle.north east) -- (middle.north west) -- (front.north west);
+		% fill right side
+		
+		\fill[forwardcolor,opacity=.5, wireframe] (middle.south east) -- (back.south east) -- (back.north east) -- (middle.north east);
+		% fill top side
+		\fill[forwardcolor,opacity=.5,opacity=0.6, wireframe] (middle.north east) -- (back.north east) -- (back.north west) -- (middle.north west);
+		
+		%\draw[] (front.south west) -- (back.south west);
+		
+		
+	\end{scope}
+}
+
+\begin{tikzpicture}[scale=1, node distance=1em]%,show background rectangle,background rectangle/.style={draw=red}]
+
+%\matrix (m) [matrix of nodes, ampersand replacement=\&]{
+
+\def\d{1.6}
+\def\encoderheight{0.4}
+\def\decoderheight{-0.4}
+\def\imagewidth{8mm}
+\def\stateimagewidth{8mm}
+\def\classimagewidth{8mm}
+
+\def\rgbone{images/network/48px/rgb1}
+\def\rgbtwo{images/network/48px/rgb2}
+\def\rgbthree{images/network/48px/rgb3}
+\def\rgbfour{images/network/48px/rgb4}
+\def\prediction{images/network/48px/prediction}
+\def\groundtruth{images/network/48px/ground_truth}
+\def\activation{images/network/48px/maize}
+\def\state{images/network/48px/state}
+
+
+%\draw [bigpassbox, fill=forwardcolor](1,.25) rectangle (10,4);
+
+\node[bigpassbox, fill=forwardcolor, rectangle, minimum width=7cm,minimum height=3cm, anchor=south west, label={[shift={(2em,-3.5ex)}]north:jan $\rightarrow$ dec}] (forwardbox) at (1,.15) {};
+%\draw [bigpassbox, fill=backwardcolor](1,-.25) rectangle (10,-4);
+
+\draw pic (fw1) at (\d,\encoderheight) {seqlstmfw};% \&
+\node[above=of fw1tl, label=above:{$\VInput_{0}$}](xfw1){\includegraphics[width=\imagewidth]{\rgbone}};%images/network/time1_x
+
+\draw pic (fw2) at (2*\d,\encoderheight) {seqlstmfw};
+\node[above=of fw2-input, label=above:{$\VInput_{1}$}](xfw2){\includegraphics[width=\imagewidth]{\rgbtwo}}; % images/network/time11_x
+
+\draw pic (fw3) at (3*\d,\encoderheight) {seqlstmfw};
+\node[above=of fw3-input](xfw3){$\dots$};
+
+\draw pic (fw4) at (4*\d,\encoderheight) {seqlstmfw};
+\node[above=of fw4-input, label=above:{$\VInput_T$}](xfw4){\includegraphics[width=\imagewidth]{\rgbfour}}; % images/network/time30_x
+
+\node[left=of fw1-input](enczerostateh){$\V{0}$};
+\node[left=of fw1-cinput](enczerostatec){$\V{0}$};
+\draw[endflow] (enczerostateh) -- (fw1-input);
+\draw[endflow] (enczerostatec) -- (fw1-cinput);
+
+% draw connections from input to cells
+\draw[flow] (xfw1) |- (fw1-input);
+\draw[flow] (xfw2) |- (fw2-input);
+\draw[flow] (xfw3) |- (fw3-input);
+\draw[flow] (xfw4) |- (fw4-input);
+
+% draw hidden connections between cells
+\draw[endflow] (fw1-houtput) -- (fw2-input);
+\draw[endflow] (fw2-houtput) -- (fw3-input);
+\draw[endflow] (fw3-houtput) -- (fw4-input);
+
+% draw hidden connections between cells
+\draw[endflow] (fw1-coutput) -- (fw2-cinput);
+\draw[endflow] (fw2-coutput) -- (fw3-cinput);
+\draw[endflow] (fw3-coutput) -- (fw4-cinput);
+
+\node[right= 2.5em of fw4-coutput](cfw){$\VCellState_T^\text{fw}$};
+
+\draw[endflow] (fw4-coutput) -- (cfw);
+
+\visible<2->{
+
+\node[bigpassbox, fill=backwardcolor, rectangle, minimum width=7cm,minimum height=3cm, anchor=north west, label={[shift={(2em,3.5ex)}]south:dec $\rightarrow$ jan}] (forwardbox) at (1,-.15) {};
+
+\draw pic (bw1) at (1*\d,\decoderheight) {seqlstmbw};% \&
+\node[below=of bw1tl, label=below:{$\VInput_T$}](xbw1){\includegraphics[width=\imagewidth]{\rgbfour}}; % images/network/time30_x
+
+\draw pic (bw2) at (2*\d,\decoderheight) {seqlstmbw};
+\node[below=of bw2tl, label=below:{$\VInput_{T-1}$}](xbw2){\includegraphics[width=\imagewidth]{\rgbthree}}; %images/network/time20_x
+
+\draw pic (bw3) at (3*\d,\decoderheight) {seqlstmbw};
+\node[below=of bw3tl](xbw3){$\dots$};
+
+\draw pic (bw4) at (4*\d,\decoderheight) {seqlstmbw};
+\node[below=of bw4tl, label=below:{$\VInput_0$}](xbw4){\includegraphics[width=\imagewidth]{\rgbone}};
+
+%\node[anchor=center](state) at ($(enc4-coutput)!0.5!(dec1-cinput)$){context state vector $\VCellState_T$};
+
+\node[left=of bw1-input](deczerostateh){$\V{0}$};
+\node[left=of bw1-cinput](deczerostatec){$\V{0}$};
+
+\draw[endflow] (deczerostateh) -- (bw1-input);
+\draw[endflow] (deczerostatec) -- (bw1-cinput);
+
+% draw state
+%\draw[flow] (enc4-coutput) -- ++(.2,0) |- (state);
+%\draw[beginflow] (dec1-cinput) -- ++(-.2,0) |- (state);
+
+% draw connections from cells to output
+\draw[flow] (xbw1) |- (bw1-input);
+\draw[flow] (xbw2) |- (bw2-input);
+\draw[flow] (xbw3) |- (bw3-input);
+\draw[flow] (xbw4) |- (bw4-input);
+
+\draw[endflow] (bw1-houtput) -- (bw2-input);
+\draw[endflow] (bw2-houtput) -- (bw3-input);
+\draw[endflow] (bw3-houtput) -- (bw4-input);
+
+\draw[endflow] (bw1-coutput) -- (bw2-cinput);
+\draw[endflow] (bw2-coutput) -- (bw3-cinput);
+\draw[endflow] (bw3-coutput) -- (bw4-cinput);
+
+\node[right= 2.5em of bw4-coutput](cbw){$\VCellState_T^\text{bw}$};
+
+%\node[right= 6em of fw4-coutput,yshift=.5em, anchor=center,label=left:{$\VCellState^{fw}$}](cfw){
+%	%\includegraphics[width=\imagewidth]{images/network/42_state}
+%	\begin{tikzpicture}
+%	    \colorlet{tensorcolor}{forwardcolor}
+%		\tensorcube{\imagewidth}{\imagewidth}{.75}{images/network/42_state}
+%	\end{tikzpicture}
+%	};
+%	
+%\node[right= 6em of bw4-coutput, yshift=.5em, anchor=center,label=left:{$\VCellState^{bw}$}](cbw){
+%	%\includegraphics[width=\imagewidth]{images/network/72_state}	
+%	\begin{tikzpicture}
+%	    \colorlet{tensorcolor}{backwardcolor}
+%		\tensorcube{\imagewidth}{\imagewidth}{.75}{images/network/72_state}
+%	\end{tikzpicture}
+%	};
+
+%\draw[endflow] (fw4-coutput) -- +(.25,0);
+%\draw[endflow] (bw4-coutput) -- +(.25,0);
+
+\draw[endflow] (bw4-coutput) -- (cbw);
+
+}
+
+\visible<3->{
+	
+	\node[bigpassbox, fill=classcolor, rectangle, minimum width=5cm,minimum height=3.5cm, anchor=center, label={[shift={(-1ex,-3.5ex)}]north:classification}] (classbox) at (12,0) {};
+	
+	\node[] (c) at ($(cfw)!0.5!(cbw)$) {};
+	
+	%\begin{scope}[perspective3d, xshift=10cm]
+	%\node[transform shape,image]() at (.5,0,0){\includegraphics[width=\imagewidth]{images/network/72_state}};
+	%\node[transform shape,image]() at (.25,0,0){\includegraphics[width=\imagewidth]{images/network/72_state}};
+	%\node[transform shape,image]() at (0,0,0){\includegraphics[width=\imagewidth]{images/network/72_state}};
+	%\end{scope}
+	
+	%\node(concatstates) at (6.2*\d,0){
+	\node(concatstates) at ($(classbox)+(-1.15cm,0)$){
+	\begin{tikzpicture}
+	\concatstates{\stateimagewidth}{\stateimagewidth}{1}{\state}
+	\end{tikzpicture}
+	};
+	
+	\draw[endflow] (cfw) -- (concatstates);
+	\draw[endflow] (cbw) -- (concatstates);
+	
+	%\path[draw] (0,0) -- (0,1) -- (1,1) -- (1,0) -- (0,0);
+	
+	\node[right=of concatstates](conv){
+		\begin{tikzpicture}
+		    \colorlet{tensorcolor}{classcolor}
+		    % static
+			\tensorcube{\stateimagewidth}{\stateimagewidth}{.75}{\includegraphics[width=\stateimagewidth]{\activation}} %images/network/48px/72_state
+	%		\tensorcube{\stateimagewidth}{\stateimagewidth}{.75}{
+	%		\animategraphics[poster=16,width=\stateimagewidth,autoplay,loop]{3}{images/network/48px/prediction_scores/prediction_scores-}{0}{16}
+	%		}
+		\end{tikzpicture}
+	};
+	
+	\node[rectangle, minimum width=4mm, minimum height=4mm, fill=tumgray, draw=tumgray, opacity=.5](inconvrect) at ($ (concatstates) + (-3mm,-3mm) $){};
+	%\node[below=0mm of inconvrect](){\tiny \color{white} $\kclass$};
+	
+	\node[rectangle, minimum width=2mm, minimum height=2mm, fill=tumgray, draw=tumgray, opacity=.5, inner sep=0](outconvrect) at (conv){};
+	
+	\draw[tumgray] (inconvrect.north east) -- (outconvrect.north west) -- (outconvrect.south west) -- (inconvrect.south east);
+	%\draw[tumblack] (inconvrect.north west) -- (outconvrect.north west);
+	%\draw[tumblack] (inconvrect.south east) -- (outconvrect.south west);
+	%\draw[tumblack] (inconvrect.south west) -- (outconvrect.south west);
+	
+	\node[below= 3em of conv, label={south:prediction}](pred){\includegraphics[width=\classimagewidth]{\prediction}}; %$\hat{\V{y}}$
+	\node[above= 3em of conv, label={north:Ground Truth}](ground){\includegraphics[width=\classimagewidth]{\groundtruth}}; % $\V{y}}$
+	
+	\draw[endflow] (conv) -- (pred) node[midway, right] {\small $argmax$}; 
+	\draw[<->] (ground) -- (conv) node[midway, right] {\small $H(\V{y},\hat{\V{y}})$}; 
+}
+%};
+\end{tikzpicture}

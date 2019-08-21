@@ -1,0 +1,34 @@
+
+\tikzstyle{conn}=[-stealth, thick]
+\tikzstyle{process}=[draw=none, rounded corners,text depth=0pt]
+
+\newcommand{\figourapproach}{
+\begin{tikzpicture}[node distance=2em]
+\node[process](inputs){cloudy images $\V{x}$};
+\node[process,right=5em of inputs](approach){prediction $\V{y}$};
+\draw[conn] (inputs) -- node[midway, above]{$f(\V{x})$}(approach);
+
+%\node[noteannot, above left= 1em and 2em of approach](annottext){\textbf{We treat clouds as data-inherent noise:}\\ by employing ConvLSTMs to learn cloud masking \\ and classification in \textbf{one model end-to-end}.};
+%\draw[annotation] (annottext) -- (approach);
+\end{tikzpicture}
+}
+
+\newcommand{\figcloudfilteringpipeline}{
+\begin{tikzpicture}[node distance=2em]
+\node[process](inputs){cloudy images $\V{x}$};
+\visible<2>{\node[process,right=5em of inputs](approach){prediction $\V{y}$};}
+\node[process](cloudclass) at ($ (inputs)!0.5!(approach) + (0,4em) $) {cloud mask $\V{m}$};
+
+%\node[noteannot, above right= 1em and -3.5em of approach](annottext){\textbf{The pre-classification of clouds}\\requires \textbf{two separate models} \\ for cloud classification $f_{cl}$ and prediction $f$.};
+%
+%\draw[annotation] (annottext) -- (approach);
+%\draw[annotation] (annottext) -- (cloudclass);
+
+\draw[conn] (inputs) -- node[midway, above left]{$f_{cl}(\V{x})$}(cloudclass);
+
+\visible<2>{
+	\draw[conn] (inputs) -- node[at end, above]{$f(\V{x},\V{m})$}(approach);
+	\draw[conn, rounded corners=11pt] (cloudclass) |- node[near end, above]{}(approach);
+}
+\end{tikzpicture}
+}

@@ -1,0 +1,149 @@
+%usepgfplotslibrary{fillbetween}
+
+%\newcommand{\fbopacity}{0.3}
+%\newcommand{\skippoints}{2}
+
+
+%\def\measure{oa}
+\def\height{3.5cm}
+
+
+%\colorlet{L1Ccolor}{tumblue}
+%colorlet{L2Acolor}{tumblack}
+
+%\colorlet{clouds01color}{tumred}
+%\colorlet{clouds10color}{tumorange}
+%\colorlet{clouds25color}{tumgray}
+%\colorlet{clouds50color}{tumblue}
+%\colorlet{clouds80color}{tumblack}
+
+\colorlet{clouds01color}{tumbluedark!55}
+\colorlet{clouds10color}{tumbluedark!70}
+\colorlet{clouds25color}{tumbluedark!85}
+\colorlet{clouds50color}{tumbluedark}
+\colorlet{clouds80color}{tumblack}
+
+\colorlet{highlightcolor}{tumgraylight!25}
+
+%\colorlet{2017traincolor}{tumgray}
+%\colorlet{2017testcolor}{tumblack}
+
+\tikzset{new spy style/.style={spy scope={%
+			magnification=2,
+			connect spies,
+			every spy on node/.style={
+				rectangle,
+				rounded corners=1pt,
+				draw,
+			},
+			every spy in node/.style={
+				draw,
+				rectangle,
+				rounded corners=1pt,
+				fill=gray!40,
+			}
+		}
+	}
+} 
+
+
+\tikzsetnextfilename{clouds}
+\begin{tikzpicture}[new spy style, remember picture]
+	
+	% replaced by global settings in figures.tex
+%	\pgfplotsset{every axis plot/.append style={line width=1pt}}
+	
+	
+	\begin{groupplot}[
+	group style={
+		group size=2 by 1,
+		xlabels at=edge bottom,
+		ylabels at=edge left,
+		xticklabels at=edge bottom,
+		vertical sep=35pt,
+		group name=trainplot
+	},
+	legend style={
+		at={(1.65,0)},
+		anchor=south,
+		fill=tumgraylight!50,
+		rounded corners=1pt,
+		draw=none,
+		font=\scriptsize, 
+		legend image post style={line width =3pt},
+		/tikz/every even column/.append style={column sep=0.2cm},
+	},
+	axis lines=left,
+	grid=both,
+	scaled x ticks = false,
+	y tick label style={/pgf/number format/fixed},
+	grid style={draw=tumgraylight},
+	legend columns=1,
+	width=.38\textwidth,
+	height=\height,
+	xlabel={samples seen},
+	xmin=-10000,
+	xmax=800000,
+	ymin=.85,
+	ymax=.95]
+
+
+\nextgroupplot[title=,ylabel={ov. acc.},ymin=.2,ymax=1]
+
+
+\coordinate (topsource) at (axis cs: 800000,.96);
+\coordinate (bottomsource) at (axis cs: 800000,.84);
+
+\coordinate (topsourceleft) at (axis cs: 0,.96);
+\coordinate (bottomsourceleft) at (axis cs: 0,.84);
+
+\fill[highlightcolor,draw=tumgraylight, rounded corners=1pt] (bottomsource) -- (bottomsourceleft) -- (topsourceleft) -- (topsource); 
+
+\addplot[clouds01color, forget plot] table [x=Step, y = clouds01_test2016clouds01_oa, col sep=comma] {images/clouds/train_rw3.csv};
+
+\addplot[clouds10color, forget plot] table [x=Step, y = clouds10_test2016clouds10_oa, col sep=comma] {images/clouds/train_rw3.csv};
+
+\addplot[clouds25color, forget plot] table [x=Step, y = clouds25_test2016clouds25_oa, col sep=comma] {images/clouds/train_rw3.csv};
+
+\addplot[clouds50color, forget plot] table [x=Step, y = clouds50_test2016clouds50_oa, col sep=comma] {images/clouds/train_rw3.csv};
+
+\addplot[clouds80color, forget plot] table [x=Step, y = clouds80_test2016_oa, col sep=comma] {images/clouds/train_rw3.csv};
+
+\nextgroupplot[
+	title=,
+	ylabel={ov. acc.}, 
+	ymin=.84,
+	ymax=.96, 
+	xmin=0,
+	axis y line*=right,
+	ylabel near ticks, 
+	yticklabel pos=right,
+	grid=both,
+	grid style={tumgray!50},
+	axis background/.style={fill=highlightcolor},
+	]
+\addplot[clouds01color] table [x=Step, y = clouds01_test2016clouds01_oa, col sep=comma] {images/clouds/train_rw15.csv};
+\addlegendentry{$<$ \SI{1}{\percent} (4 obs.)}
+
+\addplot[clouds10color] table [x=Step, y = clouds10_test2016clouds10_oa, col sep=comma] {images/clouds/train_rw15.csv};
+\addlegendentry{$<$ \SI{10}{\percent} (10 obs.)}
+
+\addplot[clouds25color] table [x=Step, y = clouds25_test2016clouds25_oa, col sep=comma] {images/clouds/train_rw15.csv};
+\addlegendentry{$<$ \SI{25}{\percent} (17 obs.)}
+
+\addplot[clouds50color] table [x=Step, y = clouds50_test2016clouds50_oa, col sep=comma] {images/clouds/train_rw15.csv};
+\addlegendentry{$<$ \SI{50}{\percent} (23 obs.)}
+
+\addplot[clouds80color] table [x=Step, y = clouds80_test2016_oa, col sep=comma] {images/clouds/train_rw15.csv};
+\addlegendentry{all images (46 obs.)}
+
+\coordinate (toptarget) at (rel axis cs: 0,1);
+\coordinate (bottomtarget) at (rel axis cs: 0,0);
+
+\end{groupplot}
+
+\draw[fill=highlightcolor, draw=tumgraylight] (topsource) -- (toptarget) -- (bottomtarget)  -- (bottomsource);
+\draw[|-|, tumgray] ($ (bottomsource) + (0ex,0) $) -- ($ (topsource) + (0ex,0) $);
+\draw[|-|, tumgray] (bottomtarget) -- (toptarget);
+
+\end{tikzpicture}  

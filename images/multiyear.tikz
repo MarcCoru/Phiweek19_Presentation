@@ -1,0 +1,135 @@
+%usepgfplotslibrary{fillbetween}
+
+%\newcommand{\fbopacity}{0.3}
+%\newcommand{\skippoints}{2}
+
+\pgfplotsset{every tick label/.append style={font=\small}}
+	
+\tikzsetnextfilename{multiyear}
+\begin{tikzpicture}[]
+
+%every x tick scale label/.style={at={(xticklabel cs:0.9,5pt)},yshift=-2em,left,inner sep=0pt}
+
+\def\measure{oa}
+
+\colorlet{2016traincolor}{tumblue}
+\colorlet{2016testcolor}{tumbluedark}
+
+\colorlet{2017traincolor}{tumgray}
+\colorlet{2017testcolor}{tumblack}
+
+\pgfplotsset{every axis plot/.append style={line width=1pt}}
+
+	\begin{groupplot}[
+	group style={
+		group size=3 by 2,
+		xlabels at=edge bottom,
+		ylabels at=edge left,
+%		xticklabels at=edge bottom,
+		vertical sep=35pt,
+		group name=trainplot
+	},
+	legend style={
+		at={(-.75,-1.3)},
+		anchor=south,
+		fill=tumgraylight,
+		rounded corners,
+		draw=none,
+		font=\small, 
+		/tikz/every even column/.append style={column sep=0.2cm},
+		},
+	axis lines=left,
+	grid=both,
+	grid style={draw=tumgraylight},
+	legend columns=4,
+	width=0.35\textwidth,
+%	y tick label style={/pgf/number format/fixed},
+	scaled x ticks = false,
+	height=2.9cm,
+	xlabel={Samples},
+	ylabel={Genauigkeit},
+	xmin=-10000,
+	xmax=1500000,
+	ymin=0,
+	ymax=.95]
+	
+	\nextgroupplot[title=2016:2017 (1:1)]
+	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2017_2016_test_\measure.csv};
+	
+	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2017_2017_test_\measure.csv};
+	
+	\nextgroupplot[title=2016]
+	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2016_test_\measure.csv};
+	
+	\addplot[2017testcolor, forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2017_test_\measure.csv};
+	
+	%%%%%
+	\nextgroupplot[title=2016 $\rightarrow$ 2016\,2017]
+	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_first2016_later20162017_2016_test_\measure.csv};
+	%	
+	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_first2016_later20162017_2017_test_\measure.csv};
+	
+	\nextgroupplot[title=2016:2017 (9:1)]
+	\addplot[2016testcolor] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_9x2016_1x2017_2016_test_\measure.csv};
+	
+	%\addplot[2016testcolor] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_9x2016_1x2017_f2_2016_test_\measure.csv};
+	
+	\addplot[2017testcolor] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_9x2016_1x2017_2017_test_\measure.csv};
+	
+	\nextgroupplot[title=2017]
+	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2017_2016_test_\measure.csv};
+	
+	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2017_2017_test_\measure.csv};
+	
+	\nextgroupplot[title=2016 $\rightarrow$ 2017]
+	\addplot[2016testcolor] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_first2016_later2017_2016_test_\measure.csv};
+	\addlegendentry{2016 validation}
+	
+	\addplot[2017testcolor] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_first2016_later2017_2017_test_\measure.csv};
+	\addlegendentry{2017 validation}
+	
+	%% single folds
+%	\nextgroupplot[title=Trained on 2016]
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_f0_2016_test_\measure.csv};
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_f1_2016_test_\measure.csv};
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_f2_2016_test_\measure.csv};
+%	
+%	\addplot[2017testcolor, forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_f0_2017_test_\measure.csv};
+%	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_f1_2017_test_\measure.csv};
+%	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_f2_2017_test_\measure.csv};
+%		
+%	\nextgroupplot[title=Trained on 2017]
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2017_f0_2016_test_\measure.csv};
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2017_f1_2016_test_\measure.csv};
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2017_f2_2016_test_\measure.csv};
+%	
+%	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2017_f0_2017_test_\measure.csv};
+%	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2017_f1_2017_test_\measure.csv};
+%	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2017_f2_2017_test_\measure.csv};
+%	
+%	\nextgroupplot[title=Trained on 2016 and 2017]
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2017_f0_2016_test_\measure.csv};
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2017_f1_2016_test_\measure.csv};
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2017_f2_2016_test_\measure.csv};
+%	
+%	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2017_f0_2017_test_\measure.csv};
+%	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2017_f1_2017_test_\measure.csv};
+%	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_2016_2017_f2_2017_test_\measure.csv};
+%		
+%	\nextgroupplot[title=Trained on 90\% 2016 and 10\% 2017]
+%	\addplot[2016testcolor] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_9x2016_1x2017_f0_2016_test_\measure.csv};
+%	\addlegendentry{2016 validation}
+%	\addplot[2016testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_9x2016_1x2017_f1_2016_test_\measure.csv};
+%	%\addplot[2016testcolor] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_9x2016_1x2017_f2_2016_test_\measure.csv};
+%	
+%	\addplot[2017testcolor] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_9x2016_1x2017_f0_2017_test_\measure.csv};
+%	\addlegendentry{2017 validation}
+%	\addplot[2017testcolor,forget plot] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_9x2016_1x2017_f1_2017_test_\measure.csv};
+%	%\addplot[2017testcolor] table [x index = {0}, y index = {1}, col sep=comma] {images/multiyear/convlstm128_9x2016_1x2017_f2_2017_test_\measure.csv};
+			
+	%
+	
+%	\end{groupplot}
+
+  \end{groupplot}
+\end{tikzpicture}  

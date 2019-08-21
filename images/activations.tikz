@@ -1,0 +1,85 @@
+\newcounter{tcounter}
+
+\newcommand{\drawcbar}[5]{
+	\def\tnode{#1} % iGate0
+	\def\cmap{#2} % inferno
+	\def\cbarheight{#3} % 1cm
+	%	\def\vmin{#4} % 0
+	%	\def\vmax{#5} % 1
+	
+	\node[xshift=1mm] (cbar\tnode) at (\tnode.east){\includegraphics[height=2mm, width=\cbarheight, angle=90,origin=c]{\cmap}};
+	\node[anchor=south] at (cbar\tnode.south east) {\tiny #4};
+	\node[anchor=north] at (cbar\tnode.north east) {\tiny #5};
+}
+\newcommand{\imagecolumns}[2]{
+		\foreach \t in {#1,...,#2}{
+			\node(times) at (\thetcounter*\hdist,0*\vdist){$t_{\the\numexpr\t+1\relax}$};
+			\node[activation](xlast) at (\thetcounter*\hdist,-1*\vdist){\includegraphics[width=\imagewidth]{\folder/sample\s/time\t_x}};
+			
+			\node[activation, yshift=-1mm](flast1) at (\thetcounter*\hdist,-2*\vdist){\includegraphics[width=\imagewidth]{\folder/sample\s/time\t/\done_fGate}};
+			\node[activation, yshift=-1mm](ilast1) at (\thetcounter*\hdist,-3*\vdist){\includegraphics[width=\imagewidth]{\folder/sample\s/time\t/\done_iGate}};
+			\node[activation, yshift=-1mm](jlast1) at (\thetcounter*\hdist,-4*\vdist){\includegraphics[width=\imagewidth]{\folder/sample\s/time\t/\done_jGate}};
+			\node[activation, yshift=-1mm](clast1) at (\thetcounter*\hdist,-5*\vdist){\includegraphics[width=\imagewidth]{\folder/sample\s/time\t/\done_state}};
+			
+			\stepcounter{tcounter}
+		}
+	}
+	
+\newcommand{\dotscolumn}{
+	\node[activation] at (\thetcounter*\hdist,-1*\vdist){$\dots$};
+	
+	\node[activation,yshift=-1mm] at (\thetcounter*\hdist,-2*\vdist){$\dots$};
+	\node[activation,yshift=-1mm] at (\thetcounter*\hdist,-3*\vdist){$\dots$};
+	\node[activation,yshift=-1mm] at (\thetcounter*\hdist,-4*\vdist){$\dots$};
+	\node[activation,yshift=-1mm] at (\thetcounter*\hdist,-5*\vdist){$\dots$};
+	\stepcounter{tcounter}
+	}
+
+\newcommand{\figactivations}[2]{
+	% 1: number of sample
+	% 2. number of activation
+	
+	\setcounter{tcounter}{0}
+	
+	\begin{tikzpicture}
+	%\figGates{0}{18}{1}{3}
+	\def\folder{images/activations/48px}
+	
+	\tikzstyle{activation}=[]
+	\def\s{#1}
+	
+	\def\done{#2}
+%	\def\dtwo{22}
+%	\def\dthree{47}
+	
+	%% grid distance vertical and horizontal
+	\def\vdist{8.5mm}
+	\def\hdist{8.5mm}
+	
+	\def\imagewidth{8mm}
+	
+	
+	%% descriptions top row
+	\node[anchor=west] at (-1.5*\hdist,-1*\vdist){$\V{x}$};
+	\node[anchor=west, yshift=-1mm](f1) at (-1.5*\hdist,-2*\vdist){$\V{f}^{(\done)}$};
+	\node[anchor=west, yshift=-1mm](i1) at (-1.5*\hdist,-3*\vdist){$\V{i}^{(\done)}$};
+	\node[anchor=west, yshift=-1mm](j1) at (-1.5*\hdist,-4*\vdist){$\V{j}^{(\done)}$};
+	\node[anchor=west, yshift=-1mm](c1) at (-1.5*\hdist,-5*\vdist){$\V{c}^{(\done)}$};
+
+
+	\imagecolumns{0}{1}
+	\dotscolumn
+	\imagecolumns{9}{14}
+	\dotscolumn
+	\imagecolumns{30}{34}
+	
+	
+	\drawcbar{flast1}{images/activations/inferno}{\imagewidth}{0}{1}
+	\drawcbar{ilast1}{images/activations/inferno}{\imagewidth}{0}{1}
+	\drawcbar{jlast1}{images/activations/RdBu_r}{\imagewidth}{-1}{1}
+	\drawcbar{clast1}{images/activations/RdBu_r}{\imagewidth}{-1}{1}
+	
+	
+	
+	\end{tikzpicture}
+}

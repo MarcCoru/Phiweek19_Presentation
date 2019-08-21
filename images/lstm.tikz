@@ -1,0 +1,266 @@
+%\tikzsetnextfilename{lstm}
+
+\tikzstyle{operator} = [draw, circle, fill=tumbluemedium, draw=tumbluemedium, inner sep=0, text=white]
+%\tikzstyle{function} = [draw, rectangle, fill=tumbluemedium, draw=tumbluemedium, text=white]
+\tikzstyle{gate} = [] %fill=tumivory,draw,rounded corners=1pt, inner sep=2pt, minimum width=11mm, minimum height=11mm
+\tikzstyle{io} = []%fill=tumwhite,draw,rounded corners=1pt, inner sep=2pt, minimum width=11mm, minimum height=11mm
+
+\tikzstyle{dummy} = [inner sep=0]
+\tikzstyle{flow} = [rounded corners]
+\tikzstyle{endflow} = [-stealth,flow]
+
+\tikzstyle{perspective3drnn}=[
+x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
+\tikzstyle{wireframe} = [draw=tumgray]
+
+\def\image{47-30}
+
+\colorlet{boxcolor}{tumgraylight}
+\tikzstyle{bigbox} = [rectangle, draw=tumivory, thick, fill=boxcolor, rounded corners, 
+inner xsep=0ex, inner ysep=2ex]
+
+\tikzstyle{annot} = [fill=white, fill opacity=.5, text opacity=1, rounded corners, text=black, xshift=-1.5mm, yshift=-1mm]
+
+\newcommand{\concatstates}[3]{
+	\def\w{1cm}%
+	\def\h{1cm}%
+	\def\d{#1}%
+	\def\img{#2}%
+	\def\fillcolor{#3}%
+	%
+	\begin{tikzpicture}[perspective3drnn, rounded corners=0]
+		
+		% bw back frame
+		\begin{scope}[canvas is yz plane at x=2*\d]
+			\node[transform shape,inner sep=0, minimum size=\w, anchor=south west, fill=none, wireframe](back){};
+		\end{scope}
+		
+		% front image
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[inner sep=0, anchor=south west](front){\includegraphics[width=\w]{\img}};
+		\end{scope}
+		
+		% front frame
+		\begin{scope}[canvas is yz plane at x=0]
+			\node[transform shape,inner sep=0, minimum size=\w, anchor=south west, fill=none,wireframe](front){};
+		\end{scope}
+		
+		\fill[\fillcolor,opacity=.5, wireframe] (front.south east) -- (back.south east) -- (back.north east) -- (front.north east);
+		% fill top side
+		\fill[\fillcolor,opacity=.5,opacity=0.6, wireframe] (front.north east) -- (back.north east) -- (back.north west) -- (front.north west);
+		
+	\end{tikzpicture}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	lstmanim/.pic = {
+		\begin{scope}[shift={\shiftcoord},xscale=6,yscale=2.5]
+			
+			\node[dummy] (bl) at (0,0){}; % bottom left
+			\node[dummy] (tr) at (1,1){}; % top right
+			
+			\node[dummy] (br) at ($ (bl -| tr) $){}; % bottom right
+			\node[dummy] (tl) at ($ (bl |- tr) $){}; % top left
+			
+			\node[fit=(bl) (tr),bigbox] (-C) {};
+			
+			% input coordinate for rounded draw lines -> slightly right of tl
+			\coordinate (-input) at (0.1,1); % top left
+			
+			% output coordinate for rounded draw lines -> slightly left of br
+			\coordinate (-coutput) at (0.98,0); % bottom right
+			\coordinate (-houtput) at (0.98,1); % bottom right
+			
+			%			% gate distance
+			\def\d{1/5}
+			
+			% gate heights
+			\def\h{1/3}
+			
+			\coordinate (f)  at bl+(0.7*\d,0);
+			\coordinate (i)  at bl+(1.8*\d,0);
+			\coordinate (j)  at bl+(2.9*\d,0);
+			\coordinate (o)  at bl+(4*\d,0);
+			\coordinate (out) at bl+(4.7*\d,0);
+			
+			\coordinate (gates) at (0,2*\h);
+			
+			%\node[above=of tl](xt){$x_{t}$};
+			%\node[left=of tl](htminus1){$h_{t-1}$};
+			
+			%\node[below=of br](ct){$c_{t}$};
+			
+			\node[gate](fgate) at ($ (gates -| f) $){
+%				\includegraphics[width=1cm]{images/lstm/f}
+				\concatstates{.2}{images/lstm/f}{tumbluelight}
+				};
+			\node[annot] at (fgate){$\VForgetGate_{t}$};
+			
+			\node[gate](igate) at ($ (gates -| i) $){
+%				\includegraphics[width=1cm]{images/lstm/i}
+				\concatstates{.2}{images/lstm/i}{tumbluelight}
+				};
+			\node[annot] at (igate){$\VInputGate_{t}$};
+			
+			\node[gate](jgate) at ($ (gates -| j) $){
+%				\includegraphics[width=1cm]{images/lstm/j}
+				\concatstates{.2}{images/lstm/j}{tumbluelight}
+				};
+			\node[annot] at (jgate){$\VModulationGate_{t}$};
+			
+			\node[gate](ogate) at ($ (gates -| o) $){
+%				\includegraphics[width=1cm]{images/lstm/o}
+				\concatstates{.2}{images/lstm/o}{tumbluelight}
+				};
+			\node[annot] at (ogate){$\VOutputGate_{t}$};
+			
+			%			\coordinate (htminus1) at bl+(-.5,0);
+			%			\coordinate (ht) at bl+(-.5,0);
+			%			
+			% forget gate
+			\node[operator](fmult) at ($ (bl -| fgate) $) {$ \odot $};
+			\draw[flow] (-input) -| (fgate);
+			\draw[endflow] (fgate) -- (fmult); 
+			
+			%			%j
+			\node[operator](jmult) at ([shift={(0,-1.3*\h)}]jgate) {$ \odot $};
+			\node[operator](cadd) at ($ (bl -| jgate) $) {$ + $};
+			\draw[flow] (-input) -| (jgate);
+			\draw[endflow] (jgate) -- (jmult);
+			\draw[endflow] (jmult) -- (cadd); 			
+			
+			%			%i	
+			\draw[flow] (-input) -| (igate);
+			\draw[endflow] (igate) |- (jmult); 
+			%
+			%%			% outpu
+			\node[operator](outtanh) at ($ (jmult -| out) $) {$\odot$};
+			%			
+			%			%o 
+			\draw[flow] (tl) -| (ogate);
+			\draw[endflow] (ogate) |- (outtanh);
+			\draw[flow] (outtanh) |- (-houtput);
+			%			
+			%			% output flow
+			\draw[endflow] (cadd) -| (outtanh);
+			\draw[flow] (fmult) -- (cadd) -- (-coutput);
+			%			
+			
+		\end{scope}
+	}
+}
+
+\tikzset{pic shift/.store in=\shiftcoord,
+	pic shift={(0,0)},
+	fgate/.pic = {
+		\begin{scope}[shift={\shiftcoord},xscale=1,yscale=1]
+			
+			\node[dummy] (tl_a) at (0,0){}; % bottom left
+			\node[dummy] (br_a) at (1,1){}; % top right
+			
+			\node[fit=(br_a) (tr_a),gate,inner sep=0] (-C) {};
+			
+			\node[draw] (conv) at (0.5,0){$conv$}; % bottom left
+			\node[draw] (bn) at (0.5,.5){$bn$}; % bottom left
+			\node[draw] (sigmoid) at (0.5,1){$\sigma$}; % bottom left
+				
+		\end{scope}
+	}
+}
+
+\newcommand{\grutwo}{
+\begin{tikzpicture}[scale=1, node distance=2em]%,show background rectangle,background rectangle/.style={draw=red}]
+\draw pic (GRU) at (0,0) {gru};
+\node[io,left=of GRU-hinput](gru_htminus1){$\VHidden_{t-1}$};
+\draw[rounded corners] (gru_htminus1) -| (GRU-hinputflow);
+\node[io,above=of GRU-xinput](gru_xt){$\VInput_{t}$};
+
+\draw[rounded corners] (gru_xt) |- (GRU-xinputflow);
+
+\node[io,right=of GRU-houtput](gru_ht){$\VHidden_{t}$};
+\draw[rounded corners] (GRU-houtput)--(gru_ht);
+\end{tikzpicture}
+}
+
+\newcommand{\lstmanimtwo}{
+	\begin{tikzpicture}[scale=1, node distance=1em]%,show background rectangle,background rectangle/.style={draw=red}]
+	
+	
+	\draw pic (LSTM) at (0,0) {lstmanim};
+	\node[io,left=of LSTMtl](htminus1){
+%		\includegraphics[width=1cm]{images/lstm/o}
+		\concatstates{.2}{images/lstm/h_}{tumblue}
+	};
+	\node[annot] at (htminus1){$\VHidden_{t-1}$};
+
+	\draw[endflow] (htminus1) -- (LSTM-input);
+	\node[io,right=of LSTMbr](ct){%
+%		\includegraphics[width=1cm]{images/lstm/c}
+		\concatstates{.2}{images/lstm/c}{tumblue}
+	}; % $c_{t}$
+	\node[annot] at (ct){$\VCellState_{t}$};
+
+	\draw[endflow] (LSTM-coutput)--(ct);
+	\node[io,left=of LSTMbl](ctminus1){%
+		%\includegraphics[width=1cm]{images/lstm/c}
+		\concatstates{.2}{images/lstm/c_}{tumblue}
+	}; % 
+	\node[annot] at (ctminus1){$\VCellState_{t-1}$};
+
+	\draw[endflow] (ctminus1)--(LSTMfmult);
+	\node[io,right=of LSTMtr](ht){
+		%\includegraphics[width=1cm]{images/lstm/h}
+		\concatstates{.2}{images/lstm/h}{tumblue}
+	};
+	\node[annot] at (ht){$\VHidden_{t}$};
+
+	\draw[endflow] (LSTM-houtput)--(ht);
+	
+    \draw[endflow] (ct) -- ($ (ct)+(0,-1) $) -| (ctminus1);
+	\draw[endflow] (ht) -- ($ (ht)+(0,1) $) -| (htminus1);
+	
+    \node[io,xshift=1ex,above=2em of LSTMtl,label=left:$\VInput_{t}$](xt){%
+		%\includegraphics[width=1cm]{images/lstm/x}
+		\concatstates{.1}{images/lstm/x}{tumorange}
+	};%$x_{t}$
+
+	\draw[rounded corners] (xt) |- (LSTM-input);
+	
+
+	\node[right=of ct, yshift=0em ](concatstates){
+%		\begin{tikzpicture}
+		\concatstates{.2}{images/lstm/cT}{tumblue}
+%		\end{tikzpicture}
+	};
+
+	\node[right=of concatstates](conv){
+		\concatstates{.1}{images/examples/16494/rape}{tumblue}
+	};
+
+	\coordinate (center) at ($ (concatstates) + (1mm,-3mm) $);
+
+	\node[rectangle, minimum width=4mm, minimum height=4mm, fill=tumblue, draw=tumblue, opacity=.5, rounded corners=0, semithick](inconvrect) at (center){};
+	
+	\node[rectangle, minimum width=2mm, minimum height=2mm, fill=tumblue, draw=tumblue, opacity=.5, inner sep=0, semithick, rounded corners=0, xshift=2mm, yshift=-2.5mm](outconvrect) at (conv){};
+	
+	\draw[tumblue, semithick, rounded corners=0, fill=tumbluedark, opacity=.2] (inconvrect.north east) -- (outconvrect.north west) -- (outconvrect.south west) -- (inconvrect.south east);
+	
+	
+	\begin{scope}[node distance=.5em]
+	\node[inner sep=0, label={below:\tiny class A}, above= 2em of concatstates, xshift=0](a){\includegraphics[width=1cm]{images/examples/16494/maize}};
+	\node[inner sep=0, label={below:\tiny class B}, right=of a](b){\includegraphics[width=1cm]{images/examples/16494/meadow}};
+	\node[inner sep=0, label={below:\tiny class C}, right=of b](c){\includegraphics[width=1cm]{images/examples/16494/peas}};
+%	\node[inner sep=0, label={below:\tiny peas}, right=of c](d){\includegraphics[width=1cm]{images/examples/16494/peas}};
+%	\node[inner sep=0, label={below:\tiny rapeseed}, right=of d](e){\includegraphics[width=1cm]{images/examples/16494/rape}};
+	\end{scope}
+	
+	\node[fit=(a)(b)(c), draw=tumgray, inner sep=1em, rounded corners, label={above:predictions}](predictions){};
+	
+	\draw[endflow, draw=tumgray] (conv) -- (predictions);
+	
+	\draw[endflow] (ct) -- node[midway, above]{$\VCellState_{T}$} (concatstates);
+	
+	
+	\end{tikzpicture}
+}
