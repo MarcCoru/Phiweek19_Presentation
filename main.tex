@@ -223,13 +223,13 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Convolutional-Recurrent Networks for Multi-temporal Classification
-\title{Convolutional LSTMs for Cloud-Robust Segmentation \\ of Remote Sensing Imagery}
+\title{Convolutional LSTMs for Cloud-Robust Classification \\ of Remote Sensing Imagery}
 %\subtitle{NeurIPS 2018 Workshop on Spatiotemporal Modeling and Decision-making}
-\subtitle{NeurIPS 2018 Spatiotemporal Workshop}
+\subtitle{$\Phi$-week 2019}
 \author[M. Rußwurm, M. Körner]{Marc Rußwurm, Marco Körner}
 \institute[TUM]{Technical University of Munich\\Chair of Remote Sensing Technology\\Computer Vision Research Group\\\url{www.lmf.bgu.tum.de/vision}}
 
-\date{7th December 2018}
+\date{13th September 2019, ESA ESRIN, Frascati, Italy}
 
 \begin{document}
 
@@ -244,7 +244,7 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 \end{frame}
 
 \begin{frame}
-	\frametitle{Cloud coverage is very common}
+	\frametitle{... however, ususally }
 		\includegraphics[width=\textwidth]{images/clouds}
 	
 %		\includegraphics[width=\textwidth]{images/cloud_airplane}
@@ -350,6 +350,94 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 \centering\figourapproach		
 
 \end{frame}
+
+\begin{frame}
+	\frametitle{Gated Recurrence}
+	
+	
+\end{frame}
+
+\newcommand{\attention}{
+\begin{tikzpicture}[scale=0.25]
+\foreach \t in {1,2,3,4} {
+	\node[draw, circle, inner sep=.2em] at (\t, 0){};
+}
+\end{tikzpicture}
+}
+
+\newcommand{\attnv}{
+	\begin{tikzpicture}[scale=0.25]
+	\foreach \t in {1,2,3,4} {
+		\node[draw, circle, inner sep=.2em] at (0, \t){};
+	}
+	\end{tikzpicture}
+}
+
+\newcommand{\attnout}{
+	\begin{tikzpicture}[scale=0.25]
+	\foreach \t in {1} {
+		\node[draw, circle, inner sep=.2em] at (0, \t){};
+	}
+	\end{tikzpicture}
+}
+
+\begin{frame}
+	\frametitle{Attention}
+	
+	\begin{columns}
+		\column{.5\textwidth}
+		
+		
+		\attention
+		
+		\attnv
+		
+		\begin{tikzpicture}[node distance=.2em]
+		\node(alpha){\attention};
+		\node[right=of alpha](out){\attnout};
+		\node[above=of out]{\attnv};
+		\end{tikzpicture}
+		
+		%	\begin{equation*}
+		%		\text{Attention}(Q,K,V) = 
+		%		\begin{tikzpicture}
+		%		\node(alpha){$\underbrace{\attention}_\alpha$};
+		%		\node[right=of alpha](out){};
+		%		\node[above=of out]{\attnv};
+		%		\end{tikzpicture}
+		%		 
+		%	\end{equation*}
+		
+		\Large
+		\begin{equation*}
+		\text{Attention}(Q,K,V) = \underbrace{\text{softmax}\left(QK^T\right)}_\alpha V
+		\end{equation*}
+		query: $Q \in \mathbb{R}^{t \times d_k}$
+		
+		key: $K \in \mathbb{R}^{t \times d_k}$
+		
+		value: $V \in \mathbb{R}^{t \times d_v}$
+		
+		attention scores $\alpha \in [0,1]^{t \times t}$
+		
+		
+		\column{.5\textwidth}
+		
+		
+		\begin{tikzpicture}
+		\begin{axis}[height=3cm,width=\textwidth,grid=major,]
+		\addplot coordinates {(0,.3) (1,.1) (2,.3) (3,.4)};
+		\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			
+			\begin{axis}[ybar,height=3cm,width=\textwidth,grid=major,]
+			\addplot coordinates {(1,.05) (0,.4) (3,.05) (2,.5)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{columns}
+	
+	\end{frame}
 
 
 \def\fps{3}
