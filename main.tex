@@ -251,6 +251,17 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 		
 \end{frame}
 
+{\setbeamercolor{background canvas}{bg=tumblue}
+	\begin{frame}[plain]
+	\vfill
+	\begin{center}
+		\Huge\color{tumwhite}
+		Do we need data preprocessing?
+	\end{center}
+	\vfill
+\end{frame}
+}
+
 \begin{frame}
 	\frametitle{Cloud coverage as spatiotemporal noise}
 	\centering
@@ -489,6 +500,32 @@ t\end{frame}
 \input{approaches_transposed.tex}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Test}
+	
+	\begin{tabular}{rllll}
+		\toprule
+		$\kappa$-metric & MS-ResNet & RNN (LSTM) & Transformer & TempCNN \\
+		\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}
+		preproc. (GAF) & 0.8360 & 0.7513 & 0.8363 & 0.8034 \\
+		raw data & 0.7971 & 0.7611 & 0.7420 & 0.7462 \\
+		\bottomrule
+	\end{tabular}
+	
+	\begin{tabular}{rllll}
+		\toprule
+		overall accuracy & MS-ResNet & RNN (LSTM) & Transformer & TempCNN \\
+		\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}
+		preproc. (GAF) & 0.8654 & 0.7997 & 0.8647 & 0.8407 \\
+		raw & 0.8331 & 0.8048 & 0.7859 & 0.7944 \\
+		\bottomrule
+	\end{tabular}
+	
+	
+	
+	
+\end{frame}
+
 %\input{images/examples.tex}
 %\begin{frame}
 %\frametitle{Qualitative Examples}
@@ -542,30 +579,6 @@ t\end{frame}
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Experiments}
-\LARGE
-1. \textbf{Visualization of hidden states}
-
-{\hspace{2em} we found specific states dedicated for cloud masking.}
-
-\vspace{2em}
-2. \textbf{Ablation experiment on different cloud coverages} 
-
-{\hspace{2em} similar accuracies on different degrees of cloud coverage.}
-
-\end{frame}
-
-\begin{frame}
-	\frametitle{Takeaways \& Poster}
-	
-	\LARGE
-	1. \textbf{ConvRNNs were very robust when considering noisy data}
-	
-	\vspace{2em}
-	2. \textbf{Would love to hear other's experiences on this}
-	
-\end{frame}
 
 %\begin{frame}
 %\frametitle{Looking back at the Unreasonable Effectiveness of RNNs Blog}
