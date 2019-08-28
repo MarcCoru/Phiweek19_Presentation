@@ -1,0 +1,39 @@
+%{r\tikzsetnextfilenameawinput}
+
+\newcommand{\rawtimeseries}[1]{
+
+\begin{tikzpicture}[baseline=-2em, inner sep=0]
+
+	\begin{axis}[
+		thin,
+		width=6cm,
+		hide axis,
+		height=3cm,
+		ymin=0, ymax=1.4,
+		no marks,  
+		draw opacity=.8,
+		smooth=0.01
+	]
+		 
+	\addplot[b1color] table [x=t, y=B1, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b9color] table [x=t, y=B9, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b10color] table [x=t, y=B10, col sep=comma] {images/example/input.csv};
+	
+	\addplot[b11color] table [x=t, y=B11, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b12color] table [x=t, y=B12, col sep=comma] {images/example/#1};
+	
+	\addplot[b5color] table [x=t, y=B5, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b6color] table [x=t, y=B6, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b7color] table [x=t, y=B7, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b8color] table [x=t, y=B8, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b8Acolor] table [x=t, y=B8A, col sep=comma] {images/example/#1};
+		
+	\addplot[b2color] table [x=t, y=B2, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b3color] table [x=t, y=B3, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b4color] table [x=t, y=B4, col sep=comma] {images/example/#1};
+
+	\end{axis}
+	
+\end{tikzpicture}
+	
+}
