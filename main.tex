@@ -232,7 +232,7 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Convolutional-Recurrent Networks for Multi-temporal Classification
-\title{Convolutional LSTMs for Cloud-Robust Classification \\ of Remote Sensing Imagery}
+\title{Cloud-Robust Classification of Remote Sensing Time Series}
 %\subtitle{NeurIPS 2018 Workshop on Spatiotemporal Modeling and Decision-making}
 \subtitle{$\Phi$-week 2019}
 \author[M. Rußwurm, M. Körner]{Marc Rußwurm, Marco Körner}
@@ -268,7 +268,7 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 {\setbeamercolor{background canvas}{bg=tumbluedark}
 	\begin{frame}[plain]
 	
-	\vspace{6em}
+	\vspace{8em}
 	\begin{center}
 		\Huge\color{tumwhite}
 		How should we deal with $\includegraphics[width=2em]{images/icons/cloud2}^\ast$?
@@ -277,55 +277,441 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 	\raggedleft \Large$^\ast$ ...and other noise in the data
 	
 	\vfill
-%	\vspace{6em}
+	\vspace{6em}
 	\raggedleft{\small \color{tumgray}
 	Icons made by Smashicons from www.flaticon.com
 	}
 \end{frame}
 }
 
-\begin{frame}
-	\frametitle{Cloud coverage as spatiotemporal noise}
-	\centering
-	
-	\def\imagewidth{1.5cm}
-	
-	
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-0.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-1.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-2.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-3.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-4.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-5.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-6.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-7.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-8.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-9.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-10.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-11.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-12.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-13.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-14.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-15.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-16.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-18.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-19.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-20.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-21.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-22.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-23.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-24.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-25.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-26.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-27.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-28.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-29.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-30.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-31.png}}
-	\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-32.png}}
-	\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-33.png}}
+
+\begin{frame}<presentation:1>
+\frametitle{Cloud coverage}
+\centering
+
+\def\imagewidth{1.5cm}
+
+
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-0.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-1.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-2.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-3.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-4.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-5.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-6.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-7.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-8.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-9.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-10.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-11.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-12.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-13.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-14.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-15.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-16.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-18.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-19.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-20.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-21.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-22.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-23.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-24.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-25.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-26.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-27.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-28.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-29.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-30.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-31.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-32.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-33.png}}
 %	
 \end{frame}
+
+\newcommand{\xtvector}{
+	\begin{tikzpicture}[baseline=-2.3em,yscale=-5]
+		\node[draw=tumblack, circle, fill=b2color, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,0){};
+		\node[draw=tumblack, circle, fill=b3color, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,1){};
+		\node[draw=tumblack, circle, fill=b4color, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,2){};
+		\node[draw=tumblack, circle, fill=b5color, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,3){};
+		\node[draw=tumblack, circle, fill=b6color, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,4){};
+		\node[draw=tumblack, circle, fill=b7color, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,5){};
+		\node[draw=tumblack, circle, fill=b8color, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,6){};
+		\node[draw=tumblack, circle, fill=b8Acolor, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,7){};
+		\node[draw=tumblack, circle, fill=b11color, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,8){};
+		\node[draw=tumblack, circle, fill=b12color, text=white, text opacity=1, font=\small, inner sep=.1em](d) at (0,9){};
+	\end{tikzpicture}
+}
+
+\tikzstyle{tsmark} = [mark=*,mark size=1pt]
+
+\begin{frame}
+	\frametitle{Looking at single pixels}
+	\framesubtitle{Sentinel 2 (raw)}
+	
+	
+	
+	
+	
+	\begin{tikzpicture}[baseline=-2em, inner sep=0]
+		
+		\begin{axis}[
+		width=\textwidth,
+	%	hide axis,
+		height=5.5cm,
+		ymin=0, ymax=1.2,
+		%no marks,  
+		draw opacity=.8,
+		smooth=0.001,
+		legend style={at={(1,1.3)},line width=2pt, draw opacity=1},
+		legend columns=5,
+		ylabel={reflectance},
+		xlabel={time $t$ {\small (January to December 2018)}}
+		]
+		
+		
+			\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma] {images/example/12-71456800_raw.csv};
+			\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma] {images/example/12-71456800_raw.csv};
+			\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma] {images/example/12-71456800_raw.csv};
+			
+			\only<2-3>{
+				 \coordinate(c1) at (axis cs:15,1.1);
+				 \coordinate(c2) at (axis cs:10,.8);
+				 \coordinate(c3) at (axis cs:0,.6);
+				 \coordinate(c4) at (axis cs:40,.6);
+				 \coordinate(c5) at (axis cs:46,.6);
+%				 \coordinate(c6) at (axis cs:0,.6);
+				 
+				 \coordinate(c8) at (axis cs:24,.9);
+				 \coordinate(c9) at (axis cs:27,.8);
+				 \coordinate(c7) at (axis cs:29,.9);
+				 
+				 
+				 \node[inner sep=.5em](annotclouds) at (axis cs:32,1.2){clouds};
+				 \draw[-stealth] (annotclouds) -- (c7);
+				 \draw[-stealth] (annotclouds) -- (c8);
+				 \draw[-stealth] (annotclouds) -- (c9);
+				 \draw[-stealth] (annotclouds) -- (c4);
+				 \draw[-stealth] (annotclouds) -- (c5);
+				 \draw[-stealth] (annotclouds) -- (c1);
+%				 \draw[-stealth] (annotclouds) -- (c6);
+				 
+			}
+			\only<3-3>{
+				
+				\node[inner sep=.5em](annotground) at (axis cs:47,1.2){ground};
+				\coordinate(g1) at (axis cs:4,.2);
+				\coordinate(g2) at (axis cs:8,.2);
+				\coordinate(g3) at (axis cs:13,.2);
+				\coordinate(g4) at (axis cs:18,.2);
+				\coordinate(g5) at (axis cs:23,.2);
+				\coordinate(g6) at (axis cs:31,.2);
+				\coordinate(g7) at (axis cs:35,.2);
+				\coordinate(g8) at (axis cs:41,.2);
+				\coordinate(g9) at (axis cs:47,.2);
+				
+%				\draw[-stealth] (annotground) -- (g1);
+%				\draw[-stealth] (annotground) -- (g2);
+%				\draw[-stealth] (annotground) -- (g3);
+%				\draw[-stealth] (annotground) -- (g4);
+%				\draw[-stealth] (annotground) -- (g5);
+				\draw[-stealth] (annotground) -- (g6);
+				\draw[-stealth] (annotground) -- (g7);
+				\draw[-stealth] (annotground) -- (g8);
+				\draw[-stealth] (annotground) -- (g9);
+				
+			}
+			
+			\only<4->{
+			\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma] {images/example/12-71456800_raw.csv};
+			\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma] {images/example/12-71456800_raw.csv};
+			\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma] {images/example/12-71456800_raw.csv};
+			\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma] {images/example/12-71456800_raw.csv};
+			\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/12-71456800_raw.csv};
+			
+			\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/12-71456800_raw.csv};
+			\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/12-71456800_raw.csv};
+			}
+		
+			\only<1-4>
+			\legend{B02 (blue),B03 (green),B04 (red),B05,B06,B07,B08,B8A,B11,B12}
+			
+		\end{axis}
+		
+	\end{tikzpicture}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{This presentation}
+	
+	[format] in this presentation we have the special opportunity to to compare commercially pre-processed satellite imagery with raw imagery on crop type classification in Bavaria Germany.
+	
+
+	
+	\begin{tikzpicture}[node distance=.1em]
+		\node[draw=black, rounded corners, minimum height=3cm](gaf){\includegraphics[width=2cm]{images/GAF_logo}};
+		\node[right=of gaf, inner sep=0](raw){\rawtimeseriestwo{12-71456800_raw.csv}};
+		\node[left= of gaf, font=\huge](equals){$=$};
+		\node[font=\huge,right=0em of gaf, inner sep=0](bopen){$\Bigg($};
+		\node[font=\huge,right=-1em of raw, inner sep=0](bopen){$\Bigg)$};
+		\node[left=of equals]{\rawtimeseriestwo{12-71456800.csv}};
+	\end{tikzpicture}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Looking at single pixels}
+	\framesubtitle{Sentinel 2 preprocessed by \includegraphics[width=4em]{images/GAF_logo}}
+	
+
+\begin{tikzpicture}[baseline=-2em, inner sep=0]
+
+\begin{axis}[
+width=\textwidth,
+%	hide axis,
+height=5.5cm,
+ymin=0, ymax=1.2,
+%no marks,  
+draw opacity=.8,
+smooth=0.001,
+legend style={at={(.65,1.1)},line width=2pt, draw opacity=1},
+legend columns=3,
+ylabel={reflectance},
+xlabel={time $t$}
+]
+
+\only<1,2>{
+	\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma] {images/example/12-71456800.csv};
+	\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma] {images/example/12-71456800.csv};
+	\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma] {images/example/12-71456800.csv};
+	\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma] {images/example/12-71456800.csv};
+	\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma] {images/example/12-71456800.csv};
+	\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma] {images/example/12-71456800.csv};
+	\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma] {images/example/12-71456800.csv};
+	\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/12-71456800.csv};
+	\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/12-71456800.csv};
+	\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/12-71456800.csv};
+}
+\only<2>{
+\node[font=\Large](classannot) at (axis cs:12,1.1) {\textbf{meadow} \small(parcel 71456800)};
+}
+\only<3>{
+	\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma]  {images/example/12-71460758.csv};
+	\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma]  {images/example/12-71460758.csv};
+	\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma]  {images/example/12-71460758.csv};
+	\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma]  {images/example/12-71460758.csv};
+	\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma]  {images/example/12-71460758.csv};
+	\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma]  {images/example/12-71460758.csv};
+	\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma]  {images/example/12-71460758.csv};
+	\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/12-71460758.csv};
+	\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/12-71460758.csv};
+	\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/12-71460758.csv};
+	
+	\node[font=\Large](classannot) at (axis cs:12,1.1) {\textbf{meadow} \small(parcel 71460758)};
+}
+\only<4>{
+	\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma]  {images/example/12-71460855.csv};
+	\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma]  {images/example/12-71460855.csv};
+	\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma]  {images/example/12-71460855.csv};
+	\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma]  {images/example/12-71460855.csv};
+	\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma]  {images/example/12-71460855.csv};
+	\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma]  {images/example/12-71460855.csv};
+	\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma]  {images/example/12-71460855.csv};
+	\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/12-71460855.csv};
+	\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/12-71460855.csv};
+	\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/12-71460855.csv};
+	
+	\node[font=\Large](classannot) at (axis cs:12,1.1) {\textbf{meadow} \small(parcel 71460855)};
+}
+\only<5>{
+	\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma]  {images/example/27-71460091.csv};
+	\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma]  {images/example/27-71460091.csv};
+	\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma]  {images/example/27-71460091.csv};
+	\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma]  {images/example/27-71460091.csv};
+	\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma]  {images/example/27-71460091.csv};
+	\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma]  {images/example/27-71460091.csv};
+	\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma]  {images/example/27-71460091.csv};
+	\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/27-71460091.csv};
+	\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/27-71460091.csv};
+	\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/27-71460091.csv};
+	
+	\node[font=\Large](classannot) at (axis cs:12,1.1) {\textbf{wheat} \small(parcel 71460091)};
+}
+\only<6>{
+	\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma]  {images/example/27-71460294.csv};
+	\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma]  {images/example/27-71460294.csv};
+	\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma]  {images/example/27-71460294.csv};
+	\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma]  {images/example/27-71460294.csv};
+	\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma]  {images/example/27-71460294.csv};
+	\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma]  {images/example/27-71460294.csv};
+	\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma]  {images/example/27-71460294.csv};
+	\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/27-71460294.csv};
+	\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/27-71460294.csv};
+	\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/27-71460294.csv};
+	
+	\node[font=\Large](classannot) at (axis cs:12,1.1) {\textbf{wheat} \small(parcel 71460294)};
+}
+\only<7-8>{
+	\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma]  {images/example/12-71459194.csv};
+	\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma]  {images/example/12-71459194.csv};
+	\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma]  {images/example/12-71459194.csv};
+	\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma]  {images/example/12-71459194.csv};
+	\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma]  {images/example/12-71459194.csv};
+	\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma]  {images/example/12-71459194.csv};
+	\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma]  {images/example/12-71459194.csv};
+	\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/12-71459194.csv};
+	\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/12-71459194.csv};
+	\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/12-71459194.csv};
+	
+}
+\only<7>{
+	\node[font=\Large](classannot) at (axis cs:12,1.1) {\textbf{meadow or wheat?}};
+}
+\only<8>{
+	\node[font=\Large](classannot) at (axis cs:12,1.1) {\textbf{meadow} \small(parcel 71459194)};
+}
+
+
+%
+\only<1>{
+\legend{B02 (blue),B03 (green),B04 (red),B05,B06,B07,B08,B8A,B11,B12}
+}
+
+\end{axis}
+
+\end{tikzpicture}
+
+\end{frame}
+
+
+{\setbeamercolor{background canvas}{bg=tumbluedark}
+	\begin{frame}[plain]
+	
+	\vspace{8em}
+	\begin{center}
+		\Huge\color{tumwhite}
+		we just trained a ensemble of human classifiers \\ \raggedleft {\normalsize (on 5 training samples)}
+	\end{center}\color{white}
+
+\end{frame}
+}
+
+\begin{frame}
+	\frametitle{Looking at single pixels}
+	\framesubtitle{Sentinel 2 (raw)}
+	
+	
+	\begin{tikzpicture}[baseline=-2em, inner sep=0]
+	
+	\begin{axis}[
+	width=\textwidth,
+	%	hide axis,
+	height=5.5cm,
+	ymin=0, ymax=1.2,
+	%no marks,  
+	draw opacity=.8,
+	smooth=0.001,
+	legend style={at={(.65,1.1)},line width=2pt, draw opacity=1},
+	legend columns=3,
+	ylabel={reflectance},
+	xlabel={time $t$}
+	]
+	
+	
+	\only<3->{
+		\node[draw=tumbluedark, rounded corners, inner sep=0, minimum width=.8em, minimum height=3em](xt) at (axis cs:16,0.155){};
+		\node (annotxt) at (axis cs:20,1){$\V{x}_t = 
+			\begin{pmatrix} \rho_\text{B02} \\ \dots \\ \rho_\text{B12} \end{pmatrix} = 
+			\left(\xtvector\right)$};
+		\draw[-stealth] (annotxt) -- (xt);
+	}
+	
+	\only<1>{
+		\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma]  {images/example/12-71459194_raw.csv};
+		\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma]  {images/example/12-71459194_raw.csv};
+		\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma]  {images/example/12-71459194_raw.csv};
+		\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma]  {images/example/12-71459194_raw.csv};
+		\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma]  {images/example/12-71459194_raw.csv};
+		\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma]  {images/example/12-71459194_raw.csv};
+		\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma]  {images/example/12-71459194_raw.csv};
+		\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/12-71459194_raw.csv};
+		\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/12-71459194_raw.csv};
+		\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/12-71459194_raw.csv};
+		\node[font=\Large](classannot) at (axis cs:25,1.1) {\textbf{meadow} \small(parcel 71459194)};
+	}
+	
+	\only<2->{
+		\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma]  {images/example/27-71460294_raw.csv};
+		\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma]  {images/example/27-71460294_raw.csv};
+		\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma]  {images/example/27-71460294_raw.csv};
+		\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma]  {images/example/27-71460294_raw.csv};
+		\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma]  {images/example/27-71460294_raw.csv};
+		\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma]  {images/example/27-71460294_raw.csv};
+		\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma]  {images/example/27-71460294_raw.csv};
+		\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/27-71460294_raw.csv};
+		\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/27-71460294_raw.csv};
+		\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/27-71460294_raw.csv};
+	}
+	\only<2>{
+	\node[font=\Large](classannot) at (axis cs:25,1.1) {\textbf{wheat} \small(parcel 71460294)};
+	}
+	
+	
+	\end{axis}
+	
+	\end{tikzpicture}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Introducing Notation}
+	
+	\begin{tikzpicture}
+	\node(X){$\left(
+	\begin{tikzpicture}[baseline=-4em,yscale=-.25, xscale=.4]
+		\foreach \x in {0,...,22}{
+			\node[draw=tumblack, circle, fill=b2color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,0){};
+			\node[draw=tumblack, circle, fill=b3color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,1){};
+			\node[draw=tumblack, circle, fill=b4color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,2){};
+			\node[draw=tumblack, circle, fill=b5color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,3){};
+			\node[draw=tumblack, circle, fill=b6color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,4){};
+			\node[draw=tumblack, circle, fill=b7color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,5){};
+			\node[draw=tumblack, circle, fill=b8color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,6){};
+			\node[draw=tumblack, circle, fill=b8Acolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,7){};
+			\node[draw=tumblack, circle, fill=b11color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,8){};
+			\node[draw=tumblack, circle, fill=b12color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,9){};
+		}
+	\end{tikzpicture}\right) \in \mathbb{R}^{D \times T}$};
+
+	\node[draw, rounded corners, xshift=1.85em, minimum width=1em, minimum height=8.5em, label=above:$\V{x}_t$] at (X){};
+	
+	\node[left=.5em of X, font=\Huge]{$\M{X} = $};
+	\end{tikzpicture}
+	
+
+\end{frame}
+
+
+{\setbeamercolor{background canvas}{bg=white}
+	\begin{frame}[plain]
+	
+	\vspace{8em}
+	\begin{center}
+		\Huge\color{tumbluedark}
+		\phantom{How }Should we deal with $\includegraphics[width=2em]{images/icons/cloud2_tumbluedark}^\ast$ at all?
+	\end{center}\color{tumbluedark}
+	\vspace{2em}
+	\raggedleft \Large$^\ast$ ...and other noise in the data
+	
+	\vfill
+	\vspace{6em}
+	\raggedleft{\small \color{tumgray}
+		Icons made by Smashicons from www.flaticon.com
+	}
+\end{frame}
+}
+
 %
 %\begin{frame}
 %\LARGE
@@ -376,20 +762,15 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 %\end{frame}
 
 \begin{frame}
-	\frametitle{Common Filtering/Preprocessing Algorithms work quite well}
-	
-	\begin{columns}
-		\column{.5\textwidth}
-		\begin{itemize}
-			\item FMask
-			\item MAJA
-			\item Sen2Cor (F-Mask)
-			\item supervised cloud classification e.g., CNNs
-			\item unsupervised cloud clustering? {\small Go FDL!}
-		\end{itemize}
-		\column{.5\textwidth}
-	
-	\end{columns}
+
+\frametitle{End-to-End Learning of Deep Neural Networks}
+\centering
+
+\Huge
+\begin{equation*}
+	\yhat = f_\theta \left(\M{X}\right)
+\end{equation*}
+
 \end{frame}
 
 \begin{frame}
@@ -397,15 +778,22 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 \centering
 
 \begin{tikzpicture}[node distance=.1em]
-\node[font=\huge, label=above:\small $f_{\theta}$](veg) at (0,0){\vegetationsmodell};
+\node[font=\huge, label=below:\small $f_{\theta}$](veg) at (0,0){\vegetationsmodell};
+
 
 \node[font=\huge,right=0em of veg, inner sep=0](bopen){$\Bigg($};
-\node[right=.1em of veg, inner sep=0,label=below:Satellitendaten](input){\rawtimeseries{prep77770412.csv}};
+\node[right=.1em of veg, inner sep=0,label=below:$\M{X}$](input){
+	%\rawtimeseries{prep77770412.csv}
+	\rawtimeseriestwo{12-71456800.csv}
+};% \rawtimeseries{prep77770412.csv}
 \node[font=\huge, right=-.5em of input, inner sep=0](bopen){$\Bigg)$};
+
 
 \node[left= of veg, font=\huge](equals){$=$};
 
-\visible<1-5>{
+
+
+\only<-5>{
 	
 	\node[left= of equals, label=below:$\yhat$](probas){\drawprobas{10}{30}{10}{20}{10}};
 	%\node[left= of probas, font=\huge](arrow){$\leftarrow$};
@@ -423,11 +811,6 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 
 \visible<4-8>{\draw[-stealth] (loss)  to [out=60,in=135,looseness=1] node[midway,above]{$\theta \leftarrow \theta - \frac{\partial \mathcal{L}}{\partial \theta}$} (veg);}
 
-\visible<9>{
-	\node[left= of equals, label=below:scores](probas){\drawprobas{10}{30}{10}{100}{10}};
-	\node[left= of probas, font=\huge](arrow){$\leftarrow$};
-	\node[left= of arrow, font=\huge](probas){Mais};
-}
 
 %\visible<6>{
 %\node[font=\bfseries\huge](e1) at (-3.4,-2.5){End};
@@ -602,10 +985,75 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 }
 
 \begin{frame}
-	\frametitle{Attention}
+
+\frametitle{End-to-End Learning of Deep Neural Networks}
+\centering
+\Huge
+\only<1>{
+\begin{equation*}
+\yhat = f_\theta \left(f_\text{preproc.} \left(\M{X}_\text{raw}\right)\right)
+\end{equation*}
+}
+\only<2>{
+
+\begin{tikzpicture}
+	\node(eq){$\yhat = f_\theta \left(\M{X}_\text{raw}\right)$};
+	\node[below right=of eq]{do we actually need this extensive preprocessing?};
+	
+\end{tikzpicture}
+
+
+
+
+}
+%'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B11', 'B12', 'B8A'
+
+\end{frame}
+%
+\begin{frame}
+
+\rawtimeseriestwo{12-71456800_raw.csv}
+
+\rawtimeseriestwo{12-71456800.csv}
+
+%	\begin{tikzpicture}[baseline=-2em, inner sep=0]
+%
+%\begin{axis}[
+%thin,
+%width=6cm,
+%%hide axis,
+%height=3cm,
+%ymin=0, ymax=1.4,
+%no marks,  
+%draw opacity=.8,
+%smooth=0.01
+%]
+%%
+%%
+%\addplot[b11color] table [x=t, y=B11, col sep=comma, forget plot] {images/example/12-71456800_raw.csv};
+%\addplot[b12color] table [x=t, y=B12, col sep=comma] {images/example/12-71456800_raw.csv};
+%
+%\addplot[b5color] table [x=t, y=B05, col sep=comma, forget plot] {images/example/12-71456800_raw.csv};
+%\addplot[b6color] table [x=t, y=B06, col sep=comma, forget plot] {images/example/12-71456800_raw.csv};
+%\addplot[b7color] table [x=t, y=B07, col sep=comma, forget plot] {images/example/12-71456800_raw.csv};
+%\addplot[b8color] table [x=t, y=B08, col sep=comma, forget plot] {images/example/12-71456800_raw.csv};
+%\addplot[b8Acolor] table [x=t, y=B8A, col sep=comma] {images/example/12-71456800_raw.csv};
+%
+%\addplot[b2color] table [x=t, y=B02, col sep=comma, forget plot] {images/example/12-71456800_raw.csv};
+%\addplot[b3color] table [x=t, y=B03, col sep=comma, forget plot] {images/example/12-71456800_raw.csv};
+%\addplot[b4color] table [x=t, y=B04, col sep=comma] {images/example/12-71456800_raw.csv};
+%
+%\end{axis}
+%
+%\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+	\frametitle{This talk with }
 	
 	
 \end{frame}
+
 
 {\setbeamercolor{background canvas}{bg=black}
 	\begin{frame}[plain]
@@ -1079,6 +1527,69 @@ Github + DockerHub
 }
 	
 \end{frame}
+
+
+\begin{frame}
+\frametitle{Cloud coverage as spatiotemporal noise}
+\centering
+
+\def\imagewidth{1.5cm}
+
+
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-0.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-1.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-2.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-3.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-4.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-5.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-6.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-7.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-8.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-9.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-10.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-11.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-12.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-13.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-14.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-15.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-16.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-18.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-19.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-20.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-21.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-22.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-23.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-24.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-25.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-26.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-27.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-28.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-29.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-30.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-31.png}}
+\visible<1,2>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-32.png}}
+\visible<1>{\includegraphics[width=\imagewidth]{images/activations/16494/x/x-33.png}}
+%	
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Common Filtering/Preprocessing Algorithms work quite well}
+
+\begin{columns}
+	\column{.5\textwidth}
+	\begin{itemize}
+		\item FMask
+		\item MAJA
+		\item Sen2Cor (F-Mask)
+		\item supervised cloud classification e.g., CNNs
+		\item unsupervised cloud clustering? {\small Go FDL!}
+	\end{itemize}
+	\column{.5\textwidth}
+	
+\end{columns}
+\end{frame}
+
 
 \end{document}
 

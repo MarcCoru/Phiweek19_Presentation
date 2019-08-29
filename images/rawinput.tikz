@@ -35,5 +35,40 @@
 	\end{axis}
 	
 \end{tikzpicture}
+}
+
+\newcommand{\rawtimeseriestwo}[1]{
+	
+	\begin{tikzpicture}[baseline=-2em, inner sep=0]
+	
+	\begin{axis}[
+	thin,
+	width=6cm,
+	hide axis,
+	height=3cm,
+	ymin=0, ymax=1.4,
+	%no marks,  
+	draw opacity=.8,
+	smooth=0.01
+	]
+	
+	
+	\addplot[b11color] table [x=t, y=B11, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b12color] table [x=t, y=B12, col sep=comma] {images/example/#1};
+	
+	\addplot[b5color] table [x=t, y=B05, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b6color] table [x=t, y=B06, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b7color] table [x=t, y=B07, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b8color] table [x=t, y=B08, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b8Acolor] table [x=t, y=B8A, col sep=comma] {images/example/#1};
+	
+	\addplot[b2color] table [x=t, y=B02, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b3color] table [x=t, y=B03, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b4color] table [x=t, y=B04, col sep=comma] {images/example/#1};
+	
+	\end{axis}
+	
+	\end{tikzpicture}
+
 	
 }
