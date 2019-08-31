@@ -1,4 +1,156 @@
+\usepackage{tummath}
+\usepackage{tumtensors} % experimental
+\usepackage{tumcolors}
 
+\usepackage[utf8]{inputenc}
+\usepackage[english, ngerman]{babel}
+\usepackage[]{csquotes}
+
+\usepackage{siunitx}
+
+\sisetup{%
+	mode = math,
+	detect-family,
+	detect-weight,  
+	exponent-product = \cdot,
+	number-unit-separator=\text{\,},
+	output-decimal-marker={\text{,}},
+	math-rm=\mathsf,
+	text-rm=\sffamily,
+}
+
+\usepackage{animate}
+\usepackage{glossaries}
+\usepackage{graphicx}
+\usepackage{nth}
+\usepackage{ifthen}
+
+\PassOptionsToPackage{cmyk}{xcolors}
+
+\usepackage{booktabs}
+\usepackage{contour}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.15} 
+%\pgfplotsset{compat=1.9}
+%\usepgfplotslibrary{groupplots}
+%\usepackage{pgfplotstable}
+\usepackage{pgfmath}
+\usetikzlibrary{colorbrewer}
+\usepgfplotslibrary{colorbrewer}
+
+%\newcommand\randmin{}
+%\newcommand\randmax{}
+%\newcommand\randmultof{}
+%\newcommand\setrand[4]%
+%{\def\randmin{#1}%
+%	\def\randmax{#2}%
+%	\def\randmultof{#3}%
+%	\pgfmathsetseed{#4}%
+%}
+%\newcommand\nextrand
+%{\pgfmathparse{int(int((rnd*(\randmax-\randmin+1)+\randmin)/\randmultof)*\randmultof)}%
+%	\xdef\thisrand{\pgfmathresult}%
+%}
+
+
+
+\usepackage{booktabs}
+\usepackage{array}
+\newcolumntype{x}{l}
+\newcolumntype{X}{>{}l}
+\newcolumntype{v}[1]{>{\raggedright\hspace{0pt}}p{#1}}
+\newcolumntype{V}[1]{>{\scriptsize\raggedright\hspace{0pt}}p{#1}}
+
+\definecolor{fusionremovedcolor}{HTML}{00CA43}
+\definecolor{fusionaddedcolor}{HTML}{FF00F7}
+\definecolor{overlapcolor}{HTML}{FAC843}
+
+\usepgfplotslibrary{external}
+%\tikzexternalize
+\tikzsetexternalprefix{tikz/}
+\tikzexternaldisable
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+%\usetikzlibrary{mindmap}
+
+\usetikzlibrary{arrows} 
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{fit}
+\usetikzlibrary{shapes}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{matrix}
+\usepackage[nodayofweek,level]{datetime}
+\usetikzlibrary{spy}
+
+%\usepackage{mwe}
+%%
+%
+\usetikzlibrary{3d}
+\tikzstyle{perspective3d}=[
+x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
+
+
+\colorlet{traincolor}{tumbluelight}
+\colorlet{validcolor}{tumbluedark}
+\colorlet{evalcolor}{tumorange}
+
+\colorlet{forwardcolor}{tumblue}
+\colorlet{backwardcolor}{tumorange}
+
+\colorlet{activationcolor}{tumblue}
+\colorlet{gridcolor}{tumgraylight}
+\colorlet{contextonecolor}{tumorange}
+\colorlet{contexttwocolor}{tumorange!80}
+\colorlet{contextthreecolor}{tumorange!60}
+\colorlet{contextfourcolor}{tumorange!40}
+
+% defaultvalue -> might be replaced later
+\colorlet{tensorcolor}{forwardcolor}
+
+\colorlet{classcolor}{tumivory}
+\colorlet{encodercolor}{tumblue}
+\colorlet{encodercolor}{tumred}
+
+
+\newcommand{\eg}{e.g., }
+\newcommand{\ie}{i.e. }
+
+% https://tex.stackexchange.com/questions/167925/how-to-make-maths-equations-start-at-the-left
+\newcommand{\mathleft}{\@fleqntrue\@mathmargin0pt}
+\newcommand{\mathcenter}{\@fleqnfalse}
+
+% \usepackage[ngerman]{babel} % if you get errors on compile: rm *aux *out *log *nav *snm *toc
+
+\newcommand{\rastergrid}{
+	\input{images/rastergrid.tikz}
+}
+\newcommand{\vectorgrid}{
+	\input{images/vectorgrid.tikz}
+}
+
+%\setbeamersize{description width=0mm}
+
+
+\newcommand{\MWeight}{\ensuremath{\M{W}}}
+\newcommand{\VBias}{\ensuremath{\V{b}}}
+\newcommand{\VInput}{\DataVec}
+\newcommand{\VHidden}{\ensuremath{\V{h}}}
+\newcommand{\FActivation}{\ensuremath{\sigma}}
+\newcommand{\VCellState}{\ensuremath{\V{c}}}
+\newcommand{\VForgetGate}{\ensuremath{\V{f}}}
+\newcommand{\VModulationGate}{\ensuremath{\V{j}}}
+\newcommand{\VInputGate}{\ensuremath{\V{i}}}
+\newcommand{\VOutputGate}{\ensuremath{\V{o}}}
+
+
+\setbeamercovered{transparent}
 
 \usepackage{times}
 \usepackage{epsfig}
@@ -10,25 +162,7 @@
 \setlength{\tabcolsep}{5pt}
 \usepackage{subcaption}
 
-\usepackage{appendix}
-\usepackage{tummath}
-\usepackage{tumtensors} % experimental
-\usepackage{tumcolors}
-
-\usepackage{pgfmath}
-\newcommand\randmin{}
-\newcommand\randmax{}
-\newcommand\randmultof{}
-\newcommand\setrand[4]%
-{\def\randmin{#1}%
-	\def\randmax{#2}%
-	\def\randmultof{#3}%
-	\pgfmathsetseed{#4}%
-}
-\newcommand\nextrand
-{\pgfmathparse{int(int((rnd*(\randmax-\randmin+1)+\randmin)/\randmultof)*\randmultof)}%
-	\xdef\thisrand{\pgfmathresult}%
-}
+\usepackage{cancel}
 
 % Include other packages here, before hyperref.
 
@@ -41,31 +175,34 @@
 \usepackage[capitalize]{cleveref}
 \usepackage[square,sort,comma,numbers]{natbib}
 
-%% this hack seems to be nececessary due to incompatibilities of cvpr template and tikz... -> https://tex.stackexchange.com/questions/398223/tikz-gives-error-command-everyshipouthook-already-defined
-\makeatletter
-\@namedef{ver@everyshi.sty}{}
-\makeatother
-%% hackend
 
-\input{images/rawinput.tikz}
 
-\usepackage{tikz}
-\usepackage{pgfplots}
-\usetikzlibrary{positioning, calc,arrows,arrows.meta, fit}
+
+%\pgfplotsset{compat=1.9}
+%\usetikzlibrary{positioning, calc,arrows,arrows.meta, fit}
 %\usetikzlibrary{arrows.meta,calc,decorations.markings,math,arrows.meta}
-\usepgfplotslibrary{groupplots}
-\usepgfplotslibrary{fillbetween}
-\usepgfplotslibrary{statistics} % provides boxplots
-\usepackage{xfrac}
+%\usepgfplotslibrary{groupplots}
+%\usetikzlibrary{pgfplots.groupplots} 
+%%\usepgfplotslibrary{fillbetween}
+%\usepgfplotslibrary{statistics} % provides boxplots
+%\usepackage{xfrac}
+%
+%\usepackage{pgfplotstable}
+%\usepackage{adjustbox}
 
-\newcommand{\tp}{tp}
-\newcommand{\tn}{tn}
-\newcommand{\fp}{fp}
-\newcommand{\fn}{fn}
+%\usetikzlibrary{pgfplots.groupplots}
+%\usetikzlibrary{shapes}
+%\usetikzlibrary{positioning}
+%\usetikzlibrary{decorations.pathreplacing}
+%
+%\newcommand{\tp}{tp}
+%\newcommand{\tn}{tn}
+%\newcommand{\fp}{fp}
+%\newcommand{\fn}{fn}
 
-
-\usepackage{tumcolors}
-\usepackage{tummath}
+%
+%\usepackage{tumcolors}
+%\usepackage{tummath}
 \newcommand{\yhat}{\hat{\V{y}}}
 \newcommand{\ycorrect}{\hat{y}^+}
 \newcommand{\thetadelta}{\V{\Theta}_\delta}
@@ -77,13 +214,14 @@
 \newcommand{\fdelta}{f_\delta}
 \newcommand{\ffeat}{f_\text{feat}}
 \newcommand{\f}{f}
+\newcommand{\Mweight}{ {\M{\theta}} }
 
 \newcommand{\rvtime}{T_c} 
 \newcommand{\xuptot}{\M{X}_{\rightarrow t}} 
 \newcommand{\deltauptot}{\delta_{\rightarrow t}} 
 \newcommand{\tstop}{\ensuremath{t_\text{stop}}}
 \newcommand{\meantstop}{\ensuremath{\bar{t}_\text{stop}}}
-\usepackage[super]{nth}
+
 \usepackage{mathtools}
 
 \definecolor{evalcolor}{HTML}{3F3F3F}
@@ -166,10 +304,16 @@
 %\usepackage{titlesec}
 %\titlespacing{\section}{0pt}{10pt}{3pt}
 
-\usetikzlibrary{external}
-\tikzexternalize[prefix=tikz/]
-%\tikzexternalize
-\tikzexternaldisable
+
+
+\usepackage{setspace}
+\usepackage{eqparbox, etoolbox}
+
+\newlist{rdescription}{description}{1}
+
+\AtBeginEnvironment{rdescription}{%
+	\renewcommand*\descriptionlabel[2][Des]{\hspace\labelsep\eqmakebox[Des][r]{\hfill\normalfont\bfseries #2}}\setlist[rdescription]{leftmargin =\dimexpr\eqboxwidth{Des}+\labelsep}}%
+
 
 \usepackage[eulergreek]{sansmath}
 \pgfplotsset{
@@ -261,8 +405,10 @@
 	\end{tikzpicture}
 }
 
+
+
 \newcommand{\vegetationsmodell}{
-	\begin{tikzpicture}[scale=0.5, rotate=0, baseline=-.25em]
+	\begin{tikzpicture}[scale=0.5, rotate=0, baseline=-.25em, minimum width=0cm, minimum height=0cm]
 	\node[proba](a0) at (0,-1){};
 	\node[proba](a1) at (0,0){};
 	\node[proba](a2) at (0,1){};
@@ -278,7 +424,180 @@
 	\draw[-] (a1) -- (b1);
 	\draw[-] (a2) -- (b1);
 	
-	\node[fit=(a0)(a2)(b1),draw,rounded corners](node name){};
+%	\node[fit=(a0)(a2)(b1)](node name){};
 	
 	\end{tikzpicture}
 }
+
+\tikzstyle{tsmark} = [mark=*,mark size=1pt]
+
+
+\colorlet{querycolor}{tumorange}
+\newcommand{\attnquery}{%
+	\only<1,2>{%
+		\begin{tikzpicture}[scale=0.6]
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 0){.2};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 0){.1};
+		\end{tikzpicture}
+	}%
+	\only<3>{%
+		\begin{tikzpicture}[scale=0.4]
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 0){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 2){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 3){};
+		
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 0){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 1){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 2){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 3){};
+		
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (2, 0){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (2, 1){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (2, 2){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (2, 3){};
+		
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (3, 0){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (3, 1){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (3, 2){};
+		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (3, 3){};
+		\end{tikzpicture}
+	}%
+}
+
+
+\colorlet{attentioncolor}{tumred}
+\newcommand{\attention}{%
+	\only<1,2>{%
+		\begin{tikzpicture}[scale=0.6]
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,0){.2};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,0){.4};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,0){.1};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,0){.3};
+		\end{tikzpicture}
+	}%
+	\only<3>{%
+		\begin{tikzpicture}[scale=0.4]
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,0){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,0){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,0){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,0){};
+		
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,1){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,1){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,1){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,1){};
+		
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,2){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,2){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,2){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,2){};
+		
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,3){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,3){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,3){};
+		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,3){};
+		\end{tikzpicture}
+	}%
+}
+
+\colorlet{valuecolor}{tumblue}
+\newcommand{\attnv}{%
+	\only<1,2>{%
+		\begin{tikzpicture}[scale=0.6]
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){.2};
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (0, 2){.1};
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (0, 3){.3};
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (0, 4){.4};
+		\end{tikzpicture}
+	}%
+	\only<3>{%
+		\begin{tikzpicture}[scale=0.4]
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){};
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (0, 2){};
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (0, 3){};
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (0, 4){};
+		
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (1, 1){};
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 2){};
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (1, 3){};
+		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (1, 4){};
+		\end{tikzpicture}
+	}%
+}
+
+\colorlet{attentionoutcolor}{tumbluedark}
+\newcommand{\attnout}{%
+	\only<1,2>{%
+		\begin{tikzpicture}[scale=0.6]
+		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,0){.27};
+		\end{tikzpicture}
+	}	
+	\only<3>{%
+		\begin{tikzpicture}[scale=0.4]
+		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,0){};
+		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,1){};
+		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,2){};
+		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,3){};
+		
+		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (1,0){};
+		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (1,1){};
+		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (1,2){};
+		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (1,3){};
+		\end{tikzpicture}
+	}%
+}
+
+\colorlet{keycolor}{tumgreen}
+\newcommand{\attnkey}{
+	\only<1,2>{%
+		\begin{tikzpicture}[scale=0.6]
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 0){.2};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 0){.1};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 0){.3};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 0){.4};
+		
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){.2};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 1){.1};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 1){.3};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 1){.4};
+		\end{tikzpicture}
+	}
+	\only<3>{%
+		\begin{tikzpicture}[scale=0.4]
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 0){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 0){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 0){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 0){};
+		
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 1){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 1){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 1){};
+		
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 2){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 2){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 2){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 2){};
+		
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 3){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 3){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 3){};
+		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 3){};
+		\end{tikzpicture}
+	}%
+}
+
+\definecolor{s1}{RGB}{228, 26, 28}
+\definecolor{s2}{RGB}{55, 126, 184}
+\definecolor{s3}{RGB}{77, 175, 74}
+\definecolor{s4}{RGB}{152, 78, 163}
+\definecolor{s5}{RGB}{255, 127, 0}
+\pgfplotscreateplotcyclelist{featurecolorlist}{
+	s1,every mark/.append style={fill=s1},mark=*\\
+	s2,every mark/.append style={fill=s2},mark=*\\
+	s3,every mark/.append style={fill=s3},mark=*\\
+	s4,every mark/.append style={fill=s4},mark=*\\
+	s5,every mark/.append style={fill=s5},mark=*\\
+}
+

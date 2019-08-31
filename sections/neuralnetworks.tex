@@ -1,0 +1,170 @@
+
+{\setbeamercolor{background canvas}{bg=white}
+	\begin{frame}[plain]
+	
+	\vspace{8em}
+	\begin{center}
+		\Huge\color{tumbluedark}
+		Let's look at Deep Neural Networks
+	\end{center}\color{white}
+	
+\end{frame}
+}
+
+
+\begin{frame}
+
+\frametitle{End-to-End Learning of Deep Neural Networks}
+\centering
+
+\Huge
+\begin{equation*}
+\yhat = f_\Mweight \left(\M{X}\right)
+\end{equation*}
+
+\end{frame}
+
+
+
+%
+%\begin{frame}
+%\LARGE
+%\centering
+%\textbf{Filter this temporal noise by pre-classificaition?}
+%\end{frame}
+
+%\begin{frame}
+%		\input{images/scl.tikz}
+%\end{frame}
+
+
+%
+
+
+%\begin{frame}<presentation:1>
+%
+%\frametitle{Introducing a model to pre-classify clouds?}
+%\LARGE
+%\centering\figcloudfilteringpipeline
+%
+%\end{frame}
+
+%\begin{frame}
+%\frametitle{Clouds classification works very well...}
+%
+%\includegraphics[width=\textwidth]{images/Li18_clouds}
+%
+%\texttt{\small Li, Z., Shen, H., Cheng, Q., Liu, Y., You, S., \& He, Z. (2018). Deep learning based cloud detection for remote sensing images by the fusion of multi-scale convolutional features. arXiv preprint arXiv:1810.05801.}
+%\end{frame}
+%
+%\begin{frame}<presentation:2>
+%
+%\frametitle{Identifying clouds is rarely the main objective!}
+%\LARGE
+%\centering\figcloudfilteringpipeline
+%
+%\end{frame}
+
+\begin{frame}
+\frametitle{End-to-End Learning of Deep Neural Networks}
+\centering
+
+\begin{tikzpicture}[node distance=.1em]
+\node[minimum width=1cm, minimum height=1.5cm, draw,rounded corners](veg) at (0,0){\vegetationsmodell};
+\coordinate[below=1em of veg](labelreference);
+\node(annotveg) at (labelreference){$f_{{\Mweight}}$};
+\visible<1>{
+\node[above=2em of veg, font=\small, xshift=4em, text width=15em](annotf){differentiable non-linear function \\ width randomly initialized weights $\Mweight$};
+\draw[-stealth] (annotf) -- (veg);
+}
+\node[right=1em of veg, inner sep=0](input){%
+%		$\left(
+		\only<1-8>{%
+			\rawtimeseriestwo{12-71456800.csv}%
+		}%
+		\only<9-12>{%
+			\begin{tikzpicture}[baseline=-1.5em, xscale=0.3, yscale=-.3]
+				\foreach \x in {0,...,15}{
+					\node[draw=tumgraylight, circle, fill=b2color, text=white, text opacity=1, font=\small, inner sep=2.5pt](d) at (\x,0){};
+					\node[draw=tumgraylight, circle, fill=b3color, text=white, text opacity=1, font=\small, inner sep=2.5pt](d) at (\x,1){};
+					\node[draw=tumgraylight, circle, fill=b4color, text=white, text opacity=1, font=\small, inner sep=2.5pt](d) at (\x,2){};
+					\node[draw=tumgraylight, circle, fill=b5color, text=white, text opacity=1, font=\small, inner sep=2.5pt](d) at (\x,3){};
+					\node[draw=tumgraylight, circle, fill=b6color, text=white, text opacity=1, font=\small, inner sep=2.5pt](d) at (\x,4){};
+				}
+			\end{tikzpicture}%
+		}%
+		\only<13-14>{
+			\begin{tikzpicture}
+			\node[draw, rounded corners, minimum width=1cm, minimum height=1.5cm](preproc){\includegraphics[width=.8cm]{images/icons/gears}};
+			\node[right=1.5em of preproc](input){\rawtimeseriestwo{12-71456800_raw.csv}};
+			\node[font=\huge,left=0em of input, inner sep=0](bopen){$\Bigg($};
+			\node[font=\huge, right=0em of input, inner sep=0](bopen){$\Bigg)$};
+			\end{tikzpicture}
+		}
+		\only<15>{
+			\rawtimeseriestwo{12-71456800_raw.csv}
+		}
+};% \rawtimeseries{prep77770412.csv}
+\only<13,14>{
+	\node[right=1.5em of annotveg]{$f_{{\Mweight}_\text{preproc}}$};
+}
+
+
+\node(annotinput) at (labelreference -| input){$\M{X}$};
+\node[font=\huge,left=0em of input, inner sep=0](bopen){$\Bigg($};
+\node[font=\huge, right=0em of input, inner sep=0](bopen){$\Bigg)$};
+\node[left= of veg, font=\huge](equals){$=$};
+\only<-5>{\node[left= of equals](probas){\drawprobas{10}{30}{10}{20}{10}};}
+\visible<5>{\node[left= of equals](probas){\drawprobas{20}{30}{50}{20}{30}};}
+\visible<6>{\node[left= of equals](probas){\drawprobas{30}{40}{30}{50}{20}};}
+\visible<7>{\node[left= of equals](probas){\drawprobas{20}{20}{20}{80}{10}};}
+\visible<8->{\node[left= of equals](probas){\drawprobas{10}{30}{10}{100}{10}};}
+\node(annotprobas) at (labelreference -| probas){$\yhat$};
+\visible<2->{
+	\node[left= 5em of probas](gt){\drawprobas{0}{0}{0}{100}{0}};
+	\node(annotgt) at (labelreference -| gt){$\V{y}$};
+}
+\visible<3->{
+	\draw[stealth-stealth] (gt) -- node[midway,above](loss){$\mathcal{L}(\V{y},\yhat)$} (probas);
+}
+
+
+\visible<4->{\draw[-stealth] (loss)  to [out=60,in=135,looseness=1] node[midway,above]{${\Mweight} \leftarrow \Mweight - \frac{\partial \mathcal{L}}{\partial {\Mweight}}$} (veg);}
+
+
+\only<9-12>{
+	\node[above=10em of annotinput, font=\Large\bfseries, text=white, fill=tumbluedark, rounded corners](e1){End};
+	\node[above=10em of annotgt, font=\Large\bfseries, text=white, fill=tumbluedark, rounded corners](e2){End};
+	\node[above=10em of annotveg, text=white, fill=tumbluedark, font=\Large\bfseries, rounded corners](to){to};
+	\draw[thick, tumbluedark] (e1) -- (to) -- (e2);
+}
+
+\only<10>{
+	\node[below=of annotinput]{Satellite Time Series};
+	\node[below=of annotgt]{Crop Types};
+}
+
+\only<11>{
+	\node[below=of annotinput]{Images (single Band)};
+	\node[below=of annotgt]{Cats and Dogs};
+}
+\only<12>{
+	\node[below=of annotinput]{Text and Language};
+	\node[below=of annotgt]{Sentiment};
+}
+
+\only<14>{
+	\coordinate(fpreproc) at ($ (veg)+(3.5em,0) $);
+	
+	\draw[-stealth, dotted, red, thick] (loss)  to [out=-60,in=-135,looseness=1] node[midway,below]{\xcancel{$\frac{\partial \mathcal{L}}{\partial {\Mweight}_\text{preproc}}$}} ($ (fpreproc)+(0,-2.3em) $);
+	
+	\node[above right=6em of fpreproc](a){$\Mweight_\text{sel}$: start/end of vegetation period};
+	\node[below right=6em of fpreproc](b){$\Mweight_\text{atm}$: atmospheric parameters};
+	\node[below right=7em and 2em of fpreproc, text width=14em](c){$\Mweight_\text{cl}$: cloud classifier trained on different training set};
+	\draw[-stealth, shorten >=4em] (a.south west) -- (fpreproc);
+	\draw[-stealth, shorten >=4em] (b.north west) -- (fpreproc);
+	\draw[-stealth, shorten >=4em] (c.north west) -- (fpreproc);
+}
+
+\end{tikzpicture}
+\end{frame}

@@ -43,8 +43,9 @@
 	
 	\begin{axis}[
 	thin,
-	width=6cm,
+	width=5.5cm,
 	hide axis,
+	enlargelimits=0,
 	height=3cm,
 	ymin=0, ymax=1.4,
 	%no marks,  
@@ -53,18 +54,18 @@
 	]
 	
 	
-	\addplot[b11color] table [x=t, y=B11, col sep=comma, forget plot] {images/example/#1};
-	\addplot[b12color] table [x=t, y=B12, col sep=comma] {images/example/#1};
+	\addplot[b11color, mark=*,mark size=.5pt] table [x=t, y=B11, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b12color, mark=*,mark size=.5pt] table [x=t, y=B12, col sep=comma] {images/example/#1};
 	
-	\addplot[b5color] table [x=t, y=B05, col sep=comma, forget plot] {images/example/#1};
-	\addplot[b6color] table [x=t, y=B06, col sep=comma, forget plot] {images/example/#1};
-	\addplot[b7color] table [x=t, y=B07, col sep=comma, forget plot] {images/example/#1};
-	\addplot[b8color] table [x=t, y=B08, col sep=comma, forget plot] {images/example/#1};
-	\addplot[b8Acolor] table [x=t, y=B8A, col sep=comma] {images/example/#1};
+	\addplot[b5color, mark=*,mark size=.5pt] table [x=t, y=B05, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b6color, mark=*,mark size=.5pt] table [x=t, y=B06, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b7color, mark=*,mark size=.5pt] table [x=t, y=B07, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b8color, mark=*,mark size=.5pt] table [x=t, y=B08, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b8Acolor, mark=*,mark size=.5pt] table [x=t, y=B8A, col sep=comma] {images/example/#1};
 	
-	\addplot[b2color] table [x=t, y=B02, col sep=comma, forget plot] {images/example/#1};
-	\addplot[b3color] table [x=t, y=B03, col sep=comma, forget plot] {images/example/#1};
-	\addplot[b4color] table [x=t, y=B04, col sep=comma] {images/example/#1};
+	\addplot[b2color, mark=*,mark size=.5pt] table [x=t, y=B02, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b3color, mark=*,mark size=.5pt] table [x=t, y=B03, col sep=comma, forget plot] {images/example/#1};
+	\addplot[b4color, mark=*,mark size=.5pt] table [x=t, y=B04, col sep=comma] {images/example/#1};
 	
 	\end{axis}
 	

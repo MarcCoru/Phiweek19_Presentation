@@ -1,0 +1,278 @@
+
+{\setbeamercolor{background canvas}{bg=black}
+	\begin{frame}[plain]
+	\vfill
+	\begin{columns}
+		\column{.25\textwidth}
+		\color{tumwhite}
+		
+		\Huge
+		Gated Recurrence
+		
+		\column{.75\textwidth}
+		\raggedleft
+		\tikzstyle{rec} = [draw=white, fill=black, rounded corners, inner sep=2em]
+		\begin{tikzpicture}[node distance=2em]
+			\node[rec](rec){};
+			\draw[-stealth, white, very thick] ($ (rec)+(0,5em) $) -- (rec) node[at start, above]{$\V{x}_t$};
+			\draw[-stealth, white, very thick] (rec) -- ($ (rec)+(0,-5em) $) node[at end, below]{$\V{h}_t$};
+			
+			\draw[-stealth, white, very thick] (rec.south) to[in=270, out=250, looseness=2] ($ (rec.west)+(-1.5em,0) $) to[in=110, out=90, looseness=2] (rec.north) node[at start, left, xshift=-4em]{$\V{h}_{t-1}$};
+			
+			\node[rec, right=3em of rec](unrolled0){};
+			\draw[-stealth, white, very thick] ($ (unrolled0)+(0,5em) $) -- (unrolled0) node[at start, above]{$\V{x}_1$};
+			\draw[-stealth, white, very thick] (unrolled0) -- ($ (unrolled0)+(0,-5em) $) node[at end, below]{$\V{h}_1$};;
+			
+			\coordinate(sep) at ($ (rec)!0.5!(unrolled0) $);
+			
+			\draw[dotted, thick] ($ (sep)+(0,-5em) $) -- ($ (sep)+(0,5em) $);
+
+			\node[rec, right=of unrolled0](unrolled1){};
+			\draw[-stealth, white, very thick] ($ (unrolled1)+(0,5em) $) -- (unrolled1) node[at start, above]{$\V{x}_2$};
+			\draw[-stealth, white, very thick] (unrolled1) -- ($ (unrolled1)+(0,-5em) $) node[at end, below]{$\V{h}_2$};
+			
+			\node[rec, right=of unrolled1](unrolled2){};
+			\draw[-stealth, white, very thick] ($ (unrolled2)+(0,5em) $) -- (unrolled2) node[at start, above]{$\V{x}_3$};
+			\draw[-stealth, white, very thick] (unrolled2) -- ($ (unrolled2)+(0,-5em) $) node[at end, below]{$\V{h}_3$};;
+			
+			\node[rec, right=of unrolled2](unrolled3){};
+			\draw[-stealth, white, very thick] ($ (unrolled3)+(0,5em) $) -- (unrolled3) node[at start, above]{$\V{x}_4$};
+			\draw[-stealth, white, very thick] (unrolled3) -- ($ (unrolled3)+(0,-5em) $) node[at end, below]{$\V{h}_4$};
+			
+			\draw[-stealth, white, very thick] (unrolled0) -- (unrolled1) node[near end, above]{$\V{h}_1$};
+			\draw[-stealth, white, very thick] (unrolled1) -- (unrolled2) node[near end, above]{$\V{h}_2$};
+			\draw[-stealth, white, very thick] (unrolled2) -- (unrolled3) node[near end, above]{$\V{h}_3$};
+			
+			
+		\end{tikzpicture}
+		
+	\end{columns}
+	\vfill
+\end{frame}
+}
+
+\newcommand{\gates}[6]{
+	\tikzstyle{gate} = [inner sep=0em, draw, rounded corners, minimum width=1.5em, minimum height=1.5em]
+	\begin{tikzpicture}[xscale=0.75, yscale=-0.66]
+		\node[gate,#2](i) at (0,0){$\V{i}_{#1}$};
+		\node[gate,#3](f) at (0,1){$\V{f}_{#1}$};
+		\node[gate,#4](g) at (1,0){$\V{g}_{#1}$};
+		\node[gate,#5](o) at (1,1){$\V{o}_{#1}$};
+		\node[gate,#6](c) at (0.5,2){$\V{c}_{#1}$};
+		
+		\node[font=\tiny, inner sep=0, minimum width=0, minimum height=0, rounded corners=0](thetai) at (i.south east){$\Mweight_i$};
+		\node[font=\tiny, inner sep=0, minimum width=0, minimum height=0, rounded corners=0](thetai) at (f.south east){$\Mweight_f$};
+		\node[font=\tiny, inner sep=0, minimum width=0, minimum height=0, rounded corners=0](thetai) at (g.south east){$\Mweight_g$};
+		\node[font=\tiny, inner sep=0, minimum width=0, minimum height=0, rounded corners=0](thetai) at (o.south east){$\Mweight_o$};
+	\end{tikzpicture}
+}
+
+\begin{frame}
+	\frametitle{Long Short Term Memory (LSTM) Recurrent Network}
+	\tikzstyle{focused} = [fill=tumorange, draw, rounded corners, thin]
+	\tikzstyle{unfocused} = [fill=white, draw, rounded corners, thin]
+	
+	\tikzstyle{rec} = [draw=tumbluedark, fill=none, rounded corners, inner sep=0em, minimum width=5em, minimum height=6em]
+	\tikzstyle{conn} = [-stealth, tumbluedark, very thick]
+	\begin{tikzpicture}[node distance=3em]
+	\node[rec](rec){\gates{t}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}};
+	\draw[conn] ($ (rec)+(0,5em) $) -- (rec) node[at start, above]{$\V{x}_t$};
+	\draw[conn] (rec) -- ($ (rec)+(0,-5em) $) node[at end, below]{$\V{h}_t$};
+	
+	\draw[conn] (rec.south) to[in=270, out=250, looseness=2] ($ (rec.west)+(-1.5em,0) $) to[in=110, out=90, looseness=2] (rec.north) node[at start, left, xshift=-4em]{$\V{h}_{t-1}$};
+	
+	\node[rec, right=3em of rec](unrolled0){
+		\only<1-2,4>{\gates{1}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}}
+		\only<3>{\gates{1}{unfocused}{unfocused}{unfocused}{unfocused}{focused}}
+	};
+	\visible<1->{\node[above=of unrolled0, unfocused](x0){$\V{x}_1$};}
+	\draw[conn] (x0) -- (unrolled0);
+	\draw[conn] (unrolled0) -- ($ (unrolled0)+(0,-5em) $);
+	\visible<1->{\node[below=of unrolled0, unfocused](h0){$\V{h}_1$};}
+	
+	\coordinate(sep) at ($ (rec)!0.5!(unrolled0) $);
+	
+	\draw[dotted, thick] ($ (sep)+(0,-5em) $) -- ($ (sep)+(0,5em) $);
+	
+	\node[rec, right=of unrolled0](unrolled1){
+		\only<1>{\gates{2}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}}
+		\only<2>{\gates{2}{focused}{unfocused}{focused}{unfocused}{unfocused}}
+		\only<3>{\gates{2}{unfocused}{focused}{unfocused}{unfocused}{focused}}
+		\only<4>{\gates{2}{unfocused}{unfocused}{unfocused}{focused}{focused}}
+	};
+	\visible<1>{\node[above=of unrolled1, unfocused](x1){$\V{x}_2$};}
+	\visible<2>{\node[above=of unrolled1, focused](x1){$\V{x}_2$};}
+	\visible<3>{\node[above=of unrolled1, unfocused](x1){$\V{x}_2$};}
+	\visible<4>{\node[above=of unrolled1, focused](x1){$\V{x}_2$};}
+	\draw[conn] (x1) -- (unrolled1);
+	\draw[conn] (unrolled1) -- ($ (unrolled1)+(0,-5em) $);
+	
+	\visible<1-3>{\node[below=of unrolled1, unfocused](h0){$\V{h}_2$};}
+	\visible<4>{\node[below=of unrolled1, focused](h0){$\V{h}_2$};}
+	%													  i f g o c
+	\phantom{
+	\node[rec, right=of unrolled1](unrolled2){\gates{3}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}};
+	\draw[conn] ($ (unrolled2)+(0,5em) $) -- (unrolled2) node[at start, above]{$\V{x}_3$};
+	\draw[conn] (unrolled2) -- ($ (unrolled2)+(0,-5em) $) node[at end, below]{$\V{h}_3$};;
+	}
+	
+	\visible<1-3>{\draw[conn] (unrolled0) -- (unrolled1) node[midway, above, unfocused]{$\V{h}_1$};}
+	\visible<4>{\draw[conn] (unrolled0) -- (unrolled1) node[midway, above, focused]{$\V{h}_1$};}
+	
+	\visible<1-3>{\draw[conn] (unrolled1) -- (unrolled2) node[midway, above, unfocused]{$\V{h}_2$};}
+	\visible<4>{\draw[conn] (unrolled1) -- (unrolled2) node[midway, above, focused]{$\V{h}_2$};}
+	
+	
+	\end{tikzpicture}
+	
+	
+\end{frame}
+
+
+\begin{frame}
+
+%1 gates
+%2 input gate
+%3 modulation gate
+%4 forget gate
+%5 output gate
+%6 cell state
+%7 output
+
+\frametitle{Long Short Term Memory (LSTM) Recurrent Network}
+\tikzstyle{focused} = [fill=tumorange, draw, rounded corners, thin]
+\tikzstyle{unfocused} = [fill=white, draw, rounded corners, thin]
+\tikzstyle{background} = [fill=white, draw, rounded corners, thin, opacity=0.2]
+
+\tikzstyle{rec} = [draw=tumbluedark, fill=none, rounded corners, inner sep=0em, minimum width=5em, minimum height=6em]
+\tikzstyle{conn} = [-stealth, tumbluedark, very thick]
+
+\begin{columns}
+	
+\column{.5\textwidth}
+	
+\begin{tikzpicture}[node distance=3em]
+
+\node[rec, right=3em of rec, background](unrolled0){
+	\only<1-5,7->{\gates{1}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}}
+	\only<6>{\gates{1}{unfocused}{unfocused}{unfocused}{unfocused}{focused}}
+};
+\node[above=of unrolled0, background](x0){$\V{x}_1$};
+\draw[conn, background] (x0) -- (unrolled0);
+\draw[conn, background] (unrolled0) -- ($ (unrolled0)+(0,-5em) $);
+\node[below=of unrolled0, background](h0){$\V{h}_1$};
+
+\node[rec, right=of unrolled0](unrolled1){%i f g o c
+	\only<1>{\gates{2}{background}{background}{background}{background}{unfocused}}%
+	\only<2>{\gates{2}{focused}{unfocused}{unfocused}{unfocused}{unfocused}}%
+	\only<3>{\gates{2}{unfocused}{unfocused}{focused}{unfocused}{unfocused}}%
+	\only<4>{\gates{2}{unfocused}{focused}{unfocused}{unfocused}{unfocused}}%
+	\only<5>{\gates{2}{unfocused}{unfocused}{unfocused}{focused}{unfocused}}%
+	\only<6>{\gates{2}{focused}{focused}{focused}{unfocused}{focused}}%
+	\only<7>{\gates{2}{unfocused}{unfocused}{unfocused}{focused}{focused}}%
+};
+\visible<2-5>{\node[above=of unrolled1, focused](x1){$\V{x}_2$};}
+\visible<1,6->{\node[above=of unrolled1, unfocused](x1){$\V{x}_2$};}
+\draw[conn] (x1) -- (unrolled1);
+\draw[conn] (unrolled1) -- ($ (unrolled1)+(0,-5em) $);
+
+\visible<7>{\node[below=of unrolled1, focused](h0){$\V{h}_2$};}
+\visible<1-6>{\node[below=of unrolled1, unfocused](h0){$\V{h}_2$};}
+%													  i f g o c
+%\phantom{
+%	\node[rec, right=of unrolled1](unrolled2){\gates{3}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}};
+%	\draw[conn] ($ (unrolled2)+(0,5em) $) -- (unrolled2) node[at start, above]{$\V{x}_3$};
+%	\draw[conn] (unrolled2) -- ($ (unrolled2)+(0,-5em) $) node[at end, below]{$\V{h}_3$};;
+%}
+\draw[conn] (unrolled0) -- (unrolled1);
+\visible<1,5->{
+	\node[unfocused, yshift=1em] at ($ (unrolled0)!0.5!(unrolled1) $){$\V{h}_1$};
+}
+\visible<2-4>{
+	\node[focused, yshift=1em] at ($ (unrolled0)!0.5!(unrolled1) $){$\V{h}_1$};
+}
+\visible<1-5,7->{
+	\node[unfocused, yshift=-1em] at ($ (unrolled0)!0.5!(unrolled1) $){$\V{c}_1$};
+}
+\visible<6>{
+	\node[focused, yshift=-1em] at ($ (unrolled0)!0.5!(unrolled1) $){$\V{c}_1$};
+}
+%\visible<2-4>{
+%	\draw[conn] (unrolled0) -- (unrolled1) node[midway, above, focused]{$\V{h}_1$} node[midway, below, focused]{$\V{c}_1$};
+%}
+
+%\visible<1-6>{\draw[conn] (unrolled1) -- (unrolled2) node[midway, above, unfocused]{$\V{h}_2$};}
+%\visible<7>{\draw[conn] (unrolled1) -- (unrolled2) node[midway, above, focused]{$\V{h}_2$};}
+
+
+\end{tikzpicture}
+
+\column{.5\textwidth}
+
+Long Short-Term Memory Neural Network (LSTM) calculates new output $\V{h}_t$ and cell state $\V{c}_t$ based on current input $\V{x}_t$ and previous (short-term) output $\V{h}_{t-1}$ and long-term internal cell state $\V{c}_{t-1}$ :
+\begin{equation*}
+	\V{h}_t, \V{c}_t \leftarrow \V{x}_t ,\V{h}_{t-1}, \V{c}_{t-1}
+\end{equation*}
+controlled by internal Gates:
+
+\visible<2->{$\V{i_t} = \sigma\left(\V{x}_t\Mweight_{xi} + \V{h}_{t-1}\Mweight_{hi}\right)$}
+\visible<3->{$\V{g_t} = \tanh\left(\V{x}_t\Mweight_{xg} + \V{h}_{t-1}\Mweight_{hg}\right)$}
+\visible<4->{$\V{f_t} = \sigma\left(\V{x}_t\Mweight_{xf} + \V{h}_{t-1}\Mweight_{hf}\right)$}
+\visible<5->{$\V{o_t} = \sigma\left(\V{x}_t\Mweight_{xo} + \V{h}_{t-1}\Mweight_{ho}\right)$}
+\vspace{1em}
+
+\visible<6->{$\V{c_t} = \V{f}_t*\V{c}_{t-1} + \V{i}_t \odot \V{g}_t$}
+
+\visible<7->{$\V{h_t} = \V{o}_t \odot \tanh(\V{c_t})$}
+
+\end{columns}
+
+\end{frame}
+
+\def\fps{3}
+\input{images/cells.tikz}
+
+\begin{frame}[t]
+\frametitle{Extracting features from noisy data with ConvRNNs}
+
+\centering
+%\lstmanim
+\begin{tikzpicture}[scale=1, node distance=2em]%,show background rectangle,background rectangle/.style={draw=red}]
+
+
+\draw pic (LSTM) at (0,0) {lstmanim};
+\node[io,xshift=1ex,above=3em of LSTMtl, ,label=above:$\VInput_{t}$](xt){\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/x/x-}{1}{36}};%$x_{t}$
+\draw[rounded corners] (xt) |- (LSTM-input);
+\node[io,left=of LSTMtl,label=below:$\VHidden_{t-1}$](htminus1){
+	\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{0}{35}
+};
+\draw[endflow] (htminus1) -- (LSTM-input);
+\node[io,right=of LSTMbr,label=above:$\VCellState_{t}$](ct){\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{1}{36}}; % $c_{t}$
+\draw[endflow] (LSTM-coutput)--(ct);
+\node[io,left=of LSTMbl,label=above:$\VCellState_{t-1}$](ctminus1){\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{0}{35}}; % 
+\draw[endflow] (ctminus1)--(LSTMfmult);
+\node[io,right=of LSTMtr,label=below:$\VHidden_{t}$](ht){
+	\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{1}{36}
+};
+\draw[endflow] (LSTM-houtput)--(ht);
+
+\draw[endflow] (ct) -- ($ (ct)+(0,-0.8) $) -| (ctminus1);
+\draw[endflow] (ht) -- ($ (ht)+(0,.8) $) -| (htminus1);
+
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}<presentation:3>
+\frametitle{Employ ConvRNNs for Vegetation Land Cover Classification directly}
+%	\input{images/seqencnetwork.tikz}
+%	\figseqencnetwork
+\input{images/network.tikz}
+%	
+%	\input{images/lstm.tikz}
+%	\lstmanimtwo
+\end{frame}
+
+
+
+\input{rnnslides.tex}

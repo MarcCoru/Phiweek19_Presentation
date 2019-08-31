@@ -1,0 +1,999 @@
+
+
+\begin{frame}
+
+
+
+\begin{tikzpicture}
+%
+%	\frametitle{Example}
+%		
+		\def\i{20}
+		\def\root{images/rnn_examples/8}
+	
+	
+		\begin{groupplot}[
+		group style = {
+			group size = 1 by 7,
+			xlabels at=edge bottom,
+			xticklabels at=edge bottom,
+			vertical sep=0pt,
+		},
+		width=\textwidth,
+%		hide axis,
+		enlargelimits=.1,
+		height=2.5cm,
+%		ymin=0, ymax=1.4,
+		no marks,
+		]
+		\nextgroupplot[draw opacity=.8, smooth=0.01, thin]
+		\addplot[b11color, mark=*,mark size=.5pt] table [x=t, y=B11, col sep=comma, forget plot] {\root/x.csv};
+		\addplot[b12color, mark=*,mark size=.5pt] table [x=t, y=B12, col sep=comma] {\root/x.csv};
+		
+		\addplot[b5color, mark=*,mark size=.5pt] table [x=t, y=B5, col sep=comma, forget plot] {\root/x.csv};
+		\addplot[b6color, mark=*,mark size=.5pt] table [x=t, y=B6, col sep=comma, forget plot] {\root/x.csv};
+		\addplot[b7color, mark=*,mark size=.5pt] table [x=t, y=B7, col sep=comma, forget plot] {\root/x.csv};
+		\addplot[b8color, mark=*,mark size=.5pt] table [x=t, y=B8, col sep=comma, forget plot] {\root/x.csv};
+		\addplot[b8Acolor, mark=*,mark size=.5pt] table [x=t, y=B8A, col sep=comma] {\root/x.csv};
+		
+		\addplot[b2color, mark=*,mark size=.5pt] table [x=t, y=B2, col sep=comma, forget plot] {\root/x.csv};
+		\addplot[b3color, mark=*,mark size=.5pt] table [x=t, y=B3, col sep=comma, forget plot] {\root/x.csv};
+		\addplot[b4color, mark=*,mark size=.5pt] table [x=t, y=B4, col sep=comma] {\root/x.csv};
+		
+		\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.8, smooth=0.01, thin, ylabel=$\V{i}$]
+		\foreach \i in {0,1,...,31}{
+			\addplot table [x=t, y=\i, col sep=comma] {\root/i.csv};
+		}
+		\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.8, smooth=0.01, thin, ylabel=$\V{f}$]
+		\foreach \i in {0,1,...,31}{
+			\addplot table [x=t, y=\i, col sep=comma] {\root/f.csv};
+		}
+		\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.8, smooth=0.01, thin, ylabel=$\V{g}$]
+		\foreach \i in {0,1,...,31}{
+			\addplot table [x=t, y=\i, col sep=comma] {\root/g.csv};
+		}
+		\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.8, smooth=0.01, thin, ylabel=$\V{o}$]
+		\foreach \i in {0,1,...,31}{
+			\addplot table [x=t, y=\i, col sep=comma] {\root/o.csv};
+		}
+		\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.8, smooth=0.01, thin, ylabel=$\V{h}$]
+		\foreach \i in {0,1,...,31}{
+			\addplot table [x=t, y=\i, col sep=comma] {\root/h.csv};
+		}
+%		\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.8, smooth=0.01, thin, ylabel=$\V{c}$]
+%		\foreach \i in {0,1,...,31}{
+%			\addplot table [x=t, y=\i, col sep=comma] {\root/c.csv};
+%		}
+	
+		\end{groupplot}
+	
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+\begin{tikzpicture}
+%
+%	\frametitle{Example}
+%		
+\def\i{20}
+\def\root{images/rnn_examples/5}
+
+
+\begin{groupplot}[
+group style = {
+	group size = 1 by 7,
+	xlabels at=edge bottom,
+	xticklabels at=edge bottom,
+	vertical sep=0pt,
+},
+width=\textwidth,
+%		hide axis,
+enlargelimits=.1,
+height=2.5cm,
+%		ymin=0, ymax=1.4,
+no marks,
+]
+\nextgroupplot[draw opacity=.8, smooth=0.01, thin]
+\addplot[b11color, mark=*,mark size=.5pt] table [x=t, y=B11, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b12color, mark=*,mark size=.5pt] table [x=t, y=B12, col sep=comma] {\root/x.csv};
+
+\addplot[b5color, mark=*,mark size=.5pt] table [x=t, y=B5, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b6color, mark=*,mark size=.5pt] table [x=t, y=B6, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b7color, mark=*,mark size=.5pt] table [x=t, y=B7, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8color, mark=*,mark size=.5pt] table [x=t, y=B8, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8Acolor, mark=*,mark size=.5pt] table [x=t, y=B8A, col sep=comma] {\root/x.csv};
+
+\addplot[b2color, mark=*,mark size=.5pt] table [x=t, y=B2, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b3color, mark=*,mark size=.5pt] table [x=t, y=B3, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b4color, mark=*,mark size=.5pt] table [x=t, y=B4, col sep=comma] {\root/x.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.1, smooth=0.01, thin, ylabel=$\V{i}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/i.csv};
+\addplot[draw opacity=1] table [x=t, y=30, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/i.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{f}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/f.csv};
+\addplot[draw opacity=1] table [x=t, y=30, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/f.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{g}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/g.csv};
+\addplot[draw opacity=1] table [x=t, y=30, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/g.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{o}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/o.csv};
+\addplot[draw opacity=1] table [x=t, y=30, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/o.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{h}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/h.csv};
+\addplot[draw opacity=1] table [x=t, y=30, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/h.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{c}$]
+%
+\addplot table [x=t,  y=0, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/c.csv};
+\addplot[draw opacity=1] table [x=t, y=30, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/c.csv};
+
+\end{groupplot}
+
+\end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}
+\begin{tikzpicture}
+%
+%	\frametitle{Example}
+%		
+\def\i{20}
+\def\root{images/rnn_examples/5}
+
+
+\begin{groupplot}[
+group style = {
+	group size = 1 by 7,
+	xlabels at=edge bottom,
+	xticklabels at=edge bottom,
+	vertical sep=0pt,
+},
+width=\textwidth,
+%		hide axis,
+enlargelimits=.1,
+height=2.5cm,
+%		ymin=0, ymax=1.4,
+no marks,
+]
+\nextgroupplot[draw opacity=.8, smooth=0.01, thin]
+\addplot[b11color, mark=*,mark size=.5pt] table [x=t, y=B11, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b12color, mark=*,mark size=.5pt] table [x=t, y=B12, col sep=comma] {\root/x.csv};
+
+\addplot[b5color, mark=*,mark size=.5pt] table [x=t, y=B5, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b6color, mark=*,mark size=.5pt] table [x=t, y=B6, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b7color, mark=*,mark size=.5pt] table [x=t, y=B7, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8color, mark=*,mark size=.5pt] table [x=t, y=B8, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8Acolor, mark=*,mark size=.5pt] table [x=t, y=B8A, col sep=comma] {\root/x.csv};
+
+\addplot[b2color, mark=*,mark size=.5pt] table [x=t, y=B2, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b3color, mark=*,mark size=.5pt] table [x=t, y=B3, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b4color, mark=*,mark size=.5pt] table [x=t, y=B4, col sep=comma] {\root/x.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.1, smooth=0.01, thin, ylabel=$\V{i}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/i.csv};
+\addplot[draw opacity=1] table [x=t, y=29, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/i.csv};
+\addplot[draw opacity=1] table [x=t, y=31, col sep=comma] {\root/i.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{f}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/f.csv};
+\addplot[draw opacity=1] table [x=t, y=29, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/f.csv};
+\addplot[draw opacity=1] table [x=t, y=31, col sep=comma] {\root/f.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{g}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/g.csv};
+\addplot[draw opacity=1] table [x=t, y=29, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/g.csv};
+\addplot[draw opacity=1] table [x=t, y=31, col sep=comma] {\root/g.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{o}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/o.csv};
+\addplot[draw opacity=1] table [x=t, y=29, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/o.csv};
+\addplot[draw opacity=1] table [x=t, y=31, col sep=comma] {\root/o.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{h}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/h.csv};
+\addplot[draw opacity=1] table [x=t, y=29, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/h.csv};
+\addplot[draw opacity=1] table [x=t, y=31, col sep=comma] {\root/h.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{c}$]
+%
+\addplot table [x=t,  y=0, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/c.csv};
+\addplot[draw opacity=1] table [x=t, y=29, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/c.csv};
+\addplot[draw opacity=1] table [x=t, y=31, col sep=comma] {\root/c.csv};
+
+\end{groupplot}
+
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}
+\begin{tikzpicture}
+%
+%	\frametitle{Example}
+%		
+\def\i{20}
+\def\root{images/rnn_examples/5}
+
+
+\begin{groupplot}[
+group style = {
+	group size = 1 by 7,
+	xlabels at=edge bottom,
+	xticklabels at=edge bottom,
+	vertical sep=0pt,
+},
+width=\textwidth,
+%		hide axis,
+enlargelimits=.1,
+height=2.5cm,
+%		ymin=0, ymax=1.4,
+no marks,
+]
+\nextgroupplot[draw opacity=.8, smooth=0.01, thin]
+\addplot[b11color, mark=*,mark size=.5pt] table [x=t, y=B11, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b12color, mark=*,mark size=.5pt] table [x=t, y=B12, col sep=comma] {\root/x.csv};
+
+\addplot[b5color, mark=*,mark size=.5pt] table [x=t, y=B5, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b6color, mark=*,mark size=.5pt] table [x=t, y=B6, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b7color, mark=*,mark size=.5pt] table [x=t, y=B7, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8color, mark=*,mark size=.5pt] table [x=t, y=B8, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8Acolor, mark=*,mark size=.5pt] table [x=t, y=B8A, col sep=comma] {\root/x.csv};
+
+\addplot[b2color, mark=*,mark size=.5pt] table [x=t, y=B2, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b3color, mark=*,mark size=.5pt] table [x=t, y=B3, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b4color, mark=*,mark size=.5pt] table [x=t, y=B4, col sep=comma] {\root/x.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.1, smooth=0.01, thin, ylabel=$\V{i}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/i.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/i.csv};
+\addplot[draw opacity=1] table [x=t, y=19, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/i.csv};
+\addplot[draw opacity=1] table [x=t, y=21, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/i.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/i.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{f}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/f.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/f.csv};
+\addplot[draw opacity=1] table [x=t, y=19, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/f.csv};
+\addplot[draw opacity=1] table [x=t, y=21, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/f.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/f.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{g}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/g.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/g.csv};
+\addplot[draw opacity=1] table [x=t, y=19, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/g.csv};
+\addplot[draw opacity=1] table [x=t, y=21, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/g.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/g.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{o}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/o.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/o.csv};
+\addplot[draw opacity=1] table [x=t, y=19, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/o.csv};
+\addplot[draw opacity=1] table [x=t, y=21, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/o.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/o.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{h}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/h.csv};
+\addplot[draw opacity=1] table [x=t, y=19, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/h.csv};
+\addplot[draw opacity=1] table [x=t, y=21, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/h.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.2, smooth=0.01, thin, ylabel=$\V{c}$]
+%
+\addplot table [x=t,  y=0, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=11, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/c.csv};
+\addplot[draw opacity=1] table [x=t, y=19, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/c.csv};
+\addplot[draw opacity=1] table [x=t, y=21, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=23, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/c.csv};
+
+\end{groupplot}
+
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}
+\begin{tikzpicture}
+%
+%	\frametitle{Example}
+%		
+
+\def\root{images/rnn_examples/26}
+
+
+\begin{groupplot}[
+group style = {
+	group size = 1 by 3,
+	xlabels at=edge bottom,
+	xticklabels at=edge bottom,
+	vertical sep=0pt,
+},
+width=\textwidth,
+%		hide axis,
+enlargelimits=.1,
+height=4cm,
+ymin=-.2, ymax=.2,
+no marks,
+]
+\nextgroupplot[draw opacity=.8, smooth=0.01, thin, ymin=0, ymax=1]
+\addplot[b11color, mark=*,mark size=.5pt] table [x=t, y=B11, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b12color, mark=*,mark size=.5pt] table [x=t, y=B12, col sep=comma] {\root/x.csv};
+
+\addplot[b5color, mark=*,mark size=.5pt] table [x=t, y=B5, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b6color, mark=*,mark size=.5pt] table [x=t, y=B6, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b7color, mark=*,mark size=.5pt] table [x=t, y=B7, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8color, mark=*,mark size=.5pt] table [x=t, y=B8, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8Acolor, mark=*,mark size=.5pt] table [x=t, y=B8A, col sep=comma] {\root/x.csv};
+
+\addplot[b2color, mark=*,mark size=.5pt] table [x=t, y=B2, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b3color, mark=*,mark size=.5pt] table [x=t, y=B3, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b4color, mark=*,mark size=.5pt] table [x=t, y=B4, col sep=comma] {\root/x.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.1, smooth=0.01, thin, ylabel=$\V{h}$]
+
+\addplot table [x=t,  y=0, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/h.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/h.csv};
+\addplot[draw opacity=1] table [x=t, y=11, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/h.csv};
+\addplot[draw opacity=1] table [x=t, y=23, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/h.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/h.csv};
+
+\nextgroupplot[cycle list name=featurecolorlist, draw opacity=.1, smooth=0.01, thin, ylabel=$\V{c}$]
+%
+\addplot table [x=t,  y=0, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=1, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=2, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=3, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=4, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=5, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=6, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=7, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=8, col sep=comma] {\root/c.csv};
+\addplot table [x=t,  y=9, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=10, col sep=comma] {\root/c.csv};
+\addplot[draw opacity=1] table [x=t, y=11, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=12, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=13, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=14, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=15, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=16, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=17, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=18, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=19, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=20, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=21, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=22, col sep=comma] {\root/c.csv};
+\addplot[draw opacity=1] table [x=t, y=23, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=24, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=25, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=26, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=27, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=28, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=29, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=30, col sep=comma] {\root/c.csv};
+\addplot table [x=t, y=31, col sep=comma] {\root/c.csv};
+
+\end{groupplot}
+
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}
+\begin{tikzpicture}
+%
+%	\frametitle{Example}
+%		
+
+\def\root{images/rnn_examples/5}
+
+
+\begin{groupplot}[
+group style = {
+	group size = 1 by 3,
+	xlabels at=edge bottom,
+	xticklabels at=edge bottom,
+	vertical sep=0pt,
+},
+width=\textwidth,
+%		hide axis,
+enlargelimits=.1,
+height=4cm,
+%ymin=-.2, ymax=.2,
+%no marks,
+]
+\nextgroupplot[draw opacity=.8, smooth=0.01, ylabel=$\V{y}$]
+\addplot[b11color, mark=*,mark size=.5pt] table [x=t, y=B11, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b12color, mark=*,mark size=.5pt] table [x=t, y=B12, col sep=comma] {\root/x.csv};
+
+\addplot[b5color, mark=*,mark size=.5pt] table [x=t, y=B5, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b6color, mark=*,mark size=.5pt] table [x=t, y=B6, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b7color, mark=*,mark size=.5pt] table [x=t, y=B7, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8color, mark=*,mark size=.5pt] table [x=t, y=B8, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b8Acolor, mark=*,mark size=.5pt] table [x=t, y=B8A, col sep=comma] {\root/x.csv};
+
+\addplot[b2color, mark=*,mark size=.5pt] table [x=t, y=B2, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b3color, mark=*,mark size=.5pt] table [x=t, y=B3, col sep=comma, forget plot] {\root/x.csv};
+\addplot[b4color, mark=*,mark size=.5pt] table [x=t, y=B4, col sep=comma] {\root/x.csv};
+
+\nextgroupplot[draw opacity=.8, smooth=0.01, ylabel=$\frac{\partial y^+}{\partial \V{X}}$]
+\addplot[b11color, mark=*,mark size=.5pt] table [x=t, y=B11, col sep=comma, forget plot] {\root/dydx.csv};
+\addplot[b12color, mark=*,mark size=.5pt] table [x=t, y=B12, col sep=comma] {\root/dydx.csv};
+
+\addplot[b5color, mark=*,mark size=.5pt] table [x=t, y=B5, col sep=comma, forget plot] {\root/dydx.csv};
+\addplot[b6color, mark=*,mark size=.5pt] table [x=t, y=B6, col sep=comma, forget plot] {\root/dydx.csv};
+\addplot[b7color, mark=*,mark size=.5pt] table [x=t, y=B7, col sep=comma, forget plot] {\root/dydx.csv};
+\addplot[b8color, mark=*,mark size=.5pt] table [x=t, y=B8, col sep=comma, forget plot] {\root/dydx.csv};
+\addplot[b8Acolor, mark=*,mark size=.5pt] table [x=t, y=B8A, col sep=comma] {\root/dydx.csv};
+
+\addplot[b2color, mark=*,mark size=.5pt] table [x=t, y=B2, col sep=comma, forget plot] {\root/dydx.csv};
+\addplot[b3color, mark=*,mark size=.5pt] table [x=t, y=B3, col sep=comma, forget plot] {\root/dydx.csv};
+\addplot[b4color, mark=*,mark size=.5pt] table [x=t, y=B4, col sep=comma] {\root/dydx.csv};
+
+\end{groupplot}
+\end{tikzpicture}
+\end{frame}
