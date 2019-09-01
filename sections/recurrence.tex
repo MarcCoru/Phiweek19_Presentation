@@ -68,68 +68,6 @@
 }
 
 \begin{frame}
-	\frametitle{Long Short Term Memory (LSTM) Recurrent Network}
-	\tikzstyle{focused} = [fill=tumorange, draw, rounded corners, thin]
-	\tikzstyle{unfocused} = [fill=white, draw, rounded corners, thin]
-	
-	\tikzstyle{rec} = [draw=tumbluedark, fill=none, rounded corners, inner sep=0em, minimum width=5em, minimum height=6em]
-	\tikzstyle{conn} = [-stealth, tumbluedark, very thick]
-	\begin{tikzpicture}[node distance=3em]
-	\node[rec](rec){\gates{t}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}};
-	\draw[conn] ($ (rec)+(0,5em) $) -- (rec) node[at start, above]{$\V{x}_t$};
-	\draw[conn] (rec) -- ($ (rec)+(0,-5em) $) node[at end, below]{$\V{h}_t$};
-	
-	\draw[conn] (rec.south) to[in=270, out=250, looseness=2] ($ (rec.west)+(-1.5em,0) $) to[in=110, out=90, looseness=2] (rec.north) node[at start, left, xshift=-4em]{$\V{h}_{t-1}$};
-	
-	\node[rec, right=3em of rec](unrolled0){
-		\only<1-2,4>{\gates{1}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}}
-		\only<3>{\gates{1}{unfocused}{unfocused}{unfocused}{unfocused}{focused}}
-	};
-	\visible<1->{\node[above=of unrolled0, unfocused](x0){$\V{x}_1$};}
-	\draw[conn] (x0) -- (unrolled0);
-	\draw[conn] (unrolled0) -- ($ (unrolled0)+(0,-5em) $);
-	\visible<1->{\node[below=of unrolled0, unfocused](h0){$\V{h}_1$};}
-	
-	\coordinate(sep) at ($ (rec)!0.5!(unrolled0) $);
-	
-	\draw[dotted, thick] ($ (sep)+(0,-5em) $) -- ($ (sep)+(0,5em) $);
-	
-	\node[rec, right=of unrolled0](unrolled1){
-		\only<1>{\gates{2}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}}
-		\only<2>{\gates{2}{focused}{unfocused}{focused}{unfocused}{unfocused}}
-		\only<3>{\gates{2}{unfocused}{focused}{unfocused}{unfocused}{focused}}
-		\only<4>{\gates{2}{unfocused}{unfocused}{unfocused}{focused}{focused}}
-	};
-	\visible<1>{\node[above=of unrolled1, unfocused](x1){$\V{x}_2$};}
-	\visible<2>{\node[above=of unrolled1, focused](x1){$\V{x}_2$};}
-	\visible<3>{\node[above=of unrolled1, unfocused](x1){$\V{x}_2$};}
-	\visible<4>{\node[above=of unrolled1, focused](x1){$\V{x}_2$};}
-	\draw[conn] (x1) -- (unrolled1);
-	\draw[conn] (unrolled1) -- ($ (unrolled1)+(0,-5em) $);
-	
-	\visible<1-3>{\node[below=of unrolled1, unfocused](h0){$\V{h}_2$};}
-	\visible<4>{\node[below=of unrolled1, focused](h0){$\V{h}_2$};}
-	%													  i f g o c
-	\phantom{
-	\node[rec, right=of unrolled1](unrolled2){\gates{3}{unfocused}{unfocused}{unfocused}{unfocused}{unfocused}};
-	\draw[conn] ($ (unrolled2)+(0,5em) $) -- (unrolled2) node[at start, above]{$\V{x}_3$};
-	\draw[conn] (unrolled2) -- ($ (unrolled2)+(0,-5em) $) node[at end, below]{$\V{h}_3$};;
-	}
-	
-	\visible<1-3>{\draw[conn] (unrolled0) -- (unrolled1) node[midway, above, unfocused]{$\V{h}_1$};}
-	\visible<4>{\draw[conn] (unrolled0) -- (unrolled1) node[midway, above, focused]{$\V{h}_1$};}
-	
-	\visible<1-3>{\draw[conn] (unrolled1) -- (unrolled2) node[midway, above, unfocused]{$\V{h}_2$};}
-	\visible<4>{\draw[conn] (unrolled1) -- (unrolled2) node[midway, above, focused]{$\V{h}_2$};}
-	
-	
-	\end{tikzpicture}
-	
-	
-\end{frame}
-
-
-\begin{frame}
 
 %1 gates
 %2 input gate
@@ -140,7 +78,7 @@
 %7 output
 
 \frametitle{Long Short Term Memory (LSTM) Recurrent Network}
-\tikzstyle{focused} = [fill=tumorange, draw, rounded corners, thin]
+\tikzstyle{focused} = [fill=tumbluedark, text=white, draw, rounded corners, thin]
 \tikzstyle{unfocused} = [fill=white, draw, rounded corners, thin]
 \tikzstyle{background} = [fill=white, draw, rounded corners, thin, opacity=0.2]
 
@@ -209,7 +147,7 @@
 
 \column{.5\textwidth}
 
-Long Short-Term Memory Neural Network (LSTM) calculates new output $\V{h}_t$ and cell state $\V{c}_t$ based on current input $\V{x}_t$ and previous (short-term) output $\V{h}_{t-1}$ and long-term internal cell state $\V{c}_{t-1}$ :
+Long Short-Term Memory Neural Network (LSTM):
 \begin{equation*}
 	\V{h}_t, \V{c}_t \leftarrow \V{x}_t ,\V{h}_{t-1}, \V{c}_{t-1}
 \end{equation*}

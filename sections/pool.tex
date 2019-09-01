@@ -90,3 +90,48 @@ Github + DockerHub
 	
 \end{columns}
 \end{frame}
+
+
+\begin{frame}
+\frametitle{test}
+
+\tikzstyle{conn} = [-stealth, rounded corners, tumbluedark, thick]
+\tikzstyle{module} = [draw=none, fill=tumgraylight, rounded corners]
+\tikzstyle{layer} = [draw=none, fill=tumbluelight, rounded corners]
+
+\visible<2>{
+	\begin{tikzpicture}[node distance=2em]
+	\node(input){inputs};
+	\node[below of=input](plus){+};
+	\node[left of=plus](posenc){p};
+	
+	\node[module, below=2em of plus](attn){Multi-Head-Attention};
+	\node[module, below=.5em of attn](addnorm){Add \& Norm};
+	
+	\node[module, below=2em of addnorm](ff){Feed Forward};
+	\node[module, below=.5em of ff](addnorm2){Add \& Norm};
+	
+	
+	\coordinate[above=of attn](in);
+	\coordinate[below=of addnorm2](out);
+	\draw[conn] (in) -- (attn);
+	\draw[conn] (in) -- ($ (attn)!.5!(in) $) -| ($ (attn.north)+(2em,0) $);
+	\draw[conn] (in) -- ($ (attn)!.5!(in) $) -| ($ (attn.north)-(2em,0) $);  
+	%		
+	\draw[conn] (in) -- ($ (attn)!.6!(in) $) -| ($ (attn.east)+(.5em,0) $) |- (addnorm.east);
+	
+	\draw[conn] (attn) -- (addnorm);
+	
+	\draw[conn] (addnorm) -- (ff);
+	\draw[conn] (addnorm) -- ($ (addnorm)!.5!(ff) $) -| ($ (ff.east)+(.5em,0) $) |- (addnorm2.east);
+	\draw[conn] (ff) -- (addnorm2);
+	\draw[conn] (addnorm2) -- (out);
+	
+	\begin{pgfonlayer}{background}
+	\node[layer, draw=black, fit=(attn)(addnorm)(ff)(addnorm2)(in)(out)]{};
+	\end{pgfonlayer}
+	
+	\end{tikzpicture}
+}
+
+\end{frame}

@@ -1,10 +1,10 @@
 
-{\setbeamercolor{background canvas}{bg=tumblue}
+{\setbeamercolor{background canvas}{bg=tumbluedark}
 	\begin{frame}[plain]
 	\vfill
 	\begin{center}
 		\Huge\color{tumwhite}
-		Results
+		So, ... are deep learning methods on raw data as accurate as on preprocessed data?
 	\end{center}
 	\vfill
 \end{frame}
@@ -37,9 +37,26 @@
 
 \begin{frame}
 
-\rawtimeseriestwo{12-71456800_raw.csv}
+\begin{tabular}{lrrr}
+	& Raw Sentinel 2 Data & \includegraphics[width=1cm]{images/GAF_logo}-preprocessed Sentinel 2 Data \\
+	& \rawtimeseriestwo{12-71456800_raw.csv} & \rawtimeseriestwo{12-71456800.csv} \\
+	& \rawtimeseriestwo{27-71460091_raw.csv} & \rawtimeseriestwo{27-71460091.csv} \\
+	& \rawtimeseriestwo{1-71470174_raw.csv} & \rawtimeseriestwo{1-71470174.csv} \\
+\end{tabular}
 
-\rawtimeseriestwo{12-71456800.csv}
+%\begin{columns}[t]
+%	
+%	\column{.5\textwidth}
+%	Raw Sentinel 2 Data
+%	
+%	\rawtimeseriestwo{12-71456800_raw.csv}
+%	
+%	\column{.5\textwidth}
+%	\includegraphics[width=2cm]{images/GAF_logo}-preprocessed Sentinel 2 Data
+%	
+%	\rawtimeseriestwo{12-71456800.csv}
+%	
+%\end{columns}
 
 %	\begin{tikzpicture}[baseline=-2em, inner sep=0]
 %

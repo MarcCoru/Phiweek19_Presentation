@@ -24,6 +24,7 @@
 \usepackage{graphicx}
 \usepackage{nth}
 \usepackage{ifthen}
+\usepackage{minted}
 
 \PassOptionsToPackage{cmyk}{xcolors}
 
@@ -85,6 +86,10 @@
 \usetikzlibrary{shapes}
 \usetikzlibrary{calc}
 \usetikzlibrary{positioning}
+\newcommand\tikzmark[1]{
+	\tikz[remember picture,overlay] \coordinate (#1);
+}
+
 \usetikzlibrary{matrix}
 \usepackage[nodayofweek,level]{datetime}
 \usetikzlibrary{spy}
@@ -432,161 +437,6 @@ x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
 \tikzstyle{tsmark} = [mark=*,mark size=1pt]
 
 
-\colorlet{querycolor}{tumorange}
-\newcommand{\attnquery}{%
-	\only<1,2>{%
-		\begin{tikzpicture}[scale=0.6]
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 0){.2};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 0){.1};
-		\end{tikzpicture}
-	}%
-	\only<3>{%
-		\begin{tikzpicture}[scale=0.4]
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 0){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 2){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 3){};
-		
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 0){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 1){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 2){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 3){};
-		
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (2, 0){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (2, 1){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (2, 2){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (2, 3){};
-		
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (3, 0){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (3, 1){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (3, 2){};
-		\node[draw=querycolor, circle, fill=querycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (3, 3){};
-		\end{tikzpicture}
-	}%
-}
-
-
-\colorlet{attentioncolor}{tumred}
-\newcommand{\attention}{%
-	\only<1,2>{%
-		\begin{tikzpicture}[scale=0.6]
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,0){.2};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,0){.4};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,0){.1};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,0){.3};
-		\end{tikzpicture}
-	}%
-	\only<3>{%
-		\begin{tikzpicture}[scale=0.4]
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,0){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,0){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,0){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,0){};
-		
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,1){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,1){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,1){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,1){};
-		
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,2){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,2){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,2){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,2){};
-		
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](a) at (1,3){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.8, text opacity=1, font=\small, inner sep=.2em](b) at (2,3){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](c) at (3,3){};
-		\node[draw=attentioncolor, circle, fill=attentioncolor, fill opacity=.6, text opacity=1, font=\small, inner sep=.2em](d) at (4,3){};
-		\end{tikzpicture}
-	}%
-}
-
-\colorlet{valuecolor}{tumblue}
-\newcommand{\attnv}{%
-	\only<1,2>{%
-		\begin{tikzpicture}[scale=0.6]
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){.2};
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (0, 2){.1};
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (0, 3){.3};
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (0, 4){.4};
-		\end{tikzpicture}
-	}%
-	\only<3>{%
-		\begin{tikzpicture}[scale=0.4]
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){};
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (0, 2){};
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (0, 3){};
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (0, 4){};
-		
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (1, 1){};
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 2){};
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (1, 3){};
-		\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (1, 4){};
-		\end{tikzpicture}
-	}%
-}
-
-\colorlet{attentionoutcolor}{tumbluedark}
-\newcommand{\attnout}{%
-	\only<1,2>{%
-		\begin{tikzpicture}[scale=0.6]
-		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,0){.27};
-		\end{tikzpicture}
-	}	
-	\only<3>{%
-		\begin{tikzpicture}[scale=0.4]
-		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,0){};
-		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,1){};
-		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,2){};
-		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (0,3){};
-		
-		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (1,0){};
-		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (1,1){};
-		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (1,2){};
-		\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (1,3){};
-		\end{tikzpicture}
-	}%
-}
-
-\colorlet{keycolor}{tumgreen}
-\newcommand{\attnkey}{
-	\only<1,2>{%
-		\begin{tikzpicture}[scale=0.6]
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 0){.2};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 0){.1};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 0){.3};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 0){.4};
-		
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){.2};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 1){.1};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 1){.3};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 1){.4};
-		\end{tikzpicture}
-	}
-	\only<3>{%
-		\begin{tikzpicture}[scale=0.4]
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 0){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 0){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 0){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 0){};
-		
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 1){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 1){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 1){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 1){};
-		
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 2){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 2){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 2){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 2){};
-		
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](a) at (0, 3){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](b) at (1, 3){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (2, 3){};
-		\node[draw=keycolor, circle, fill=keycolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (3, 3){};
-		\end{tikzpicture}
-	}%
-}
 
 \definecolor{s1}{RGB}{228, 26, 28}
 \definecolor{s2}{RGB}{55, 126, 184}
