@@ -13,7 +13,7 @@
 \pgfplotsset{every axis/.append style={ybar=1pt, bar width=6pt, ymajorgrids}}
 \pgfplotsset{every axis label/.append style={font=\footnotesize},tick pos=left,ylabel near ticks}
 \pgfplotsset{every tick label/.append style={font=\scriptsize}}
-\pgfplotsset{every x tick label/.append style={rotate=90,anchor=east,font=\tiny}}
+%\pgfplotsset{every x tick label/.append style={rotate=90,anchor=east,font=\tiny}}
 %   \pgfplotsset{every y tick label/.append style={/pgf/number format/.cd, fixed, precision=2, fixed zerofill,}}
 %\tikzstyle{caption}=[font=\footnotesize, fill=tumwhite, fill opacity=.5, text opacity=1]
 

@@ -4,45 +4,41 @@
 	\vfill
 	\begin{center}
 		\Huge\color{tumwhite}
-		So, ... are deep learning methods on raw data as accurate as on preprocessed data?
+		Quantitative Experimental Results
 	\end{center}
 	\vfill
 \end{frame}
 }
 
-\begin{frame}
-	\frametitle{Preprocessed versus Raw Data (Sentinel 2, Region Holl)}
-	
-	\begin{tabular}{rrlrlrlrl}
-		\toprule
-		 & \multicolumn{2}{c}{MS-ResNet} & \multicolumn{2}{c}{RNN (LSTM)} & \multicolumn{2}{c}{Transformer} & \multicolumn{2}{c}{TempCNN} \\
-		 & acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ \\
-		\cmidrule(lr){2-3}\cmidrule(lr){4-5} \cmidrule(lr){6-7}\cmidrule(lr){8-9}
-		preprocessed & \textbf{0.8654} & \textbf{0.8360} & 0.7997 & 0.7513 & \textbf{0.8647} & \textbf{0.8363} & \textbf{0.8407} & \textbf{0.8034} \\
-		raw 		 & 0.8331 & 0.7971 & \textbf{0.8048} & \textbf{0.7611} & 0.7859 & 0.7420 & 0.7944 & 0.7462 \\
-		\bottomrule
-	\end{tabular}
-	
-%	\begin{tabular}{rllll}
-%		\toprule
-%		overall accuracy & MS-ResNet & RNN (LSTM) & Transformer & TempCNN \\
-%		\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}
-%		preproc. (GAF) & 0.8654 & 0.7997 & 0.8647 & 0.8407 \\
-%		raw & 0.8331 & 0.8048 & 0.7859 & 0.7944 \\
-%		\bottomrule
-%	\end{tabular}
-	
-\end{frame}
-
 
 \begin{frame}
+	\frametitle{Dataset}
 
-\begin{tabular}{lrrr}
-	& Raw Sentinel 2 Data & \includegraphics[width=1cm]{images/GAF_logo}-preprocessed Sentinel 2 Data \\
-	& \rawtimeseriestwo{12-71456800_raw.csv} & \rawtimeseriestwo{12-71456800.csv} \\
-	& \rawtimeseriestwo{27-71460091_raw.csv} & \rawtimeseriestwo{27-71460091.csv} \\
-	& \rawtimeseriestwo{1-71470174_raw.csv} & \rawtimeseriestwo{1-71470174.csv} \\
-\end{tabular}
+	
+	\begin{tikzpicture}[node distance=.5em]
+	\node(raw1){\rawtimeseriestwo{12-71456800_raw.csv}};
+	\node[right=of raw1](pre1){\rawtimeseriestwo{12-71456800.csv}};
+	
+	\node[below=of raw1](raw2){\rawtimeseriestwo{27-71460091_raw.csv}};
+	\node[right=of raw2](pre2){\rawtimeseriestwo{27-71460091.csv}};
+	
+	\node[above=of raw1]{Raw Sentinel 2 Data};
+	\node[above=of pre1]{\includegraphics[width=1cm]{images/GAF_logo}-preprocessed Sentinel 2 Data};
+	
+	\node[left=of raw1]{meadow};
+	\node[left=of raw2]{wheat};
+	\end{tikzpicture}
+	
+%
+%\begin{tabular}{lcc}
+%	\toprule
+%	Datasets & Raw Sentinel 2 Data & \includegraphics[width=1cm]{images/GAF_logo}-preprocessed Sentinel 2 Data \\
+%	\cmidrule(lr){2-2}\cmidrule(lr){3-3}
+%	{\vspace{1em}meadow} &  & \rawtimeseriestwo{12-71456800.csv} \\
+%	{wheat} & \rawtimeseriestwo{27-71460091_raw.csv} & \rawtimeseriestwo{27-71460091.csv} \\
+%	{32 more} & \rawtimeseriestwo{1-71470174_raw.csv} & \rawtimeseriestwo{1-71470174.csv} \\
+%	\bottomrule
+%\end{tabular}
 
 %\begin{columns}[t]
 %	
@@ -91,99 +87,39 @@
 \end{frame}
 
 
-{\setbeamercolor{background canvas}{bg=white}
-\begin{frame}[plain]
-
-\vspace{8em}
-\begin{center}
-	\Huge\color{tumbluedark}
-	\phantom{How }Should we deal with $\includegraphics[width=2em]{images/icons/cloud2_tumbluedark}^\ast$ at all?
-\end{center}\color{tumbluedark}
-\vspace{2em}
-\raggedleft \Large$^\ast$ ...and other noise in the data
-
-\vfill
-\vspace{6em}
-\raggedleft{\small \color{tumgray}
-	Icons made by Smashicons from www.flaticon.com
-}
-\end{frame}
-}
-
-
 \begin{frame}
-\frametitle{Looking at single pixels}
-\framesubtitle{Sentinel 2 (raw)}
+\frametitle{Models}
 
+\centering\begin{tabular}{lcccc}
+	\toprule
+	& LSTM-RNN$^1$ & Transformer$^1$ & MS-ResNet$^3$ & TempCNN$^4$ \\
+	\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}
+	Mechanism & Recurrence & Self-Attention & Convolution & Convolution \\
+	Parameter & 100k & 600k & 2Mio & 433k \\
+	\bottomrule
+\end{tabular}
 
-\begin{tikzpicture}[baseline=-2em, inner sep=0]
+\vspace{2em}
 
-\begin{axis}[
-width=\textwidth,
-%	hide axis,
-height=5.5cm,
-ymin=0, ymax=1.2,
-%no marks,  
-draw opacity=.8,
-smooth=0.001,
-legend style={at={(.65,1.1)},line width=2pt, draw opacity=1},
-legend columns=3,
-ylabel={reflectance},
-xlabel={time $t$}
-]
+{\small\raggedright
 
+$^1$ Hochreiter, S., \& Schmidhuber, J. (1997). Long short-term memory. Neural computation, 9(8), 1735-1780.
 
-%\only<3->{
-%	\node[draw=tumbluedark, rounded corners, inner sep=0, minimum width=.8em, minimum height=3em](xt) at (axis cs:16,0.155){};
-%	\node (annotxt) at (axis cs:20,1){$\V{x}_t = 
-%		\begin{pmatrix} \rho_\text{B02} \\ \dots \\ \rho_\text{B12} \end{pmatrix} = 
-%		\left(\xtvector\right)$};
-%	\draw[-stealth] (annotxt) -- (xt);
-%}
+$^2$ Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... \& Polosukhin, I. (2017). Attention is all you need. In Advances in neural information processing systems (pp. 5998-6008).
 
-\only<1>{
-\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma]  {images/example/12-71459194_raw.csv};
-\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma]  {images/example/12-71459194_raw.csv};
-\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma]  {images/example/12-71459194_raw.csv};
-\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma]  {images/example/12-71459194_raw.csv};
-\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma]  {images/example/12-71459194_raw.csv};
-\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma]  {images/example/12-71459194_raw.csv};
-\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma]  {images/example/12-71459194_raw.csv};
-\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/12-71459194_raw.csv};
-\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/12-71459194_raw.csv};
-\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/12-71459194_raw.csv};
-\node[font=\Large](classannot) at (axis cs:25,1.1) {\textbf{meadow} \small(parcel 71459194)};
+$^3$ Wang, F., Han, J., Zhang, S., He, X., \& Huang, D. (2018). Csi-net: Unified human body characterization and action recognition. arXiv preprint arXiv:1810.03064.
+
+$^4$ Pelletier, C., Webb, G. I., \& Petitjean, F. (2019). Temporal convolutional neural network for the classification of satellite image time series. Remote Sensing, 11(5), 523.
+
 }
-
-\only<2->{
-\addplot[b2color, tsmark] table [x=t, y=B02, col sep=comma]  {images/example/27-71460294_raw.csv};
-\addplot[b3color, tsmark] table [x=t, y=B03, col sep=comma]  {images/example/27-71460294_raw.csv};
-\addplot[b4color, tsmark] table [x=t, y=B04, col sep=comma]  {images/example/27-71460294_raw.csv};
-\addplot[b5color, tsmark] table [x=t, y=B05, col sep=comma]  {images/example/27-71460294_raw.csv};
-\addplot[b6color, tsmark] table [x=t, y=B06, col sep=comma]  {images/example/27-71460294_raw.csv};
-\addplot[b7color, tsmark] table [x=t, y=B07, col sep=comma]  {images/example/27-71460294_raw.csv};
-\addplot[b8color, tsmark] table [x=t, y=B08, col sep=comma]  {images/example/27-71460294_raw.csv};
-\addplot[b8Acolor, tsmark] table [x=t, y=B8A, col sep=comma] {images/example/27-71460294_raw.csv};
-\addplot[b11color, tsmark] table [x=t, y=B11, col sep=comma] {images/example/27-71460294_raw.csv};
-\addplot[b12color, tsmark] table [x=t, y=B12, col sep=comma] {images/example/27-71460294_raw.csv};
-}
-\only<2>{
-\node[font=\Large](classannot) at (axis cs:25,1.1) {\textbf{wheat} \small(parcel 71460294)};
-}
-
-
-\end{axis}
-
-\end{tikzpicture}
 
 \end{frame}
-
 
 
 \begin{frame}
 \frametitle{Preprocessed versus Raw Data (Sentinel 2, Region Holl)}
 
-\begin{tabular}{lrlrlrlrl}
+\begin{tabular}{rrlrlrlrl}
 	\toprule
 	& \multicolumn{2}{c}{MS-ResNet} & \multicolumn{2}{c}{RNN (LSTM)} & \multicolumn{2}{c}{Transformer} & \multicolumn{2}{c}{TempCNN} \\
 	& acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ \\
@@ -195,103 +131,4 @@ xlabel={time $t$}
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Radar}
 
-\begin{tabular}{lrlrlrlrl}
-	\toprule
-	preprocessed data& \multicolumn{2}{c}{MS-ResNet} & \multicolumn{2}{c}{RNN (LSTM)} & \multicolumn{2}{c}{Transformer} & \multicolumn{2}{c}{TempCNN} \\
-	& acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ \\
-	\cmidrule(lr){2-3}\cmidrule(lr){4-5} \cmidrule(lr){6-7}\cmidrule(lr){8-9}
-	Sentinel 1 + Sentinel 2 	& x & x & 0.7983 & 0.7503 & 0.8384 & 0.8037 & x & x \\
-	Sentinel 2 (optical)	 	& x & x & 0.7845 & 0.7338 & 0.7936 & 0.7439 & x & x \\
-	Sentinel 1 (radar)		 	& x & x & 0.7305 & 0.6608 & 0.7471 & 0.6861 & x & x \\
-	\midrule \\
-	raw data \\
-	Sentinel 2 (optical) & 0.8331 & 0.7971 & \textbf{0.8048} & \textbf{0.7611} & 0.7859 & 0.7420 & 0.7944 & 0.7462 \\
-\end{tabular}
-
-\begin{tabular}{lrlrlrlrl}
-	\toprule
-	& \multicolumn{2}{c}{MS-ResNet} & \multicolumn{2}{c}{RNN (LSTM)} & \multicolumn{2}{c}{Transformer} & \multicolumn{2}{c}{TempCNN} \\
-	& acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ \\
-	\cmidrule(lr){2-3}\cmidrule(lr){4-5} \cmidrule(lr){6-7}\cmidrule(lr){8-9}
-	raw (optical)		 & 0.8331 & 0.7971 & \textbf{0.8048} & \textbf{0.7611} & 0.7859 & 0.7420 & 0.7944 & 0.7462 \\
-	\bottomrule
-\end{tabular}
-
-TODO experiments:
-\begin{itemize}
-	\item multiple runs and report standard deviation
-	\item merge rows to one table
-\end{itemize}
-
-\end{frame}
-
-
-%\input{images/examples.tex}
-%\begin{frame}
-%\frametitle{Qualitative Examples}
-%%	\framesubtitle{ConvGRU with r=256 recurrent cells}
-%\centering
-%\begin{tikzpicture}
-%\matrix (m) [matrix of nodes, ampersand replacement=\&, row sep=0pt, column sep=2mm]{
-%	$\V{x}_{RGB,t}$ \& labels $\V{y}$ \& pred. $\hat{\V{y}}$ \& $H(\V{y},\hat{\V{y}}$) \& activation \& activation \& activation \& activation
-%	\tileexample{16494}{maize}{maize}{meadow}{meadow}{peas}{peas}{rape}{rape}
-%	\tileexample{8133}{winter_spelt}{spelt}{winter_wheat}{wheat}{summer_barley}{s.barley}{maize}{maize}
-%	\tileexample{12894}{meadow}{meadow}{winter_wheat}{wheat}{potatoe}{potato}{maize}{maize}
-%	%		\tileexample{1823}{meadow}{meadow}{winter_wheat}{wheat}{summer_oat}{oat}{maize}{maize}
-%	\\
-%};
-%\makeexamplelegend
-%\end{tikzpicture}
-%\end{frame}
-
-%\begin{frame}
-%\frametitle{Qualitative Examples}
-%%	\framesubtitle{ConvGRU with r=256 recurrent cells}
-%\centering
-%\begin{tikzpicture}
-%\matrix (m) [matrix of nodes, ampersand replacement=\&, row sep=0pt, column sep=2mm]{
-%$\V{x}_{RGB,t}$ \& labels $\V{y}$ \& pred. $\hat{\V{y}}$ \& $H(\V{y},\hat{\V{y}}$) \& activation \& activation \& activation \& activation
-%\tileexample{10879}{winter_rye}{rye}{winter_triticale}{triticale}{summer_barley}{s.barley}{winter_barley}{w.barley}
-%\tileexample{10792}{winter_rye}{rye}{winter_wheat}{wheat}{winter_triticale}{triticale}{summer_barley}{s.barley}
-%%		\tileexample{10969}{winter_wheat}{wheat}{winter_triticale}{triticale}{winter_rye}{rye}{rape}{rape}
-%\tileexample{172}{winter_wheat}{wheat}{meadow}{meadow}{maize}{maize}{winter_barley}{w.barley}
-%\\
-%};
-%\makeexamplelegend
-%\end{tikzpicture}
-%\end{frame}
-
-
-%\begin{frame}
-%\frametitle{How did the ConvRNN handle the cloud noise?}
-%
-%We performed two experiments
-%\begin{enumerate}
-%	\item Visualization of internal network states. We found some hidden states that were sensitive 
-%\end{enumerate}
-%
-%\end{frame}
-
-
-
-
-%\begin{frame}
-%\frametitle{Looking back at the Unreasonable Effectiveness of RNNs Blog}
-%\texttt{http://karpathy.github.io/2015/05/21/rnn-effectiveness/}
-%\includegraphics[width=\textwidth]{images/karpathy_charrnn}
-%\end{frame}
-
-%\input{images/activations.tikz}
-%\begin{frame}
-%\frametitle{Cloud Sensitive Cells}
-%\framesubtitle{LSTM cell \textbf{47} of 256}
-%\figactivations{1}{47}
-%\end{frame}
-%
-%\begin{frame}
-%\frametitle{Ablation Experiment on Cloudy Data}
-%\input{images/clouds.tikz}
-%\end{frame}
