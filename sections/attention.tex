@@ -40,10 +40,11 @@
 		\column{.5\textwidth}
 		
 		\only<1>{
-			\begin{itemize}
-				\item let's assume we have a sequence of observations.
-				\item each observation is differently important given one objective (defined by query).
-				\item we want an output focused only on the important observations
+			\begin{itemize}[leftmargin=0em]
+				\item Given a \textbf{sequence of observations}.
+				\item We want to \textbf{calculate an output} based only on \textbf{classification-relevant} observations.
+				\item This is realized by an weighted sum \\
+				over \textbf{\color{tumbluedark}attention scores}
 			\end{itemize}
 			
 			
@@ -114,11 +115,11 @@
 			}
 			
 			\visible<1>{
-				\node(annot1) at (5.5,.1){keep those};
+				\node(annot1) at (5.5,.1){relevant};
 				\draw[-stealth, tumred, shorten <= .3em, , shorten >= .3em](annot1) -- (b);
 				\draw[-stealth, tumred, shorten <= .3em, , shorten >= .3em](annot1) -- (d);
 				
-				\node(annot2) at (3.5,.85){ignore these};
+				\node(annot2) at (3.5,.85){not relevant};
 				\draw[-stealth, tumbluelight, shorten <= 1em, shorten >= 1em](annot2) -- (a);
 				\draw[-stealth, tumbluelight, shorten <= 1em, shorten >= 1em](annot2) -- (c);
 			}
@@ -146,7 +147,7 @@
 		\begin{equation*}
 		\text{Attention}({\color{tumorange}\V{K}}, {\color{tumgreen}\V{Q}}, {\color{tumblue}\V{V}}) = 
 		\text{softmax}\left({\color{tumgreen}\V{Q}^T}{\color{tumorange}\V{K}}\right)
-		{\color{tumblue}\V{V}}, \quad \V{V} \in \mathbb{R}^{T \times D_v}, \V{Q} \in \mathbb{R}^{D_k \times T}, \M{K} \in \mathbb{R}^{D_k \times T}
+		{\color{tumblue}\V{V}}, \quad \V{V} \in \mathbb{R}^{T \times D_v}, \V{Q}, \M{K} \in \mathbb{R}^{D_k \times T}, \M{\alpha} \in \mathbb{R}^{T \times T}
 		\end{equation*}
 	}
 	\only<5>{
@@ -158,17 +159,12 @@
 
 \begin{frame}
 	\frametitle{Visualize the Attention Matrix as Adjacency Matrix}
-	\begin{tikzpicture}
-		\node[inner sep=0](alpha){\includegraphics[width=5cm]{images/self-attention/transformer/self-attention-1/head0_imshow}};
+	\centering\begin{tikzpicture}[inner sep=0]
+		\node[inner sep=0](alpha){\includegraphics[width=6cm]{images/self-attention/transformer/self-attention-1/head0_imshow}};
 		\node[left=0em of alpha]{$T_\text{in}$};
-		\node[right=of alpha](colorbar){\includegraphics[height=5cm]{images/self-attention/colorbar}};
+		\node[right=of alpha](colorbar){\includegraphics[height=6cm]{images/self-attention/colorbar}};
 		\node[below=0em of alpha]{$T_\text{out}$};
-		
 	\end{tikzpicture}
-	
-%	\includegraphics[width=4cm]{images/self-attention/transformer/self-attention-1/head1_imshow}
-%	\includegraphics[width=4cm]{images/self-attention/transformer/self-attention-1/head2_imshow}
-	
 \end{frame}
 
 \begin{frame}
@@ -183,33 +179,96 @@
 \end{frame}
 
 \begin{frame}
-	\includegraphics[width=\textwidth]{images/self-attention}
+	\frametitle{Attention Scores in Context of Input Time Series}
+	\framesubtitle{Head 1}
+	\includegraphics[width=\textwidth]{images/self-attention/transformer/self-attention-1/head0_conn_input}
 \end{frame}
 
 \begin{frame}
-	
-	
-	\begin{tikzpicture}[baseline=-2em, inner sep=0]
-	
-	\def\path{images/self-attention/transformer}
-	
-	\begin{axis}[
-	thin,
-	width=6cm,
-	hide axis,
-	height=3cm,
-	ymin=0, ymax=1.4,
-	no marks,  
-	draw opacity=.8,
-	smooth=0.01
-	]
-	
-%	\addplot table [x index = 0, y index = 0, col sep=comma] {\path/self-attention-1/enc-input.txt};
-%	
-	
-	\end{axis}
-	
-	\end{tikzpicture}
-	
+\frametitle{Attention Scores in Context of Input Time Series}
+\framesubtitle{Head 2}
+\includegraphics[width=\textwidth]{images/self-attention/transformer/self-attention-1/head1_conn_input}
 \end{frame}
 
+\begin{frame}
+\frametitle{Attention Scores in Context of Input Time Series}
+\framesubtitle{Head 3}
+\includegraphics[width=\textwidth]{images/self-attention/transformer/self-attention-1/head2_conn_input}
+\end{frame}
+
+%\begin{frame}
+%	\frametitle{Transformer}
+%	
+%	\tikzstyle{conn} = [-stealth, rounded corners, tumbluedark, thick]
+%	\tikzstyle{module} = [draw=none, fill=tumgraylight, rounded corners]
+%	\tikzstyle{layer} = [draw=none, fill=tumbluelight, rounded corners]
+%	
+%	\newcommand{\attentionblock}{
+%	\begin{tikzpicture}[node distance=2em]
+%%		\node(input){inputs};
+%%		\node[below of=input](plus){+};
+%%		\node[left of=plus](posenc){p};
+%		
+%		\node[module](attn){Multi-Head-Attention};
+%		\node[module, below=.5em of attn](addnorm){Add \& Norm};
+%		
+%		\node[module, below=2em of addnorm](ff){Feed Forward};
+%		\node[module, below=.5em of ff](addnorm2){Add \& Norm};
+%		
+%		
+%		\coordinate[above=of attn](in);
+%		\coordinate[below=of addnorm2](out);
+%		\draw[conn] (in) -- (attn);
+%		\draw[conn] (in) -- ($ (attn)!.5!(in) $) -| ($ (attn.north)+(2em,0) $);
+%		\draw[conn] (in) -- ($ (attn)!.5!(in) $) -| ($ (attn.north)-(2em,0) $);  
+%		%		
+%		\draw[conn] (in) -- ($ (attn)!.6!(in) $) -| ($ (attn.east)+(.5em,0) $) |- (addnorm.east);
+%		
+%		\draw[conn] (attn) -- (addnorm);
+%		
+%		\draw[conn] (addnorm) -- (ff);
+%		\draw[conn] (addnorm) -- ($ (addnorm)!.5!(ff) $) -| ($ (ff.east)+(.5em,0) $) |- (addnorm2.east);
+%		\draw[conn] (ff) -- (addnorm2);
+%		\draw[conn] (addnorm2) -- (out);
+%		
+%		\begin{pgfonlayer}{background}
+%		\node[layer, draw=black, fit=(attn)(addnorm)(ff)(addnorm2)(in)(out)]{};
+%		\end{pgfonlayer}
+%		
+%		\end{tikzpicture}
+%		}
+%	\begin{tikzpicture}
+%		\node(input){input $\M{X}$};
+%		\node[below=of input](posend){posenc};
+%	\end{tikzpicture}
+%	
+%\end{frame}
+
+\begin{frame}
+\frametitle{Self-Attention Block 1}
+\framesubtitle{Head 1}
+\centering\includegraphics[width=.85\textwidth]{images/self-attention/transformer/self-attention-1}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Self-Attention Block 2}
+\framesubtitle{Head 1}
+\centering\includegraphics[width=.85\textwidth]{images/self-attention/transformer/self-attention-2}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Self-Attention Block 3}
+\framesubtitle{Head 1}
+\centering
+\begin{tikzpicture}
+	\node(a){\includegraphics[width=.85\textwidth]{images/self-attention/transformer/self-attention-3}};
+	\node[fill=tumbluedark, text=white, rounded corners, font=\Large, yshift=-2cm] at (a){maxpooling};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+\frametitle{Classification Scores after Outlinear + Softmax}
+\includegraphics[width=.85\textwidth]{images/self-attention/transformer/outlinear}
+\end{frame}
