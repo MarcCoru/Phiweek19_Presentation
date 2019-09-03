@@ -157,6 +157,59 @@
 \end{frame}
 
 \begin{frame}
+	\frametitle{Visualize the Attention Matrix as Adjacency Matrix}
+	\begin{tikzpicture}
+		\node[inner sep=0](alpha){\includegraphics[width=5cm]{images/self-attention/transformer/self-attention-1/head0_imshow}};
+		\node[left=0em of alpha]{$T_\text{in}$};
+		\node[right=of alpha](colorbar){\includegraphics[height=5cm]{images/self-attention/colorbar}};
+		\node[below=0em of alpha]{$T_\text{out}$};
+		
+	\end{tikzpicture}
+	
+%	\includegraphics[width=4cm]{images/self-attention/transformer/self-attention-1/head1_imshow}
+%	\includegraphics[width=4cm]{images/self-attention/transformer/self-attention-1/head2_imshow}
+	
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Visualize the Attention Matrix as Bipartite Graph}
+	\begin{tikzpicture}
+		\node[inner sep=0](alpha){\includegraphics[width=\textwidth]{images/self-attention/transformer/self-attention-1/head0_conn}};
+		\node[above=0em of alpha]{$T_\text{in}$};
+		\node[below=0em of alpha]{$T_\text{out}$};
+	\end{tikzpicture}
+	
+\end{frame}
+
+\begin{frame}
 	\includegraphics[width=\textwidth]{images/self-attention}
+\end{frame}
+
+\begin{frame}
+	
+	
+	\begin{tikzpicture}[baseline=-2em, inner sep=0]
+	
+	\def\path{images/self-attention/transformer}
+	
+	\begin{axis}[
+	thin,
+	width=6cm,
+	hide axis,
+	height=3cm,
+	ymin=0, ymax=1.4,
+	no marks,  
+	draw opacity=.8,
+	smooth=0.01
+	]
+	
+%	\addplot table [x index = 0, y index = 0, col sep=comma] {\path/self-attention-1/enc-input.txt};
+%	
+	
+	\end{axis}
+	
+	\end{tikzpicture}
+	
 \end{frame}
 

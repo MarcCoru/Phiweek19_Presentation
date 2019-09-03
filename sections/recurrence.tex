@@ -1384,37 +1384,43 @@ height=4cm,
 \end{tikzpicture}
 \end{frame}
 
-
-\def\fps{3}
-\input{images/cells.tikz}
-
-\begin{frame}[t]
-\frametitle{Extracting features from noisy data with ConvRNNs}
-
-\centering
-%\lstmanim
-\begin{tikzpicture}[scale=1, node distance=2em]%,show background rectangle,background rectangle/.style={draw=red}]
-
-
-\draw pic (LSTM) at (0,0) {lstmanim};
-\node[io,xshift=1ex,above=3em of LSTMtl, ,label=above:$\VInput_{t}$](xt){\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/x/x-}{1}{36}};%$x_{t}$
-\draw[rounded corners] (xt) |- (LSTM-input);
-\node[io,left=of LSTMtl,label=below:$\VHidden_{t-1}$](htminus1){
-	\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{0}{35}
-};
-\draw[endflow] (htminus1) -- (LSTM-input);
-\node[io,right=of LSTMbr,label=above:$\VCellState_{t}$](ct){\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{1}{36}}; % $c_{t}$
-\draw[endflow] (LSTM-coutput)--(ct);
-\node[io,left=of LSTMbl,label=above:$\VCellState_{t-1}$](ctminus1){\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{0}{35}}; % 
-\draw[endflow] (ctminus1)--(LSTMfmult);
-\node[io,right=of LSTMtr,label=below:$\VHidden_{t}$](ht){
-	\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{1}{36}
-};
-\draw[endflow] (LSTM-houtput)--(ht);
-
-\draw[endflow] (ct) -- ($ (ct)+(0,-0.8) $) -| (ctminus1);
-\draw[endflow] (ht) -- ($ (ht)+(0,.8) $) -| (htminus1);
-
-\end{tikzpicture}
-
+\begin{frame}
+	\frametitle{Jupyter Notebook}
+	
+	\Large
+	\url{github.com/marccoru/phiweek-notebook/recurrence.ipynb}
 \end{frame}
+%
+%\def\fps{3}
+%\input{images/cells.tikz}
+%
+%\begin{frame}[t]
+%\frametitle{Extracting features from noisy data with ConvRNNs}
+%
+%\centering
+%%\lstmanim
+%\begin{tikzpicture}[scale=1, node distance=2em]%,show background rectangle,background rectangle/.style={draw=red}]
+%
+%
+%\draw pic (LSTM) at (0,0) {lstmanim};
+%\node[io,xshift=1ex,above=3em of LSTMtl, ,label=above:$\VInput_{t}$](xt){\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/x/x-}{1}{36}};%$x_{t}$
+%\draw[rounded corners] (xt) |- (LSTM-input);
+%\node[io,left=of LSTMtl,label=below:$\VHidden_{t-1}$](htminus1){
+%	\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{0}{35}
+%};
+%\draw[endflow] (htminus1) -- (LSTM-input);
+%\node[io,right=of LSTMbr,label=above:$\VCellState_{t}$](ct){\animategraphics[poster=25,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{1}{36}}; % $c_{t}$
+%\draw[endflow] (LSTM-coutput)--(ct);
+%\node[io,left=of LSTMbl,label=above:$\VCellState_{t-1}$](ctminus1){\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/state/3-}{0}{35}}; % 
+%\draw[endflow] (ctminus1)--(LSTMfmult);
+%\node[io,right=of LSTMtr,label=below:$\VHidden_{t}$](ht){
+%	\animategraphics[poster=24,width=1cm,autoplay,loop]{\fps}{images/activations/16494/output/3-}{1}{36}
+%%};
+%\draw[endflow] (LSTM-houtput)--(ht);
+%
+%\draw[endflow] (ct) -- ($ (ct)+(0,-0.8) $) -| (ctminus1);
+%\draw[endflow] (ht) -- ($ (ht)+(0,.8) $) -| (htminus1);
+%
+%\end{tikzpicture}
+%
+%\end{frame}
