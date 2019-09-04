@@ -481,3 +481,136 @@ xlabel={time $t$}
 
 \end{frame}
 }
+
+
+\begin{frame}
+\frametitle{Self-Attention Block 1}
+\framesubtitle{Head 1}
+\centering\includegraphics[width=.85\textwidth]{images/self-attention/transformer/self-attention-1}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Self-Attention Block 2}
+\framesubtitle{Head 1}
+\centering\includegraphics[width=.85\textwidth]{images/self-attention/transformer/self-attention-2}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Self-Attention Block 3}
+\framesubtitle{Head 1}
+\centering
+\begin{tikzpicture}
+\node(a){\includegraphics[width=.85\textwidth]{images/self-attention/transformer/self-attention-3}};
+\node[fill=tumbluedark, text=white, rounded corners, font=\Large, yshift=-2cm] at (a){maxpooling};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+\frametitle{Classification Scores after Outlinear + Softmax}
+\includegraphics[width=.85\textwidth]{images/self-attention/transformer/outlinear}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Introducing Notation}
+
+
+\begin{tikzpicture}[baseline=-2em, inner sep=0]
+
+\begin{axis}[
+width=\textwidth,
+%	hide axis,
+height=5.5cm,
+ymin=0, ymax=1.2,
+%no marks,  
+draw opacity=.8,
+smooth=0.001,
+legend style={at={(.65,1.1)},line width=2pt, draw opacity=1},
+legend columns=3,
+ylabel={reflectance},
+xlabel={time $t$}
+]
+
+\addplot[b2color, tsmark, opacity=.6] table [x=t, y=B02, col sep=comma] {images/example/12-71456800_raw.csv};
+\addplot[b3color, tsmark, opacity=.6] table [x=t, y=B03, col sep=comma] {images/example/12-71456800_raw.csv};
+\addplot[b4color, tsmark, opacity=.6] table [x=t, y=B04, col sep=comma] {images/example/12-71456800_raw.csv};
+\addplot[b5color, tsmark, opacity=.6] table [x=t, y=B05, col sep=comma] {images/example/12-71456800_raw.csv};
+\addplot[b6color, tsmark, opacity=.6] table [x=t, y=B06, col sep=comma] {images/example/12-71456800_raw.csv};
+\addplot[b7color, tsmark, opacity=.6] table [x=t, y=B07, col sep=comma] {images/example/12-71456800_raw.csv};
+\addplot[b8color, tsmark, opacity=.6] table [x=t, y=B08, col sep=comma] {images/example/12-71456800_raw.csv};
+\addplot[b8Acolor, tsmark, opacity=.6] table [x=t, y=B8A, col sep=comma] {images/example/12-71456800_raw.csv};
+\addplot[b11color, tsmark, opacity=.6] table [x=t, y=B11, col sep=comma] {images/example/12-71456800_raw.csv};
+\addplot[b12color, tsmark, opacity=.6] table [x=t, y=B12, col sep=comma] {images/example/12-71456800_raw.csv};
+
+\node[draw=tumbluedark, rounded corners, inner sep=0, minimum width=.8em, minimum height=3em](xt) at (axis cs:32,0.22){};
+\node[font=\Large] (annotxt) at (axis cs:38,1.05){$\V{x}_t = 
+	\begin{pmatrix} \rho_\text{B02} \\ \vdots \\ \rho_\text{B12} \end{pmatrix} = 
+	\left(\xtvector\right)$};
+\draw[-stealth] (annotxt) -- (xt);
+
+%
+%\only<1>{
+%	\legend{B02 (blue),B03 (green),B04 (red),B05,B06,B07,B08,B8A,B11,B12}
+%}
+
+\end{axis}
+
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Introducing Notation}
+
+\vspace{-2em}
+
+\begin{tikzpicture}
+\node[](X){$\left(
+\begin{tikzpicture}[baseline=-4em,yscale=-.25, xscale=.4]
+\foreach \x in {0,...,22}{
+	\node[draw=tumgraylight, circle, fill=b2color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,0){};
+	\node[draw=tumgraylight, circle, fill=b3color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,1){};
+	\node[draw=tumgraylight, circle, fill=b4color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,2){};
+	\node[draw=tumgraylight, circle, fill=b5color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,3){};
+	\node[draw=tumgraylight, circle, fill=b6color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,4){};
+	\node[draw=tumgraylight, circle, fill=b7color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,5){};
+	\node[draw=tumgraylight, circle, fill=b8color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,6){};
+	\node[draw=tumgraylight, circle, fill=b8Acolor, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,7){};
+	\node[draw=tumgraylight, circle, fill=b11color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,8){};
+	\node[draw=tumgraylight, circle, fill=b12color, text=white, text opacity=1, font=\small, inner sep=.2em](d) at (\x,9){};
+}
+\end{tikzpicture}\right) \Huge \in \mathbb{R}^{D \times T}$};
+
+\node[draw, rounded corners, xshift=1.85em, minimum width=1em, minimum height=8.5em, label={[name=featurevector]above:$\V{x}_t$}] at (X){};
+
+\node[left=.5em of X, font=\Huge](Xmatr){$\M{X} = $};
+
+
+\node[above=4em of Xmatr, xshift=2em] (annotmatrix){Input Matrix};
+\node[above=1em of featurevector] (annotfeat){feature vector at time $t$};
+
+\draw[-stealth] (annotfeat) -- (featurevector);
+\draw[-stealth] (annotmatrix) -- (Xmatr);
+
+\node[below=5em of Xmatr, font=\Huge](yvect){$\V{y} = $};
+
+\node[right=.1em of yvect](gt){$\begin{pmatrix}
+{y}_i\\ \vdots \\ {y}_C
+\end{pmatrix} = \left(\drawprobas{0}{0}{0}{100}{0}\right) \text{where}~y_i \in \{0,1\}$};
+
+\node[right=1em of gt, font=\Huge](yvect2){$\yhat =$};
+\node[right=.1em of yvect2](gt2){$\begin{pmatrix}
+\hat{y}_i\\ \vdots \\ \hat{y}_C
+\end{pmatrix} = \left(\drawprobas{10}{30}{10}{90}{10}\right) \text{where}~\hat{y}_i \in [0,1]$ and $C$ classes};
+
+\node[below=2em of yvect, xshift=2em] (annoty){ground truth};
+
+\node[below=2em of yvect2, xshift=2em] (annoty2){prediction};
+\draw[-stealth] (annoty) -- (yvect);
+\draw[-stealth] (annoty2) -- (yvect2);
+
+%	\node[below right=of Xmatr] (annotmatrix){Input Matrix};
+\end{tikzpicture}
+\end{frame}

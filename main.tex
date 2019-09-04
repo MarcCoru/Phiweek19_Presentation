@@ -49,49 +49,102 @@
   \titlepage
 \end{frame}
 
-\begin{frame}
-	\frametitle{Outline}
-	
-	First, introduce
-	\begin{description}
-		\item time series data and
-		\item the application crop type identification 
-		\item address data pre-processing
-		\item and end-to-end learning of deep neural networks
-	\end{description}
-
-	Then, qualitatively demonstrate the mechanisms of
-	\begin{description}
-		\item Gated Recurrence 
-		\item Self-attention
-	\end{description}
-
-	Finally, show quantitative results on 
-	\begin{description}
-		\item preprocessed and
-		\item raw Sentinel 2 Time Series
-	\end{description}
-\end{frame}
+%\begin{frame}
+%	\frametitle{Outline}
+%	
+%	First, introduce
+%	\begin{description}
+%		\item time series data and
+%		\item the application   identification 
+%		\item address data pre-processing
+%		\item and end-to-end learning of deep neural networks
+%	\end{description}
+%
+%	Then, qualitatively demonstrate the mechanisms of
+%	\begin{description}
+%		\item Gated Recurrence 
+%		\item Self-attention
+%	\end{description}
+%
+%	Finally, show quantitative results on 
+%	\begin{description}
+%		\item preprocessed and
+%		\item raw Sentinel 2 Time Series
+%	\end{description}
+%\end{frame}
 
 \input{sections/intro.tex}
-\input{sections/preprocessing.tex}
-\input{sections/neuralnetworks.tex}
 
-\begin{frame}
-	\frametitle{Two Mechanisms in Deep Neural Networks}
-	
-	\centering\begin{tikzpicture}
-		\node[minimum width=1cm, minimum height=1.5cm, draw,rounded corners](veg) at (0,0){\vegetationsmodell};
-		\node[below left=of veg]{Gated Recurrence};
-		\node[below right=of veg]{Self-Attention};
-	\end{tikzpicture}
-	
+\begin{frame}<presentation:1-6>
+\frametitle{Data Preprocessing}
+%	
+%	[format] in this presentation we have the special opportunity to to compare commercially pre-processed satellite imagery with raw imagery on crop type classification in Bavaria Germany.
+%	
+\begin{tikzpicture}[node distance=.1em]
+\node[draw=black, rounded corners, minimum height=3cm, minimum width=4.5cm, label=below:preprocessing, font=\Large\bfseries](gaf){%
+	\only<1>{\includegraphics[width=2cm]{images/icons/gears}}%
+	\only<2>{$f_{\Mweight_\text{sel}}$}%
+	\only<3>{$f_{\Mweight_\text{sel}}\left(f_{\Mweight_\text{atm}}\right)$}%
+	\only<4>{$f_{\Mweight_\text{sel}}\left(f_{\Mweight_\text{atm}}\left(f_{\Mweight_\text{cl}}\right)\right)$}%
+	\only<5>{$f_{\Mweight_\text{sel}}\left(f_{\Mweight_\text{atm}}\left(f_{\Mweight_\text{cl}}\left(f_{\text{int}}\right)\right)\right)$}%
+	\only<6>{$\Mweight_\text{preprocessing}$}%
+	\only<7>{\includegraphics[width=2cm]{images/GAF_logo}}%
+};
+\node[right=1.5em of gaf, inner sep=0](raw){\rawtimeseriestwo{12-71456800_raw.csv}};
+\node[font=\huge,left=0em of raw, inner sep=0](bopen){$\Bigg($};
+\node[font=\huge,right=0em of raw, inner sep=0](bopen){$\Bigg)$};
+\visible<1->{
+	\node[right=2em of raw, font=\huge](equals){$=$};
+	\node[right=of equals, yshift=-1em]{\rawtimeseriestwo{12-71456800.csv}};
+}
+\end{tikzpicture}
+
+\only<1-6>{
+	\begin{rdescription}
+		\item[$f_{\Mweight_\text{sel}}(\M{X})$]<2-> temporal selection (not considering winter period) where $\Mweight_\text{sel} = \{t_\text{start}, t_\text{end}\}$
+		\item[$f_{\Mweight_\text{atm}}(\M{X})$]<3-> atmospheric correction ($\M{X}_\text{top-of-atmosphere} \rightarrow \M{X}_\text{bottom-of-atmosphere}$)
+		\item[$f_{\Mweight_\text{cl}}(\M{X})$]<4-> cloud/cloudshadow classification (F-Mask, MAJA, CNNs, Cloud Clustering (go FDL!))
+		\item[$f_{\text{int}}(\M{X})$]<5-> temporal interpolation to generate equal sample times
+		\item[$f_{\Mweight_\text{\dots}}$]<6-> many more...	
+	\end{rdescription}
+}
+\only<7>{
+	\vspace{2em}
+	\centering\Large In this case: Preprocessing Engine of \includegraphics[width=4em]{images/GAF_logo}
+}
+
 \end{frame}
 
+\input{sections/neuralnetworks.tex}
+
+
+\input{sections/results.tex}
+
+
+\begin{frame}
+\frametitle{Understand Neural Networks}
+\framesubtitle{with three Analyses}
+
+\centering\begin{tikzpicture}
+\node[minimum width=1cm, minimum height=1.5cm, draw,rounded corners](veg) at (0,0){\vegetationsmodell};
+\node[below left=of veg]{Gradient Backprop to X};
+\node[below=of veg]{Gated Recurrence};
+\node[below right=of veg]{Self-Attention};
+\end{tikzpicture}
+
+\end{frame}
+
+\input{sections/gradients.tex}
 \input{sections/recurrence.tex}
 \input{sections/attention.tex}
-\input{sections/results.tex}
 %\input{sections/pool.tex}
+
+\begin{frame}
+	\frametitle{Conclusion}
+	We looked at two mechanisms how deep neural networks learn to deal with noise in the data.
+	We raised the question if extensive region-specific preprocessing is necessary in the context of end-to-end learning
+	We provide source code and Notebooks to examples at XXX
+\end{frame}
 
 
 \end{document}
