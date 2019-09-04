@@ -1168,7 +1168,7 @@ no marks,
 \vspace{8em}
 \begin{center}
 \Huge\color{tumwhite}
-One more tool in our Deep Learning toolbox....
+Let's do a input feature importance analysis
 \end{center}\color{white}
 
 \end{frame}
@@ -1180,7 +1180,7 @@ One more tool in our Deep Learning toolbox....
 \vspace{8em}
 \begin{center}
 \Huge\color{tumbluedark}
-Gradients
+with \textbf{gradients}
 \end{center}\color{white}
 
 \end{frame}
@@ -1213,6 +1213,17 @@ $\frac{\partial \max(\yhat)}{\partial \M{X}}$
 \visible<3,5>{\draw[-stealth, shorten >= 1em, rounded corners] (annotdy) -| ($ (annotdy)!0.5!(grad) $) |- ($ (grad)+(2.5em, 1em) $);}
 
 \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Can be implemented in four lines}
+	
+		
+	\Large $\frac{\partial \max(\yhat)}{\partial \M{X}}$ implementation
+	
+	\includegraphics[width=\textwidth]{images/dydx_code}
+	
+	
 \end{frame}
 
 
@@ -1390,13 +1401,7 @@ height=4cm,
 	
 	\Large
 	\textbf{github.com/marccoru/phiweek19/recurrence.ipynb}
-	
-	\vspace{1em}
-	
-	\Large $\frac{\partial \max(\yhat)}{\partial \M{X}}$ implementation
-	
-	\includegraphics[width=\textwidth]{images/dydx_code}
-	
+		
 \end{frame}
 %
 %\def\fps{3}
