@@ -1,6 +1,26 @@
+%{\setbeamercolor{background canvas}{bg=tumbluedark}
+%	\begin{frame}[plain]
+%	
+%	\begin{center}
+%		\Huge\color{tumwhite}
+%		{ Does an }end-to-end trained model learn mechanisms {similar to }data preprocessing?
+%	\end{center}\color{white}
+%	
+%\end{frame}
+%}
+%
+%{\setbeamercolor{background canvas}{bg=tumorange}
+%\begin{frame}[plain]
+%\vfill
+%\begin{center}
+%	\Huge\color{white}
+%	Let's look at...
+%\end{center}
+%\vfill
+%\end{frame}
+%}
 
-
-{\setbeamercolor{background canvas}{bg=black}
+{\setbeamercolor{background canvas}{bg=tumbluedark}
 	\begin{frame}[plain]
 	\vfill
 	\begin{columns}
@@ -12,7 +32,7 @@
 		
 		\column{.5\textwidth}
 		
-		\includegraphics[width=6cm]{images/goldfish_zhengtaoTang}
+		\includegraphics[width=6cm]{images/goldfish_zhengtaoTang.png}
 	\end{columns}
 	\begin{center}
 		\Huge\color{tumwhite}
@@ -26,7 +46,7 @@
 
 
 
-\begin{frame}<presentation:4->
+\begin{frame}%<presentation:4->
 	\only<1-4>{\frametitle{Attention}}
 	\only<5>{\frametitle{Self-Attention}}
 	
@@ -41,15 +61,15 @@
 		
 		\only<1>{
 			\begin{itemize}[leftmargin=0em]
-				\item Given a \textbf{sequence of observations}.
-				\item We want to \textbf{calculate an output} based only on \textbf{classification-relevant} observations.
+				\item Given {\color{valuecolor}\textbf{values} $\V{v}$} as a {sequence of observations}.
+				\item We want to \textbf{\color{attentionoutcolor} calculate a result $\V{h}$} based only on \textbf{classification-relevant} observations.
 				\item This is realized by an weighted sum \\
-				over \textbf{\color{tumbluedark}attention scores}
+				over {\color{attentioncolor}\textbf{attention scores} $\V{\alpha}$}
 			\end{itemize}
 			
 			
 		}
-		\visible<2->{\input{images/attentionmatrices.tikz}}
+		\visible<1->{\input{images/attentionmatrices.tikz}}
 		
 		
 		%	\begin{equation*}
@@ -67,7 +87,7 @@
 		
 		\begin{tikzpicture}[yscale=3]
 			
-			\visible<4->{
+			\visible<3->{
 				\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.2, text opacity=1, font=\small, inner sep=.2em](d) at (1,.35){};
 				\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.1, text opacity=1, font=\small, inner sep=.2em](e) at (2,.05){};
 				\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](f) at (3,.42){};
@@ -89,29 +109,50 @@
 			%\draw[-stealth] (0,0) -- (0,.5);
 			\draw[-stealth, tumgray] (.5,0) -- (4.5,0);
 			
-			\only<2,3>{
-			\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em, label={right:$\sum_{t=0}^{T} \alpha_t v_t = \V{\alpha}^T \V{v}$}](out) at (2.5,-.5) {};
+			\only<1-2>{
+			\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em, label={right:$h = \sum_{t=0}^{T} \alpha_t v_t = \V{\alpha}^T \V{v}$}](out) at (2.5,-.5) {};
 			}
-			\only<4->{
+			\only<3->{
 			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outba) at (1.05,-.48) {};
 			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outbb) at (2.05,-.48) {};
 			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outbc) at (3.05,-.48) {};
 			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outbd) at (4.05,-.48) {};
 				
 			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outa) at (1,-.5) {};
-			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](out) at (2,-.5) {};
-			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outa) at (3,-.5) {};
-			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outa) at (4,-.5) {};
+			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outb) at (2,-.5) {};
+			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outc) at (3,-.5) {};
+			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outd) at (4,-.5) {};
 
 			}
 		
 			\node at (2.5, -.25) {};
 			
-			\visible<2->{
+			\visible<1-2>{
 			\draw[-stealth, draw=tumred, opacity=.4, line width=.4] (a) -- (out);
 			\draw[-stealth, draw=tumred, opacity=.8, line width=.8] (b) -- (out);
 			\draw[-stealth, draw=tumred, opacity=.2, line width=.2] (c) -- (out);
 			\draw[-stealth, draw=tumred, opacity=.6, line width=.6] (d) -- (out);
+			}
+			\only<3->{
+				\draw[-stealth, draw=tumred, opacity=.4, line width=.4] (a) -- (outa);
+				\draw[-stealth, draw=tumred, opacity=.8, line width=.8] (b) -- (outa);
+				\draw[-stealth, draw=tumred, opacity=.2, line width=.2] (c) -- (outa);
+				\draw[-stealth, draw=tumred, opacity=.6, line width=.6] (d) -- (outa);
+				
+				\draw[-stealth, draw=tumred, opacity=.4, line width=.4] (a) -- (outb);
+				\draw[-stealth, draw=tumred, opacity=.8, line width=.8] (b) -- (outb);
+				\draw[-stealth, draw=tumred, opacity=.2, line width=.2] (c) -- (outb);
+				\draw[-stealth, draw=tumred, opacity=.6, line width=.6] (d) -- (outb);
+				
+				\draw[-stealth, draw=tumred, opacity=.4, line width=.4] (a) -- (outc);
+				\draw[-stealth, draw=tumred, opacity=.8, line width=.8] (b) -- (outc);
+				\draw[-stealth, draw=tumred, opacity=.2, line width=.2] (c) -- (outc);
+				\draw[-stealth, draw=tumred, opacity=.6, line width=.6] (d) -- (outc);
+				
+				\draw[-stealth, draw=tumred, opacity=.4, line width=.4] (a) -- (outd);
+				\draw[-stealth, draw=tumred, opacity=.8, line width=.8] (b) -- (outd);
+				\draw[-stealth, draw=tumred, opacity=.2, line width=.2] (c) -- (outd);
+				\draw[-stealth, draw=tumred, opacity=.6, line width=.6] (d) -- (outd);
 			}
 			
 			\visible<1>{
@@ -119,7 +160,7 @@
 				\draw[-stealth, tumred, shorten <= .3em, , shorten >= .3em](annot1) -- (b);
 				\draw[-stealth, tumred, shorten <= .3em, , shorten >= .3em](annot1) -- (d);
 				
-				\node(annot2) at (3.5,.85){not relevant};
+				\node(annot2) at (2.8,.7){not relevant};
 				\draw[-stealth, tumbluelight, shorten <= 1em, shorten >= 1em](annot2) -- (a);
 				\draw[-stealth, tumbluelight, shorten <= 1em, shorten >= 1em](annot2) -- (c);
 			}
@@ -131,12 +172,17 @@
 
 	
 	\Large
-	\only<2>{
+	\only<1-2>{
 	\begin{equation*}
-	\text{Attention}({\color{tumred}\V{\alpha}}, {\color{tumblue}\V{v}}) = {\color{tumred}\V{\alpha}}^T  {\color{tumblue}\V{v}} = \sum_{t=0}^{T} \alpha_tv_t, \quad \V{\alpha} \in [0,1]^{T=4}, \V{v} \in \mathbb{R}^{T}
+	{\color{attentionoutcolor} \V{h}} = \text{Attention}({\color{tumred}\V{\alpha}}, {\color{tumblue}\V{v}}) = {\color{tumred}\V{\alpha}}^T  {\color{tumblue}\V{v}} = \sum_{t=0}^{T} \alpha_tv_t, \quad \V{\alpha} \in [0,1]^{T=4}, \V{v} \in \mathbb{R}^{T}
 	\end{equation*}
 	}
 	\only<3>{
+	\begin{equation*}
+	{\color{attentionoutcolor} \M{H}} = \text{Attention}({\color{tumred}\M{A}}, {\color{valuecolor}\M{V}}) = {\color{attentioncolor}\M{A}}^T  {\color{valuecolor}\M{V}}, \quad \M{A} \in [0,1]^{T_{in} \times T_{out}}, \M{V} \in \mathbb{R}^{T \times D_v}
+	\end{equation*}
+	}
+	\only<0>{
 		\begin{equation*}
 		\text{Attention}({\color{tumorange}\V{K}}, {\color{tumgreen}\V{q}}, {\color{tumblue}\V{v}}) = 
 		\overbrace{\text{softmax}\left({\color{tumgreen}\V{q}^T}{\color{tumorange}\V{K}}\right)}^{{\color{tumred}\V{\alpha}}^T}
@@ -147,36 +193,42 @@
 		\begin{equation*}
 		\text{Attention}({\color{tumorange}\V{K}}, {\color{tumgreen}\V{Q}}, {\color{tumblue}\V{V}}) = 
 		\text{softmax}\left({\color{tumgreen}\V{Q}^T}{\color{tumorange}\V{K}}\right)
-		{\color{tumblue}\V{V}}, \quad \V{V} \in \mathbb{R}^{T \times D_v}, \V{Q}, \M{K} \in \mathbb{R}^{D_k \times T}, \M{\alpha} \in \mathbb{R}^{T \times T}
+		{\color{tumblue}\V{V}}, \quad \V{V} \in \mathbb{R}^{T \times D_v}, \V{Q}, \M{K} \in \mathbb{R}^{D_k \times T}, \M{A} \in \mathbb{R}^{T \times T}
 		\end{equation*}
 	}
 	\only<5>{
 		\begin{equation*}
-		\text{Self-Attention}_\Mweight(\M{X}) = \text{Attention}(\M{X}\Mweight_K, \M{X}\Mweight_Q, \M{X}\Mweight_V) = \text{softmax}\left(\left(\M{X}\Mweight_Q\right)\left(\M{X}\Mweight_K\right)\right)\left(\M{X}\Mweight_V\right)
+				\text{Self-Attention}_\Mweight(\M{X}) = \text{Attention}(\underbrace{\color{keycolor}\M{X}\Mweight_K}_{\color{keycolor}\M{K}}, \underbrace{\color{querycolor}\M{X}\Mweight_Q}_{\color{querycolor}\M{Q}}, \underbrace{\color{valuecolor}\M{X}\Mweight_V)}_{\color{valuecolor}\M{V}} = \text{softmax}\left(\left({\color{querycolor}\M{X}\Mweight_Q}\right)\left({\color{keycolor}\M{X}\Mweight_K}\right)\right)\left({\color{valuecolor}\M{X}\Mweight_V}\right)
 		\end{equation*}
 	}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Visualize the Attention Matrix as Adjacency Matrix}
-	\centering\begin{tikzpicture}[inner sep=0]
-		\node[inner sep=0](alpha){\includegraphics[width=6cm]{images/self-attention/transformer/self-attention-1/head0_imshow}};
+	\frametitle{Visualizing Attention Scores of a Pretrained Transformer Model}
+	\begin{columns}[t]
+		\column{.33\textwidth}
+		\textbf{As (adjacency) Matrix ${\color{tumred}\M{A}}$}
+		\centering\begin{tikzpicture}[inner sep=0]
+		\node[inner sep=0](alpha){\includegraphics[width=.95\textwidth]{images/self-attention/transformer/self-attention-1/head0_imshow}};
 		\node[left=0em of alpha]{$T_\text{in}$};
-		\node[right=of alpha](colorbar){\includegraphics[height=6cm]{images/self-attention/colorbar}};
+		\node[right=0em of alpha](colorbar){\includegraphics[height=.95\textwidth]{images/self-attention/colorbar}};
 		\node[below=0em of alpha]{$T_\text{out}$};
-	\end{tikzpicture}
-\end{frame}
-
-\begin{frame}
-
-\frametitle{Visualize the Attention Matrix as Bipartite Graph}
-	\begin{tikzpicture}
+		\end{tikzpicture}
+		
+		\column{.66\textwidth}
+		\centering\textbf{As bipartite graph}
+		
+		\vspace{3em}
+		
+		\begin{tikzpicture}
 		\node[inner sep=0](alpha){\includegraphics[width=\textwidth]{images/self-attention/transformer/self-attention-1/head0_conn}};
 		\node[above=0em of alpha]{$T_\text{in}$};
 		\node[below=0em of alpha]{$T_\text{out}$};
-	\end{tikzpicture}
+		\end{tikzpicture}
+	\end{columns}
 	
 \end{frame}
+
 
 \begin{frame}
 	\frametitle{Attention Scores in Context of Input Time Series}

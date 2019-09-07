@@ -1,27 +1,25 @@
 
-{\setbeamercolor{background canvas}{bg=tumbluedark}
-	\begin{frame}[plain]
-	\vfill
-	\begin{center}
-		\Huge\color{tumwhite}
-		Raw versus Preprocessed data?
-	\end{center}
-	\vfill
-\end{frame}
-}
+%{\setbeamercolor{background canvas}{bg=tumorange}
+%	\begin{frame}[plain]
+%	\vfill
+%	\begin{center}
+%		\Huge\color{white}
+%		Let's run an experiment...
+%	\end{center}
+%	\vfill
+%\end{frame}
+%}
 
 \begin{frame}
 	\frametitle{Crop Type Dataset northern Bavaria}
 	
 	\begin{columns}
 		\column{.5\textwidth}
+		Common project with GAF-AG
 		\begin{itemize}
-			\item acquired in a common project with GAF-AG
-			\item provided by the Bavarian Ministry of Agriculture
+			\item crop type labels by the Bavarian Ministry of Agriculture
 			\item 49k field parcels of 2018
 			\item 34 crop categories
-			\item raw Sentinel 2 data of 2018
-			\item GAF-preprocessed Sentinel 2 Time Series
 		\end{itemize}
 		\column{.5\textwidth}
 		\includegraphics[width=\textwidth]{images/holl}
@@ -33,7 +31,7 @@
 \end{frame}
 
 \begin{frame}<presentation:7>
-\frametitle{Data Preprocessing}
+\frametitle{Two Datasets: Raw and Preprocessed from the same Examples}
 %	
 %	[format] in this presentation we have the special opportunity to to compare commercially pre-processed satellite imagery with raw imagery on crop type classification in Bavaria Germany.
 %	
@@ -52,7 +50,13 @@
 \node[font=\huge,right=0em of raw, inner sep=0](bopen){$\Bigg)$};
 \visible<1->{
 	\node[right=2em of raw, font=\huge](equals){$=$};
-	\node[right=of equals, yshift=-1em]{\rawtimeseriestwo{12-71456800.csv}};
+	\node[right=of equals, yshift=-1em](pre){\rawtimeseriestwo{12-71456800.csv}};
+}
+\only<7>{
+\node[above=3em of raw, xshift=-2em](annotraw){raw data};
+\node[above=4em of pre, xshift=2em](annotpre){preprocessed data};
+\draw[-stealth] (annotraw) -- (raw);
+\draw[-stealth] (annotpre) -- (pre);
 }
 \end{tikzpicture}
 
@@ -149,7 +153,7 @@
 
 
 \begin{frame}
-\frametitle{Models}
+\frametitle{Four deep state-of-the-art Models for Time Series Classification}
 
 \centering\begin{tabular}{lcccc}
 	\toprule
@@ -160,17 +164,17 @@
 	\bottomrule
 \end{tabular}
 
-\vspace{2em}
+\vspace{4em}
 
-{\small\raggedright
+{\footnotesize\raggedright
 
-$^1$ Hochreiter, S., \& Schmidhuber, J. (1997). Long short-term memory. Neural computation, 9(8), 1735-1780.
+$^1$ \textbf{Hochreiter, S., \& Schmidhuber, J. (1997)}. Long short-term memory. Neural computation, 9(8), 1735-1780.
 
-$^2$ Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... \& Polosukhin, I. (2017). Attention is all you need. In Advances in neural information processing systems (pp. 5998-6008).
+$^2$ \textbf{Vaswani}, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., \& Polosukhin, I. \textbf{(2017)}. Attention is all you need. In Advances in neural information processing systems (pp. 5998-6008).
 
-$^3$ Wang, F., Han, J., Zhang, S., He, X., \& Huang, D. (2018). Csi-net: Unified human body characterization and action recognition. arXiv preprint arXiv:1810.03064.
+$^3$ \textbf{Wang}, F., Han, J., Zhang, S., He, X., \& Huang, D. \textbf{(2018)}. Csi-net: Unified human body characterization and action recognition. arXiv preprint arXiv:1810.03064.
 
-$^4$ Pelletier, C., Webb, G. I., \& Petitjean, F. (2019). Temporal convolutional neural network for the classification of satellite image time series. Remote Sensing, 11(5), 523.
+$^4$ \textbf{Pelletier, C.}, Webb, G. I., \& Petitjean, F. \textbf{(2019)}. Temporal convolutional neural network for the classification of satellite image time series. Remote Sensing, 11(5), 523.
 
 }
 
@@ -178,32 +182,72 @@ $^4$ Pelletier, C., Webb, G. I., \& Petitjean, F. (2019). Temporal convolutional
 
 
 \begin{frame}
-\frametitle{Preprocessed versus Raw Data (Sentinel 2, Region Holl)}
+\frametitle{Preprocessed versus Raw Data}
 
-\begin{tabular}{rrlrlrlrl}
-\toprule
-& \multicolumn{2}{c}{MS-ResNet$^1$} & \multicolumn{2}{c}{RNN (LSTM)$^2$} & \multicolumn{2}{c}{Transformer$^3$} & \multicolumn{2}{c}{TempCNN$^4$} \\
-& acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5} \cmidrule(lr){6-7}\cmidrule(lr){8-9}
-preprocessed & \textbf{0.8484} & \textbf{0.8150} & 0.8059 & 0.7616 & \textbf{0.8116} & \textbf{0.7680} & \textbf{0.8351} & \textbf{0.7971} \\
-raw 		 & 0.8331 & 0.7971 & \textbf{0.8048} & \textbf{0.7611} & 0.7859 & 0.7420 & 0.7944 & 0.7462 \\
-\bottomrule
+%\begin{tabular}{rrlrlrlrl}
+%\toprule
+%& \multicolumn{2}{c}{MS-ResNet$^1$} & \multicolumn{2}{c}{RNN (LSTM)$^2$} & \multicolumn{2}{c}{Transformer$^3$} & \multicolumn{2}{c}{TempCNN$^4$} \\
+%& acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ & acc. & $\kappa$ \\
+%\cmidrule(lr){2-3}\cmidrule(lr){4-5} \cmidrule(lr){6-7}\cmidrule(lr){8-9}
+%\small pre & 0.80 $\pm$ 0.0035 & 0.76 $\pm$ 0.0042 & 0.80 $\pm$ 0.0019 & 0.76 $\pm$ 0.0028 & 0.85 $\pm$ 0.0039 & 0.81 $\pm$ 0.0046 & 0.84 $\pm$ 0.0012 & 0.80 $\pm$ 0.0016 \\
+%\small raw & 0.80 $\pm$ 0.0026 & 0.75 $\pm$ 0.0032 & 0.83 $\pm$ 0.0038 & 0.80 $\pm$ 0.0043 & 0.83 $\pm$ 0.0038 & 0.80 $\pm$ 0.0043 & 0.80 $\pm$ 0.0025 & 0.75 $\pm$ 0.0032 \\
+%
+%%preprocessed & \textbf{0.8484} & \textbf{0.8150} & 0.8059 & 0.7616 & \textbf{0.8116} & \textbf{0.7680} & \textbf{0.8351} & \textbf{0.7971} \\
+%%raw 		 & 0.8331 & 0.7971 & \textbf{0.8048} & \textbf{0.7611} & 0.7859 & 0.7420 & 0.7944 & 0.7462 \\
+%\midrule
+%& \\
+%$\Delta$ & & & & \\
+%\bottomrule
+%\end{tabular}
+{
+\centering
+
+\begin{tabular}{rccccc}
+	\toprule
+	\textbf{accuracy} & RNN (LSTM)$^2$ & Transformer$^3$ & MS-ResNet$^1$ & TempCNN$^4$ \\
+	\cmidrule(lr){2-2}\cmidrule(lr){3-3} \cmidrule(lr){4-4}\cmidrule(lr){5-5}
+	preprocessed & \textbf{.804} $^{\pm.0031}$ & .804 $^{\pm.0011}$ & \textbf{.849}$^{\pm .0041}$ & \textbf{.836} $^{\pm .0012}$ \\
+	raw & .801 $^{\pm .0026}$ & \textbf{.842} $^{\pm .0043}$ & {.836} $^{\pm .0033}$ & .799 $^{\pm .0027}$ \\
+	\midrule
+	$\Delta$ & .003 $^{\pm .0041}$ & -.038 $^{\pm .0045}$ & .013 $^{\pm .0055}$ & .038 $^{\pm .0029}$ \\
+	
+	\bottomrule
+\end{tabular}
+\vspace{1em}
+
+\begin{tabular}{rccccc}
+	\toprule
+	\textbf{kappa} & RNN (LSTM)$^2$ & Transformer$^3$ & MS-ResNet$^1$ & TempCNN$^4$ \\
+	\cmidrule(lr){2-2}\cmidrule(lr){3-3} \cmidrule(lr){4-4}\cmidrule(lr){5-5}
+	preprocessed & \textbf{.759} $^{\pm .0037}$ & .759 $^{\pm .0017}$ & \textbf{.816} $^{\pm .0048}$ & \textbf{.799} $^{\pm .0015}$ \\
+	raw & .756 $^{\pm .0037}$ & \textbf{.808} $^{\pm .0052}$ & .800 $^{\pm .0039}$ & .750 $^{\pm .0036}$ \\
+	\midrule
+	$\Delta$ & .003 $^{\pm .0048}$ & -.049 $^{\pm .0054}$ & .016 $^{\pm .0060}$ & .049 $^{\pm .0036}$ \\
+	
+	\bottomrule
 \end{tabular}
 
-%\vspace{2em}
-%
-%{\small\raggedright
-%	
-%	$^1$ Wang, F., Han, J., Zhang, S., He, X., \& Huang, D. (2018). Csi-net: Unified human body characterization and action recognition. arXiv preprint arXiv:1810.03064.
-%	
-%	$^2$ Hochreiter, S., \& Schmidhuber, J. (1997). Long short-term memory. Neural computation, 9(8), 1735-1780.
-%	
-%	$^3$ Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... \& Polosukhin, I. (2017). Attention is all you need. In Advances in neural information processing systems (pp. 5998-6008).
-%	
-%	$^4$ Pelletier, C., Webb, G. I., \& Petitjean, F. (2019). Temporal convolutional neural network for the classification of satellite image time series. Remote Sensing, 11(5), 523.
-%	
-%}
+}
+\vspace{1em}
+
+\begin{columns}[t]
+	\column{.5\textwidth}
+	
+	\textbf{Experiments}:
+	\begin{itemize}
+		\item mean $\pm$ standard deviation of 10 models trained from different random initialization
+	\end{itemize}
+	
+	\column{.5\textwidth}
+	
+	\textbf{Findings}:
+	\begin{itemize}
+		\item preprocessed data seems slightly better except for transformer
+		\item the difference $\Delta$ is only 0-5\%
+	\end{itemize}
+	
+
+\end{columns}
+
 
 \end{frame}
-
-

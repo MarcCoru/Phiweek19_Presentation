@@ -2,8 +2,8 @@
   aspectratio=169,
   9pt,
 %   t,
-  USenglish,
-%english,
+  %USenglish,
+  english,
 %   dark,
   light,
   mathserif,
@@ -39,10 +39,14 @@
 %\subtitle{NeurIPS 2018 Workshop on Spatiotemporal Modeling and Decision-making}
 \subtitle{$\Phi$-week 2019}
 \author[M. Rußwurm, M. Körner]{Marc Rußwurm, Marco Körner}
-\institute[TUM]{Technical University of Munich\\Chair of Remote Sensing Technology\\Computer Vision Research Group\\\url{www.lmf.bgu.tum.de/vision}}
+\institute[TUM]{%
+	%	Technical University of Munich\\Chair of Remote Sensing Technology\\Computer Vision Research Group\\\url{www.lmf.bgu.tum.de/vision}
+}
 
 \date{13th September 2019, ESA ESRIN, Frascati, Italy}
 
+
+\input{bubbles.tex}
 \begin{document}
 
 \begin{frame}[t]
@@ -73,7 +77,7 @@
 %	\end{description}
 %\end{frame}
 
-\input{sections/intro.tex}
+\input{sections/intro.tex}	
 
 \begin{frame}<presentation:1-6>
 \frametitle{Data Preprocessing}
@@ -105,7 +109,7 @@
 		\item[$f_{\Mweight_\text{atm}}(\M{X})$]<3-> atmospheric correction ($\M{X}_\text{top-of-atmosphere} \rightarrow \M{X}_\text{bottom-of-atmosphere}$)
 		\item[$f_{\Mweight_\text{cl}}(\M{X})$]<4-> cloud/cloudshadow classification (F-Mask, MAJA, CNNs, Cloud Clustering (go FDL!))
 		\item[$f_{\text{int}}(\M{X})$]<5-> temporal interpolation to generate equal sample times
-		\item[$f_{\Mweight_\text{\dots}}$]<6-> many more...	
+		\item[$f_{\Mweight_\text{\dots}}$]<6-> \textbf{many more problem specific chained building blocks}	
 	\end{rdescription}
 }
 \only<7>{
@@ -118,33 +122,248 @@
 \input{sections/neuralnetworks.tex}
 
 
+%\begin{frame}
+%\frametitle{Outline}
+%
+%\Large
+%
+%\begin{description}
+%	\item[1] A quantitativ comparison \textbf{raw versus preprocessed data} on crop classification
+%	\item[2] A \textbf{feature importance analysis} with \textbf{gradients} from a pre-trained RNN Model
+%	\item[3] A dive into \textbf{Self-Attention} with qualitative results from raw Sentinel 2 time Series
+%\end{description}
+%
+%\end{frame}%
+
 \input{sections/results.tex}
 
 
+%\begin{frame}
+%\frametitle{Understand Neural Networks}
+%\framesubtitle{with three Analyses}
+%
+%\centering\begin{tikzpicture}
+%\node[minimum width=1cm, minimum height=1.5cm, draw,rounded corners](veg) at (0,0){\vegetationsmodell};
+%\node[below left=of veg]{Gradient Backprop to X};
+%\node[below=of veg]{Gated Recurrence};
+%\node[below right=of veg]{Self-Attention};
+%\end{tikzpicture}
+%
+%\end{frame}
+
+\input{sections/attention.tex}
+%\input{sections/pool.tex}
+
+{
+\setbeamercovered{invisible} 
+
+
+{\setbeamercolor{background canvas}{bg=tumbluedark}
+	\begin{frame}[plain]
+	
+	\vspace{8em}
+	\begin{center}
+		\Huge\color{white}
+		Let's summarize...
+	\end{center}\color{white}
+	
+\end{frame}
+}
+
 \begin{frame}
-\frametitle{Understand Neural Networks}
-\framesubtitle{with three Analyses}
+\frametitle{Summary}
+\Large 
 
-\centering\begin{tikzpicture}
-\node[minimum width=1cm, minimum height=1.5cm, draw,rounded corners](veg) at (0,0){\vegetationsmodell};
-\node[below left=of veg]{Gradient Backprop to X};
-\node[below=of veg]{Gated Recurrence};
-\node[below right=of veg]{Self-Attention};
-\end{tikzpicture}
+\begin{leftbubbles}
+	What did we look at?
+\end{leftbubbles}
 
+\pause
+\begin{rightbubbles}
+	end-to-end learning in combination with preprocessing
+\end{rightbubbles}
+
+\pause
+\begin{rightbubbles}
+	quantitative results on models with raw and preprocessed data
+\end{rightbubbles}
+
+\pause
+\begin{rightbubbles}
+	a qualitative example on the self-attention mechanism
+\end{rightbubbles}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion}
+\Large 
+
+\begin{leftbubbles}
+	What were the results of these experiments?
+\end{leftbubbles}
+
+\pause
+\begin{rightbubbles}
+	end-to-end trained models were robust to noise in the data
+\end{rightbubbles}
+
+\pause
+\begin{rightbubbles}
+	this questions the need of extensive preprocessing for deep learning models
+\end{rightbubbles}
+
+\end{frame}
+\frametitle{Conclusion}
+
+\begin{frame}
+	\Large
+	
+	\begin{leftbubbles}
+		How do deep learning models get robust to noise (aka clouds)?
+	\end{leftbubbles}
+	
+	\pause
+	\begin{rightbubbles}
+		we saw how self-attention is used to focus on cloud-free observations
+	\end{rightbubbles}
+	
+	\begin{rightbubbles}
+		gates in recurrent neural networks work similar {\small (see previous work)}
+	\end{rightbubbles}
+	
+
+\end{frame}
+
+\begin{frame}
+\Large
+
+\begin{leftbubbles}
+	Can I play around with the qualitative experiments?
+\end{leftbubbles}
+
+\pause
+\begin{rightbubbles}
+	yes, check out \textbf{github.com/marccoru/phiweek19}
+\end{rightbubbles}
+
+\pause
+\begin{rightbubbles}
+	specifically \textbf{Transformer.ipynb}
+\end{rightbubbles}
+
+\pause
+\begin{rightbubbles}
+	and \textbf{Recurrence.ipynb} {\small (that didn't make the cut for this presentation)}
+\end{rightbubbles}
+
+
+\end{frame}
+
+
+}	
+%\begin{frame}
+%\frametitle{Summary}
+%
+%\pause
+%\begin{leftbubbles}
+%	what was this presentation about?
+%\end{leftbubbles}
+%
+%\pause
+%\begin{rightbubbles}
+%	raw data versus preprocessed data when doing end-to-end learning
+%\end{rightbubbles}
+%
+%
+%\pause
+%\begin{leftbubbles}
+%	what was end-to-end learning again?
+%\end{leftbubbles}
+%
+%\pause
+%\begin{rightbubbles}
+%	it's about learning a model solely from provided input and label data
+%	
+%	without any region or problem-specific expert knowledge
+%\end{rightbubbles}
+%
+%\end{frame}
+
+%\begin{frame}
+%
+%	\begin{leftbubbles}
+%		what is the difference to common preprocessing pipelines?
+%	\end{leftbubbles}
+%	
+%	\pause
+%	\begin{rightbubbles}
+%		they are designed specifically for each problem/region.
+%	\end{rightbubbles}
+%	
+%	\pause
+%	\begin{rightbubbles}
+%		preprocessing may also discard some information \small(NDVI, EVI calculation or temporal interpolation)
+%	\end{rightbubbles}
+%	
+%	\pause
+%	\begin{rightbubbles}
+%		the parameters are hand chosen based on best practices
+%	\end{rightbubbles}
+%	
+%	\pause
+%	\begin{rightbubbles}
+%		there is no guarantee that the parameters are optimal for the specific task
+%	\end{rightbubbles}
+%
+%\end{frame}
+
+
+
+
+
+\begin{frame}
+	\frametitle{Thank you}
+	
+	{\Large\centering 
+		\textbf{Marc Rußwurm \& Marco Körner} \\
+	
+		TUM Chair of Remote Sensing Technology \\
+		
+		\centering Computer Vision Research Group \\
+	}
+	
+	\vspace{2em}
+	\Large 
+	\begin{columns}[t]
+		\column{.5\textwidth}
+		Checkout the TUM Chair: \textbf{www.bgu.tum.de/en/lmf/vision/}
+		\vspace{1em}
+		
+		our official \includegraphics[width=5mm]{images/github} account: \textbf{http://github.com/tum-lmf}
+		\vspace{1em}
+		
+		data cooperation for this work with \includegraphics[height=1em]{images/GAF_logo}
+		
+		\column{.5\textwidth}
+		clone the repo to the experiments! 
+		{\textbf{github.com/marccoru/phiweek19}}
+		
+		\vspace{1em}
+		\includegraphics[height=5mm]{images/twitter} follow \textbf{@marccoru} for updates.
+		
+		\vspace{1em}
+		\includegraphics[height=5mm]{images/github} \textbf{github.com/marccoru} for code.
+		
+	\end{columns}
+
+	
+	
 \end{frame}
 
 \input{sections/gradients.tex}
 \input{sections/recurrence.tex}
-\input{sections/attention.tex}
-%\input{sections/pool.tex}
 
-\begin{frame}
-	\frametitle{Conclusion}
-	We looked at two mechanisms how deep neural networks learn to deal with noise in the data.
-	We raised the question if extensive region-specific preprocessing is necessary in the context of end-to-end learning
-	We provide source code and Notebooks to examples at XXX
-\end{frame}
 
 
 \end{document}
