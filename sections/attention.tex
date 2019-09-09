@@ -100,14 +100,19 @@
 			\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.3, text opacity=1, font=\small, inner sep=.2em](c) at (3,.3){};
 			\node[draw=valuecolor, circle, fill=valuecolor, fill opacity=.4, text opacity=1, font=\small, inner sep=.2em](d) at (4,.4){};
 			
+			
 			\draw (a) -- (b) -- (c) -- (d);
 			
-			\foreach \t in {1,2,3,4} {
-				\draw[tumgray] (\t,0) -- (\t,-.05) node[at end, below, text=tumgray] {$t_\t$};
+			\only<1-2>{
+				
+				\foreach \t in {1,2,3,4} {
+					\draw[tumgray] (\t,0) -- (\t,-.05) node[at end, below, text=tumgray] {$t_\t$};
+				}
+			
+				%\draw[-stealth] (0,0) -- (0,.5);
+				\draw[-stealth, tumgray] (.5,0) -- (4.5,0);
 			}
 			
-			%\draw[-stealth] (0,0) -- (0,.5);
-			\draw[-stealth, tumgray] (.5,0) -- (4.5,0);
 			
 			\only<1-2>{
 			\node[draw=tumblack, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em, label={right:$h = \sum_{t=0}^{T} \alpha_t v_t = \V{\alpha}^T \V{v}$}](out) at (2.5,-.5) {};
@@ -122,10 +127,15 @@
 			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outb) at (2,-.5) {};
 			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outc) at (3,-.5) {};
 			\node[draw=white, circle, fill=attentionoutcolor, text=white, fill opacity=1, text opacity=1, font=\small, inner sep=.2em](outd) at (4,-.5) {};
-
 			}
 		
-			\node at (2.5, -.25) {};
+			\visible<1-2>{\node[text=valuecolor, xshift=-2em, yshift=-1em] at (a){$\V{v}:$};}
+			\only<3->{
+				\node[text=valuecolor, xshift=-2em, yshift=-1em] at (a){$\M{V}:$};
+				\node[text=attentionoutcolor, xshift=-2em] at (outa){$\M{H}:$};
+				\node[text=attentioncolor, xshift=-2em, yshift=3.5em] at (outa){$\M{A}:$};
+			}
+			
 			
 			\visible<1-2>{
 			\draw[-stealth, draw=tumred, opacity=.4, line width=.4] (a) -- (out);
@@ -186,14 +196,14 @@
 		\begin{equation*}
 		\text{Attention}({\color{tumorange}\V{K}}, {\color{tumgreen}\V{q}}, {\color{tumblue}\V{v}}) = 
 		\overbrace{\text{softmax}\left({\color{tumgreen}\V{q}^T}{\color{tumorange}\V{K}}\right)}^{{\color{tumred}\V{\alpha}}^T}
-		{\color{tumblue}\V{v}}, \quad \V{v} \in \mathbb{R}^{T}, \V{q} \in \mathbb{R}^{D_k}, \M{K} \in \mathbb{R}^{D_k \times T}
+		{\color{tumblue}\V{v}}, \quad \V{v} \in \mathbb{R}^{T_{in}}, \V{q} \in \mathbb{R}^{D_k}, \M{K} \in \mathbb{R}^{D_k \times T}
 		\end{equation*}
 	}
 	\only<4>{
 		\begin{equation*}
 		\text{Attention}({\color{tumorange}\V{K}}, {\color{tumgreen}\V{Q}}, {\color{tumblue}\V{V}}) = 
-		\text{softmax}\left({\color{tumgreen}\V{Q}^T}{\color{tumorange}\V{K}}\right)
-		{\color{tumblue}\V{V}}, \quad \V{V} \in \mathbb{R}^{T \times D_v}, \V{Q}, \M{K} \in \mathbb{R}^{D_k \times T}, \M{A} \in \mathbb{R}^{T \times T}
+		\overbrace{\text{softmax}\left({\color{tumgreen}\V{Q}^T}{\color{tumorange}\V{K}}\right)}^{{ \color{attentioncolor}\M{A}^T } }
+		{\color{tumblue}\V{V}}, \quad \V{V} \in \mathbb{R}^{T \times D_v}, \V{Q}, \M{K} \in \mathbb{R}^{D_k \times T}, \M{A} \in \mathbb{R}^{T_{in} \times T_{out}}
 		\end{equation*}
 	}
 	\only<5>{

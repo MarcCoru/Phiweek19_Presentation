@@ -152,8 +152,8 @@
 
 \begin{tikzpicture}[node distance=.2em]
 \visible<2->{
-\node[label={below:$\V{\alpha}^T$}, draw=attentioncolor, rounded corners](alpha){\attention};
-\node[right=of alpha](out){\attnout};
+\node[label={below:${\only<2>{\V{\alpha}^T}\only<3->{\M{A}^T}}$}, draw=attentioncolor, rounded corners](alpha){\attention};
+\node[right=of alpha, label={right:${\only<2>{h}\only<3-4>{\M{H}}}$}](out){\attnout};
 \node[above=of out, label={above:${\only<2>{\V{v}}\only<3-4>{\M{V}}}$}, draw=valuecolor, rounded corners](v){\attnv};
 }
 \visible<4->{

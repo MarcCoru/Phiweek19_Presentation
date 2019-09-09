@@ -118,6 +118,7 @@
 }
 
 \end{frame}
+\input{sections/examples.tex}
 
 \input{sections/neuralnetworks.tex}
 
@@ -180,17 +181,17 @@
 
 \pause
 \begin{rightbubbles}
-	end-to-end learning in combination with preprocessing
+	\textbf{end-to-end learning} in combination with \textbf{preprocessing}
 \end{rightbubbles}
 
 \pause
 \begin{rightbubbles}
-	quantitative results on models with raw and preprocessed data
+	quantitative \textbf{results} on models with \textbf{raw} and \textbf{preprocessed} data
 \end{rightbubbles}
 
 \pause
 \begin{rightbubbles}
-	a qualitative example on the self-attention mechanism
+	a qualitative example on the \textbf{self-attention} mechanism
 \end{rightbubbles}
 
 \end{frame}
@@ -200,65 +201,66 @@
 \Large 
 
 \begin{leftbubbles}
-	What were the results of these experiments?
+	What were the outcomes of these experiments?
 \end{leftbubbles}
 
 \pause
 \begin{rightbubbles}
-	end-to-end trained models were robust to noise in the data
+	{end-to-end} trained \textbf{models} were \textbf{robust} to \textbf{noise} {\small (e.g. clouds)}
 \end{rightbubbles}
 
 \pause
 \begin{rightbubbles}
-	this questions the need of extensive preprocessing for deep learning models
+	do we \textbf{need} extensive \textbf{preprocessing} for deep learning models on time series data?
 \end{rightbubbles}
 
 \end{frame}
 \frametitle{Conclusion}
 
 \begin{frame}
+	\frametitle{Conclusion}
 	\Large
 	
 	\begin{leftbubbles}
-		How do deep learning models get robust to noise (aka clouds)?
+		How did deep learning models get robust to noise {\small (e.g., clouds)}?
 	\end{leftbubbles}
 	
 	\pause
 	\begin{rightbubbles}
-		we saw how self-attention is used to focus on cloud-free observations
+		we saw how \textbf{self-attention} is used to \textbf{focus} on cloud-free observations
 	\end{rightbubbles}
 	
 	\begin{rightbubbles}
-		gates in recurrent neural networks work similar {\small (see previous work)}
+		{gates} in {recurrent networks} work similar {\small (see previous work)}
 	\end{rightbubbles}
 	
 
 \end{frame}
 
-\begin{frame}
-\Large
-
-\begin{leftbubbles}
-	Can I play around with the qualitative experiments?
-\end{leftbubbles}
-
-\pause
-\begin{rightbubbles}
-	yes, check out \textbf{github.com/marccoru/phiweek19}
-\end{rightbubbles}
-
-\pause
-\begin{rightbubbles}
-	specifically \textbf{Transformer.ipynb}
-\end{rightbubbles}
-
-\pause
-\begin{rightbubbles}
-	and \textbf{Recurrence.ipynb} {\small (that didn't make the cut for this presentation)}
-\end{rightbubbles}
-
-
-\end{frame}
+%\begin{frame}
+%\Large
+%
+%\begin{leftbubbles}
+%	Can I play around with the qualitative experiments?
+%\end{leftbubbles}
+%
+%\pause
+%\begin{rightbubbles}
+%	yes, check out \textbf{github.com/marccoru/phiweek19}
+%\end{rightbubbles}
+%
+%\pause
+%\begin{rightbubbles}
+%	specifically \textbf{Transformer.ipynb}
+%\end{rightbubbles}
+%
+%\pause
+%\begin{rightbubbles}
+%	and \textbf{Recurrence.ipynb} {\small (that didn't make the cut for this presentation)}
+%\end{rightbubbles}
+%
+%
+%\end{frame}
 
 
 }	
@@ -324,36 +326,46 @@
 
 \begin{frame}
 	\frametitle{Thank you}
-	
+	\vspace{-1em}
 	{\Large\centering 
 		\textbf{Marc Rußwurm \& Marco Körner} \\
 	
 		TUM Chair of Remote Sensing Technology \\
 		
 		\centering Computer Vision Research Group \\
-	}
 	
+	
+	\vspace{1em}
+	clone the \includegraphics[width=5mm]{images/github} repo to the attention experiments! 
+	
+	\centering\textbf{github.com/marccoru/phiweek19/Transformer.ipynb}
+	
+}
+
 	\vspace{2em}
 	\Large 
 	\begin{columns}[t]
 		\column{.5\textwidth}
-		Checkout the TUM Chair: \textbf{www.bgu.tum.de/en/lmf/vision/}
+		TUM Chair: \textbf{www.bgu.tum.de/en/lmf/vision/}
+	%	\vspace{1em}
+	
+		our official \includegraphics[width=5mm]{images/github} account: 
+		
+		{\textbf{github.com/tum-lmf}}
+		
 		\vspace{1em}
 		
-		our official \includegraphics[width=5mm]{images/github} account: \textbf{http://github.com/tum-lmf}
-		\vspace{1em}
-		
-		data cooperation for this work with \includegraphics[height=1em]{images/GAF_logo}
+		in cooperation with \includegraphics[height=1em]{images/GAF_logo}
 		
 		\column{.5\textwidth}
-		clone the repo to the experiments! 
-		{\textbf{github.com/marccoru/phiweek19}}
 		
-		\vspace{1em}
 		\includegraphics[height=5mm]{images/twitter} follow \textbf{@marccoru} for updates.
 		
 		\vspace{1em}
 		\includegraphics[height=5mm]{images/github} \textbf{github.com/marccoru} for code.
+		
+		\vspace{1em}
+		and \textbf{marccoru.github.io}
 		
 	\end{columns}
 
