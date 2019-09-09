@@ -27,7 +27,7 @@
 		\column{.5\textwidth}
 		\includegraphics[width=\textwidth]{images/holl}
 		\small
-		Parcels colored by crop type (40 km by 40 km)
+		Parcels colored by crop type (40 km $\times$ 40 km)
 		
 	\end{columns}
 	
@@ -205,6 +205,8 @@ $^4$ \textbf{Pelletier, C.}, Webb, G. I., \& Petitjean, F. \textbf{(2019)}. Temp
 {
 \centering
 
+%\vspace{-1em}
+
 \begin{tabular}{rccccc}
 	\toprule
 	\textbf{accuracy} & RNN (LSTM)$^2$ & Transformer$^3$ & MS-ResNet$^1$ & TempCNN$^4$ \\
@@ -245,8 +247,7 @@ $^4$ \textbf{Pelletier, C.}, Webb, G. I., \& Petitjean, F. \textbf{(2019)}. Temp
 	
 	\textbf{Findings}:
 	\begin{itemize}
-		\item preprocessed data seems slightly better except for transformer
-		\item the difference $\Delta$ is only 0-5\%
+		\item remarkably similar results on preprocessed and raw data ($\Delta \leq 5\%$)
 	\end{itemize}
 	
 

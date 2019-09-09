@@ -152,13 +152,13 @@
 
 \begin{tikzpicture}[node distance=.2em]
 \visible<2->{
-\node[label={below:${\only<2>{\V{\alpha}^T}\only<3->{\M{A}^T}}$}, draw=attentioncolor, rounded corners](alpha){\attention};
+\node[label={below:${\only<2>{\V{\alpha}\T}\only<3->{\M{A}\T}}$}, draw=attentioncolor, rounded corners](alpha){\attention};
 \node[right=of alpha, label={right:${\only<2>{h}\only<3-4>{\M{H}}}$}](out){\attnout};
 \node[above=of out, label={above:${\only<2>{\V{v}}\only<3-4>{\M{V}}}$}, draw=valuecolor, rounded corners](v){\attnv};
 }
 \visible<4->{
 \node[above=of alpha, label={above:$\M{K}$}, draw=keycolor, rounded corners](k){\attnkey};
-\node[left=of alpha, label={below:${\only<3>{\V{q}}\only<4->{\M{Q}}}^T$}, draw=querycolor, rounded corners](q){\attnquery};
+\node[left=of alpha, label={below:${\only<3>{\V{q}}\only<4->{\M{Q}}}\T$}, draw=querycolor, rounded corners](q){\attnquery};
 }
 \visible<5>{
 \node[fill=white, text=black, fill opacity=0.5, text opacity=1, rounded corners] at (v){$\M{X}\Mweight_V$};

@@ -107,9 +107,9 @@
 	\begin{rdescription}
 		\item[$f_{\Mweight_\text{sel}}(\M{X})$]<2-> temporal selection (not considering winter period) where $\Mweight_\text{sel} = \{t_\text{start}, t_\text{end}\}$
 		\item[$f_{\Mweight_\text{atm}}(\M{X})$]<3-> atmospheric correction ($\M{X}_\text{top-of-atmosphere} \rightarrow \M{X}_\text{bottom-of-atmosphere}$)
-		\item[$f_{\Mweight_\text{cl}}(\M{X})$]<4-> cloud/cloudshadow classification (F-Mask, MAJA, CNNs, Cloud Clustering (go FDL!))
+		\item[$f_{\Mweight_\text{cl}}(\M{X})$]<4-> cloud/cloud-	shadow classification (F-Mask, MAJA, CNNs, Cloud Clustering (go FDL!))
 		\item[$f_{\text{int}}(\M{X})$]<5-> temporal interpolation to generate equal sample times
-		\item[$f_{\Mweight_\text{\dots}}$]<6-> \textbf{many more problem specific chained building blocks}	
+		\item[$f_{\Mweight_\text{\dots}}$]<6-> \textbf{many more problem-specific chained building blocks}	
 	\end{rdescription}
 }
 \only<7>{
@@ -206,7 +206,7 @@
 
 \pause
 \begin{rightbubbles}
-	{end-to-end} trained \textbf{models} were \textbf{robust} to \textbf{noise} {\small (e.g. clouds)}
+	\textbf{classification results} on raw and preprocessed data \\ were \textbf{remarkably similar}
 \end{rightbubbles}
 
 \pause
@@ -230,10 +230,16 @@
 		we saw how \textbf{self-attention} is used to \textbf{focus} on cloud-free observations
 	\end{rightbubbles}
 	
+	\pause
 	\begin{rightbubbles}
-		{gates} in {recurrent networks} work similar {\small (see previous work)}
+		{gates} in {recurrent networks} work similar {\small (see previous work)$^{1,2}$}
 	\end{rightbubbles}
 	
+\vspace{1em}
+	
+{\small $^1$Rußwurm, M., \& Körner, M. (\textbf{2018}). Multi-temporal land cover classification with sequential recurrent encoders. ISPRS \textbf{International Journal of Geo-Information}, 7(4), 129.\par}
+\vspace{.5em}
+{\small $^2$Rußwurm, M., \& Körner, M. (\textbf{2018}). Convolutional LSTMs for Cloud-Robust Segmentation of Remote Sensing Imagery. \textbf{NeurIPS2018 Workshop on Spatiotemporal Modeling}\par}
 
 \end{frame}
 
@@ -369,14 +375,12 @@
 		and \textbf{marccoru.github.io}
 		
 	\end{columns}
-
-	
 	
 \end{frame}
-
-%\input{sections/gradients.tex}
+\backupbegin
+\input{sections/gradients.tex}
 %\input{sections/recurrence.tex}
-
+\backupend
 
 
 \end{document}
